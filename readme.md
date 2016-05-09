@@ -11,7 +11,7 @@ Create your own sidebars and choose on which pages they show up.
 
 If you'd like to show different widgets on sidebars or footers of any area of your site - then this is the plugin for you.
 
-This plugin is based of the [Custom Sidebars plugin](https://wordpress.org/plugins/custom-sidebars/), which we used for few years, but their plugin development stalled, so we created this plugin. We really appreciate the work of developers of the original plugin!
+This plugin is based of the [Custom Sidebars plugin](https://wordpress.org/plugins/custom-sidebars/), which we used for a few years, but their plugin development stalled, so we created this plugin. We really appreciate the work of developers of the original plugin!
 
 Custom Sidebars allows you to create all the widgetized areas you need, your own custom sidebars, configure them adding widgets, and replace the default sidebars on the posts or pages you want in just few clicks.
 
@@ -96,6 +96,4 @@ Custom Sidebars has the same license as WordPress, so you can use it wherever yo
 
 This plugin is being developed by [ProtuesThemes](https://www.proteusthemes.com/)
 
-The original plugin: Custom sidebars is maintained and developed by [WPMU DEV](http://premium.wpmudev.org).
-
-Original development completed by [Javier Marquez](http://marquex.es/)
+The original plugin: Custom sidebars is maintained and developed by [WPMU DEV](http://premium.wpmudev.org). Original development completed by [Javier Marquez](http://marquex.es/)
