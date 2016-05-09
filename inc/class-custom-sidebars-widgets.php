@@ -45,7 +45,7 @@ class CustomSidebarsWidgets extends CustomSidebars {
 	 * Adds the additional HTML code to the widgets section.
 	 */
 	public function widget_sidebar_content() {
-		include CSB_VIEWS_DIR . 'widgets.php';
+		include PT_CS_VIEWS_DIR . 'widgets.php';
 	}
 
 	/**

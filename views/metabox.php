@@ -26,13 +26,13 @@ $is_blog = $post_id == get_option( 'page_for_posts' );
 				'<li>Click on "Sidebar Location"</li>' .
 				'<li>Open the "Archive-Types" tab</li>' .
 				'<li>Choose "Front-Page" or "Post-Index"</li></ul>',
-				CSB_LANG
+				PT_CS_TD
 			),
 			admin_url( 'widgets.php' )
 		); ?>
 	</p>
 
-	<img src="<?php echo esc_url( CSB_IMG_URL . 'frontpage-info.png' ); ?>" style="width:274px;margin:0 0 -14px -10px;" />
+	<img src="<?php echo esc_url( PT_CS_URL . 'img/frontpage-info.png' ); ?>" style="width:274px;margin:0 0 -14px -10px;" />
 
 	<?php foreach ( $sidebars as $s ) { ?>
 		<input type="hidden"
@@ -45,7 +45,7 @@ $is_blog = $post_id == get_option( 'page_for_posts' );
 	<p>
 		<?php _e(
 			'Here you can replace the default sidebars. Simply select what ' .
-			'sidebar you want to show for this post!', CSB_LANG
+			'sidebar you want to show for this post!', PT_CS_TD
 		); ?>
 	</p>
 
@@ -75,7 +75,7 @@ $is_blog = $post_id == get_option( 'page_for_posts' );
 			<?php _e(
 				'All sidebars have been locked, you cannot replace them. ' .
 				'Go to <a href="widgets.php">the widgets page</a> to unlock a ' .
-				'sidebar', CSB_LANG
+				'sidebar', PT_CS_TD
 			); ?>
 		</p>
 		<?php

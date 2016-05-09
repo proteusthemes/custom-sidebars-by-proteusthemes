@@ -1,10 +1,10 @@
 <?php
 
 // Load additional Pro-modules.
-require_once CSB_INC_DIR . 'class-custom-sidebars-widgets.php';
-require_once CSB_INC_DIR . 'class-custom-sidebars-editor.php';
-require_once CSB_INC_DIR . 'class-custom-sidebars-replacer.php';
-require_once CSB_INC_DIR . 'class-custom-sidebars-explain.php';
+require_once PT_CS_INC_DIR . 'class-custom-sidebars-widgets.php';
+require_once PT_CS_INC_DIR . 'class-custom-sidebars-editor.php';
+require_once PT_CS_INC_DIR . 'class-custom-sidebars-replacer.php';
+require_once PT_CS_INC_DIR . 'class-custom-sidebars-explain.php';
 
 
 /**
@@ -81,11 +81,11 @@ class CustomSidebars {
 		WDev()->pointer(
 			'wpmudcs1',                               // Internal Pointer-ID
 			'#menu-appearance',                       // Point at
-			__( 'Custom Sidebars', CSB_LANG ),    // Title
+			__( 'Custom Sidebars', PT_CS_TD ),    // Title
 			sprintf(
 				__(
 					'Now you can create and edit custom sidebars in your ' .
-					'<a href="%1$s">Widgets screen</a>!', CSB_LANG
+					'<a href="%1$s">Widgets screen</a>!', PT_CS_TD
 				),
 				admin_url( 'widgets.php' )
 			)                                         // Body
@@ -103,7 +103,7 @@ class CustomSidebars {
 						'<strong>Accessibility mode is not supported by the
 						%1$s plugin.</strong><br /><a href="%2$s">Click here</a>
 						to disable accessibility mode and use the %1$s plugin!',
-						CSB_LANG
+						PT_CS_TD
 					),
 					'Custom Sidebars',
 					admin_url( 'widgets.php?widgets-access=off' )
@@ -116,8 +116,8 @@ class CustomSidebars {
 			WDev()->add_ui( 'core', 'widgets.php' );
 			WDev()->add_ui( 'scrollbar', 'widgets.php' );
 			WDev()->add_ui( 'select', 'widgets.php' );
-			WDev()->add_ui( CSB_JS_URL . 'cs.min.js', 'widgets.php' );
-			WDev()->add_ui( CSB_CSS_URL . 'cs.css', 'widgets.php' );
+			WDev()->add_ui( PT_CS_URL . 'js/cs.min.js', 'widgets.php' );
+			WDev()->add_ui( PT_CS_URL . 'css/cs.css', 'widgets.php' );
 
 			// AJAX actions
 			add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
@@ -722,11 +722,11 @@ class CustomSidebars {
 		<input type="hidden" name="csb-buttons" value="0" />
 		<?php if ( ! isset( $_POST[ 'csb-buttons' ] ) ) : ?>
 			<div class="csb-pro-layer csb-pro-<?php echo esc_attr( $widget->id ); ?>">
-				<a href="#" class="button csb-clone-button"><?php _e( 'Clone', CSB_LANG ); ?></a>
-				<a href="#" class="button csb-visibility-button"><span class="dashicons dashicons-visibility"></span> <?php _e( 'Visibility', CSB_LANG ); ?></a>
+				<a href="#" class="button csb-clone-button"><?php _e( 'Clone', PT_CS_TD ); ?></a>
+				<a href="#" class="button csb-visibility-button"><span class="dashicons dashicons-visibility"></span> <?php _e( 'Visibility', PT_CS_TD ); ?></a>
 				<a href="<?php echo esc_url( CustomSidebars::$pro_url ); ?>" target="_blank" class="pro-info">
 				<?php printf(
-					__( 'Pro Version Features', CSB_LANG ),
+					__( 'Pro Version Features', PT_CS_TD ),
 					CustomSidebars::$pro_url
 				); ?>
 				</a>

@@ -625,13 +625,13 @@ class CustomSidebarsReplacer extends CustomSidebars {
 	 * @since  1.0.0
 	 */
 	public function get_empty_widget() {
-		$widget = new CustomSidebarsEmptyPlugin();
+		$widget = new PT_CS_Empty_Widget();
 		return array(
 			'name'        => 'CS Empty Widget',
 			'id'          => 'csemptywidget',
 			'callback'    => array( $widget, 'display_callback' ),
 			'params'      => array( array( 'number' => 2 ) ),
-			'classname'   => 'CustomSidebarsEmptyPlugin',
+			'classname'   => 'PTCustomSidebarsEmptyWidget',
 			'description' => 'CS dummy widget',
 		);
 	}

@@ -15,60 +15,93 @@ License URI: http://www.gnu.org/licenses/gpl.html
 // Block direct access to the main plugin file.
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-add_action(
-	'plugins_loaded',
-	'inc_sidebars_free_init'
-);
+// Path/URL to root of this plugin, with trailing slash.
+define( 'PT_CS_PATH', plugin_dir_path( __FILE__ ) );
+define( 'PT_CS_URL', plugin_dir_url( __FILE__ ) );
 
-function inc_sidebars_free_init() {
-	// Check if the PRO plugin is present and activated.
-	if ( class_exists( 'CustomSidebars' ) ) {
-		return false;
+/**
+ * PT Custom Sidebars class, so we don't have to worry about namespaces.
+ */
+class PT_Custom_Sidebars {
+
+	/**
+	 * Reference to Singleton instance of this class.
+	 *
+	 * @var $instance the reference to *Singleton* instance of this class.
+	 */
+	private static $instance;
+
+
+	/**
+	 * Returns the *Singleton* instance of this class.
+	 *
+	 * @return PT_Custom_Sidebars the *Singleton* instance.
+	 */
+	public static function get_instance() {
+		if ( null === static::$instance ) {
+			static::$instance = new static();
+		}
+
+		return static::$instance;
 	}
 
-	// used for more readable i18n functions: __( 'text', CSB_LANG );
-	define( 'CSB_LANG', 'pt-cs' );
 
-	$plugin_dir = dirname( __FILE__ );
-	$plugin_dir_rel = dirname( plugin_basename( __FILE__ ) );
-	$plugin_url = plugin_dir_url( __FILE__ );
+	/**
+	 * Class construct function, to initiate the plugin.
+	 * Protected constructor to prevent creating a new instance of the
+	 * *Singleton* via the `new` operator from outside of this class.
+	 */
+	protected function __construct() {
 
-	define( 'CSB_PLUGIN', __FILE__ );
-	define( 'CSB_LANG_DIR', $plugin_dir_rel . '/languages/' );
-	define( 'CSB_VIEWS_DIR', $plugin_dir . '/views/' );
-	define( 'CSB_INC_DIR', $plugin_dir . '/inc/' );
-	define( 'CSB_JS_URL', $plugin_url . 'js/' );
-	define( 'CSB_CSS_URL', $plugin_url . 'css/' );
-	define( 'CSB_IMG_URL', $plugin_url . 'img/' );
-
-	// Load the actual core.
-	require_once CSB_INC_DIR . 'class-custom-sidebars.php';
-
-	// Include function library
-	if ( file_exists( CSB_INC_DIR . 'external/wpmu-lib/core.php' ) ) {
-		require_once CSB_INC_DIR . 'external/wpmu-lib/core.php';
+		// Actions.
+		add_action( 'plugins_loaded', array( $this, 'setup_custom_sidebars_plugin' ) );
 	}
 
-	// Load the text domain for the plugin
-	WDev()->translate_plugin( CSB_LANG, CSB_LANG_DIR );
+	/**
+	 * Plugin setup function.
+	 */
+	public function setup_custom_sidebars_plugin() {
 
-	// Initialize the plugin
-	CustomSidebars::instance();
+		// Used for more readable i18n functions: __( 'text', PT_CS_TD ).
+		define( 'PT_CS_TD', 'pt-cs' );
+
+		// Define some constants for easier use.
+		define( 'PT_CS_VIEWS_DIR', PT_CS_PATH . 'views/' );
+		define( 'PT_CS_INC_DIR', PT_CS_PATH . 'inc/' );
+
+		// Load empty widget.
+		require_once PT_CS_INC_DIR . 'class-pt-cs-empty-widget.php';
+
+		// Load the actual core of this plugin.
+		require_once PT_CS_INC_DIR . 'class-custom-sidebars.php';
+
+		// Include function library.
+		if ( file_exists( PT_CS_INC_DIR . 'external/wpmu-lib/core.php' ) ) {
+			require_once PT_CS_INC_DIR . 'external/wpmu-lib/core.php';
+		}
+
+		// Load the text domain for the plugin.
+		WDev()->translate_plugin( PT_CS_TD, PT_CS_PATH . 'languages/' );
+
+		// Initialize the plugin.
+		CustomSidebars::instance();
+	}
+
+
+	/**
+	 * Private clone method to prevent cloning of the instance of the *Singleton* instance.
+	 *
+	 * @return void
+	 */
+	private function __clone() {}
+
+
+	/**
+	 * Private unserialize method to prevent unserializing of the *Singleton* instance.
+	 *
+	 * @return void
+	 */
+	private function __wakeup() {}
 }
 
-if ( ! class_exists( 'CustomSidebarsEmptyPlugin' ) ) {
-	class CustomSidebarsEmptyPlugin extends WP_Widget {
-		public function CustomSidebarsEmptyPlugin() {
-			parent::WP_Widget( false, $name = 'CustomSidebarsEmptyPlugin' );
-		}
-		public function form( $instance ) {
-			//Nothing, just a dummy plugin to display nothing
-		}
-		public function update( $new_instance, $old_instance ) {
-			//Nothing, just a dummy plugin to display nothing
-		}
-		public function widget( $args, $instance ) {
-			echo '';
-		}
-	} //end class
-} //end if class exists
+$pt_custom_sidebars = PT_Custom_Sidebars::get_instance();
