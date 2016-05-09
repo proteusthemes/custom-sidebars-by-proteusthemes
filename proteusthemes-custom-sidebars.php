@@ -27,14 +27,14 @@ function inc_sidebars_free_init() {
 	}
 
 	// used for more readable i18n functions: __( 'text', CSB_LANG );
-	define( 'CSB_LANG', 'custom-sidebars' );
+	define( 'CSB_LANG', 'pt-cs' );
 
 	$plugin_dir = dirname( __FILE__ );
 	$plugin_dir_rel = dirname( plugin_basename( __FILE__ ) );
 	$plugin_url = plugin_dir_url( __FILE__ );
 
 	define( 'CSB_PLUGIN', __FILE__ );
-	define( 'CSB_LANG_DIR', $plugin_dir_rel . '/lang/' );
+	define( 'CSB_LANG_DIR', $plugin_dir_rel . '/languages/' );
 	define( 'CSB_VIEWS_DIR', $plugin_dir . '/views/' );
 	define( 'CSB_INC_DIR', $plugin_dir . '/inc/' );
 	define( 'CSB_JS_URL', $plugin_url . 'js/' );
