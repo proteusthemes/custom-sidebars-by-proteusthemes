@@ -67,17 +67,16 @@ class PT_Custom_Sidebars {
 
 		// Define some constants for easier use.
 		define( 'PT_CS_VIEWS_DIR', PT_CS_PATH . 'views/' );
-		define( 'PT_CS_INC_DIR', PT_CS_PATH . 'inc/' );
 
-		// Load empty widget.
-		require_once PT_CS_INC_DIR . 'class-pt-cs-empty-widget.php';
+		// Load empty widget needed in this plugin.
+		require_once PT_CS_PATH . 'inc/class-pt-cs-empty-widget.php';
 
 		// Load the actual core of this plugin.
-		require_once PT_CS_INC_DIR . 'class-custom-sidebars.php';
+		require_once PT_CS_PATH . 'inc/class-custom-sidebars.php';
 
 		// Include function library.
-		if ( file_exists( PT_CS_INC_DIR . 'external/wpmu-lib/core.php' ) ) {
-			require_once PT_CS_INC_DIR . 'external/wpmu-lib/core.php';
+		if ( file_exists( PT_CS_PATH . 'inc/external/wpmu-lib/core.php' ) ) {
+			require_once PT_CS_PATH . 'inc/external/wpmu-lib/core.php';
 		}
 
 		// Load the text domain for the plugin.

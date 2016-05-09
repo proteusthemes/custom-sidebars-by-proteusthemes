@@ -1,6 +1,6 @@
 <?php
 /**
- * Empty widget.
+ * Empty widget used in this plugin.
  *
  * @package pt-cs
  */

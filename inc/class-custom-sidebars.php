@@ -1,10 +1,15 @@
 <?php
+/**
+ * Core plugin class. *Singleton*
+ *
+ * @package pt-cs
+ */
 
-// Load additional Pro-modules.
-require_once PT_CS_INC_DIR . 'class-custom-sidebars-widgets.php';
-require_once PT_CS_INC_DIR . 'class-custom-sidebars-editor.php';
-require_once PT_CS_INC_DIR . 'class-custom-sidebars-replacer.php';
-require_once PT_CS_INC_DIR . 'class-custom-sidebars-explain.php';
+// Load additional files.
+require_once PT_CS_PATH . 'inc/class-custom-sidebars-widgets.php';
+require_once PT_CS_PATH . 'inc/class-custom-sidebars-editor.php';
+require_once PT_CS_PATH . 'inc/class-custom-sidebars-replacer.php';
+require_once PT_CS_PATH . 'inc/class-custom-sidebars-explain.php';
 
 
 /**
@@ -25,12 +30,6 @@ class CustomSidebars {
 	 * @var  string
 	 */
 	static protected $cap_required = 'edit_theme_options';
-
-	/**
-	 * URL to the documentation/info page of the pro plugin
-	 * @var  string
-	 */
-	static public $pro_url = 'http://premium.wpmudev.org/project/custom-sidebars-pro/';
 
 	/**
 	 * Flag that specifies if the page is loaded in accessibility mode.
@@ -68,28 +67,6 @@ class CustomSidebars {
 	 * We directly initialize sidebar options when class is created.
 	 */
 	private function __construct() {
-		/**
-		 * ID of the WP-Pointer used to introduce the plugin upon activation
-		 *
-		 * ========== Pointer ==========
-		 *  Internal ID:  wpmudcs1 [WPMUDev CustomSidebars 1]
-		 *  Point at:     #menu-appearance (Appearance menu item)
-		 *  Title:        Custom Sidebars
-		 *  Description:  Create and edit custom sidebars in your widget screen!
-		 * -------------------------------------------------------------------------
-		 */
-		WDev()->pointer(
-			'wpmudcs1',                               // Internal Pointer-ID
-			'#menu-appearance',                       // Point at
-			__( 'Custom Sidebars', PT_CS_TD ),    // Title
-			sprintf(
-				__(
-					'Now you can create and edit custom sidebars in your ' .
-					'<a href="%1$s">Widgets screen</a>!', PT_CS_TD
-				),
-				admin_url( 'widgets.php' )
-			)                                         // Body
-		);
 
 		// Find out if the page is loaded in accessibility mode.
 		$flag = isset( $_GET['widgets-access'] ) ? $_GET['widgets-access'] : get_user_setting( 'widgets_access' );
@@ -143,9 +120,6 @@ class CustomSidebars {
 					WDev()->message( $msg );
 				}
 			}
-
-			// Free version only
-			add_action( 'in_widget_form', array( $this, 'in_widget_form' ), 10, 1 );
 		}
 	}
 
@@ -706,42 +680,8 @@ class CustomSidebars {
 
 
 	// =========================================================================
-	// == ACTION HOOKS
-	// =========================================================================
-
-
-	/**
-	 * Callback for in_widget_form action
-	 *
-	 * Free version only
-	 *
-	 * @since 2.0.1
-	 */
-	public function in_widget_form( $widget ) {
-		?>
-		<input type="hidden" name="csb-buttons" value="0" />
-		<?php if ( ! isset( $_POST[ 'csb-buttons' ] ) ) : ?>
-			<div class="csb-pro-layer csb-pro-<?php echo esc_attr( $widget->id ); ?>">
-				<a href="#" class="button csb-clone-button"><?php _e( 'Clone', PT_CS_TD ); ?></a>
-				<a href="#" class="button csb-visibility-button"><span class="dashicons dashicons-visibility"></span> <?php _e( 'Visibility', PT_CS_TD ); ?></a>
-				<a href="<?php echo esc_url( CustomSidebars::$pro_url ); ?>" target="_blank" class="pro-info">
-				<?php printf(
-					__( 'Pro Version Features', PT_CS_TD ),
-					CustomSidebars::$pro_url
-				); ?>
-				</a>
-			</div>
-		<?php
-		endif;
-	}
-
-
-	// =========================================================================
 	// == AJAX FUNCTIONS
 	// =========================================================================
-
-
-
 
 
 	/**

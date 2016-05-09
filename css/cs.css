@@ -3,34 +3,6 @@
  * == FREE VERSION ONLY
  * =============================================================================
  */
-.module-export .pro-layer {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 99999;
-  background: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  font-size: 26px;
-  font-weight: 100;
-  padding-top: 120px;
-  line-height: 1.5;
-}
-.module-export .pro-layer a {
-  margin-top: 20px;
-  display: inline-block;
-  background: #2EA2CC;
-  color: #FAFAFA;
-  text-decoration: none;
-  padding: 10px 20px;
-  font-size: 18px;
-  font-weight: bold;
-}
-.module-export .pro-layer a:hover, .module-export .pro-layer a:focus, .module-export .pro-layer a:active {
-  background: #1E8CBE;
-  color: #FFF;
-}
 
 .frm-location .pro-layer {
   padding: 10px;
@@ -507,7 +479,7 @@ body.appearance_page_customsidebars #poststuff h2 {
   color: #555;
   padding-left: 32px;
   	/*
-  
+
   	.icon {
   		display: inline-block;
   		width: 20px;
@@ -522,7 +494,7 @@ body.appearance_page_customsidebars #poststuff h2 {
   		padding: 10px 5px 10px 0;
   		-webkit-font-smoothing: antialiased;
   		-moz-osx-font-smoothing: grayscale;
-  
+
   		&:before {
   			content: "\f160"; /* dashicons-lock * /
   			color: #BBB;
@@ -649,31 +621,6 @@ body.appearance_page_customsidebars #poststuff h2 {
  * == Export/Import
  * =============================================================================
  */
-.csb-export-head {
-  min-width: 450px;
-}
-
-.csb-export-head th {
-  vertical-align: top;
-  text-align: right;
-  /*background: #F9FAFB;*/
-  color: #679;
-  width: 150px;
-}
-
-.csb-export-head tr:hover {
-  background: #FAFAFA;
-}
-
-.csb-export-head ul {
-  margin: 0;
-}
-
-.csb-export-head .dashicons.hint {
-  font-size: 12px;
-  line-height: 22px;
-}
-
 .csb-form {
   padding-left: 15px;
 }

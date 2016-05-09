@@ -20,7 +20,6 @@
 				<i class="dashicons dashicons-plus-alt"></i>
 				<?php _e( 'Create a new sidebar', PT_CS_TD ); ?>
 			</button>
-			<a href="#" class="cs-action btn-export"><?php _e( 'Import / Export Sidebars', PT_CS_TD ); ?></a>
 			<?php
 			/**
 			 * Show additional functions in the widget header.
@@ -149,15 +148,6 @@
 	<?php include PT_CS_VIEWS_DIR . 'widgets-editor.php'; ?>
 	</div>
 
-
-	<?php /*
-	============================================================================
-	===== EXPORT
-	============================================================================
-	*/ ?>
-	<div class="cs-export">
-	<?php include PT_CS_VIEWS_DIR . 'widgets-export.php'; ?>
-	</div>
 
 	<?php /*
 	============================================================================

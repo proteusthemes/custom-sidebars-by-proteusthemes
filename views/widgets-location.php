@@ -141,7 +141,6 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 			<h3 class="wpmui-tabs">
 				<a href="#tab-arch" class="tab active"><?php _e( 'Archive Types', PT_CS_TD ); ?></a>
 				<a href="#tab-catg" class="tab"><?php _e( 'Category Archives', PT_CS_TD ); ?></a>
-				<a href="#tab-aut" class="tab"><?php _e( 'Authors', PT_CS_TD ); ?></a>
 			</h3>
 			<div class="wpmui-tab-contents">
 				<div id="tab-arch" class="tab active">
@@ -165,23 +164,6 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 						_show_replaceable( $details, 'arc-cat', $cat_name );
 					}
 					?>
-				</div>
-				<div id="tab-aut" class="tab">
-					<?php
-					/**
-					 * ========== ARCHIVE -- Author ========== *
-					 */
-					?>
-					<div class="pro-layer">
-						<?php printf(
-							__(
-								'Specific Author-Archives can be changed <br />' .
-								'in the <b>PRO</b> version of this plugin.<br />' .
-								'<a href="%1$s" target="_blank">Learn more</a>', PT_CS_TD
-								),
-								CustomSidebars::$pro_url
-						); ?>
-					</div>
 				</div>
 			</div>
 		</div>

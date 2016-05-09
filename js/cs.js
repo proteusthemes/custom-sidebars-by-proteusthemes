@@ -148,12 +148,6 @@ window.csSidebars = null;
 		delete_form: null,
 
 		/**
-		 * Form for the export/import popup.
-		 * @type jQuery object
-		 */
-		export_form: null,
-
-		/**
 		 * Form for the location popup.
 		 * @type jQuery object
 		 */
@@ -221,11 +215,6 @@ window.csSidebars = null;
 			if ( null === csSidebars.delete_form ) {
 				csSidebars.delete_form = csSidebars.extras.find( '.cs-delete' ).clone();
 				csSidebars.extras.find( '.cs-delete' ).remove();
-			}
-
-			if ( null === csSidebars.export_form ) {
-				csSidebars.export_form = csSidebars.extras.find( '.cs-export' ).clone();
-				csSidebars.extras.find( '.cs-export' ).remove();
 			}
 
 			if ( null === csSidebars.location_form ) {
@@ -388,7 +377,6 @@ window.csSidebars = null;
 		 */
 		initTopTools: function() {
 			var btn_create = jQuery( '.btn-create-sidebar' ),
-				btn_export = jQuery( '.btn-export' ),
 				data = {};
 
 			// Button: Add new sidebar.
@@ -401,9 +389,6 @@ window.csSidebars = null;
 
 				csSidebars.showEditor( data );
 			});
-
-			// Button: Export sidebars.
-			btn_export.click( csSidebars.showExport );
 
 			return csSidebars;
 		},
@@ -728,34 +713,6 @@ window.csSidebars = null;
 			csSidebars.initSidebars();
 
 			return csSidebars;
-		},
-
-
-		/*============================*\
-		================================
-		==                            ==
-		==           EXPORT           ==
-		==                            ==
-		================================
-		\*============================*/
-
-		/**
-		 * Shows a popup window with the export/import form.
-		 *
-		 * @since  2.0
-		 */
-		showExport: function() {
-			var popup = null;
-
-			// Show the popup.
-			popup = wpmUi.popup()
-				.modal( true )
-				.size( 740, 480 )
-				.title( csSidebarsData.title_export )
-				.content( csSidebars.export_form )
-				.show();
-
-			return true;
 		},
 
 
