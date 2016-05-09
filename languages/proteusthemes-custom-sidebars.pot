@@ -90,11 +90,11 @@ msgstr ""
 msgid "Updated sidebar <strong>%1$s</strong> settings."
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:550
+#: inc/class-custom-sidebars-editor.php:550 views/widgets.php:17
 msgid "Sidebars"
 msgstr ""
 
-#: inc/class-custom-sidebars.php:84
+#: inc/class-custom-sidebars.php:84 views/widgets.php:48
 msgid "Custom Sidebars"
 msgstr ""
 
@@ -115,6 +115,221 @@ msgstr ""
 
 #: inc/class-custom-sidebars.php:729
 msgid "Pro Version Features"
+msgstr ""
+
+#: views/widgets-delete.php:11
+msgid ""
+"Please confirm that you want to delete the sidebar <strong "
+"class=\"name\"></strong>."
+msgstr ""
+
+#: views/widgets-delete.php:16 views/widgets-editor.php:63
+#: views/widgets-location.php:191
+msgid "Cancel"
+msgstr ""
+
+#: views/widgets-delete.php:17
+msgid "Yes, delete it"
+msgstr ""
+
+#: views/widgets-editor.php:15
+msgid "Name"
+msgstr ""
+
+#: views/widgets-editor.php:16
+msgid "Sidebar name here..."
+msgstr ""
+
+#: views/widgets-editor.php:17
+msgid "The name must be unique."
+msgstr ""
+
+#: views/widgets-editor.php:20
+msgid "Description"
+msgstr ""
+
+#: views/widgets-editor.php:21
+msgid "Sidebar description here..."
+msgstr ""
+
+#: views/widgets-editor.php:27
+msgid "Caution:"
+msgstr ""
+
+#: views/widgets-editor.php:39
+msgid "Before Title"
+msgstr ""
+
+#: views/widgets-editor.php:43
+msgid "After Title"
+msgstr ""
+
+#: views/widgets-editor.php:49
+msgid "Before Widget"
+msgstr ""
+
+#: views/widgets-editor.php:53
+msgid "After Widget"
+msgstr ""
+
+#: views/widgets-editor.php:60
+msgid "Advanced - Edit custom wrapper code"
+msgstr ""
+
+#: views/widgets-editor.php:64 views/widgets.php:44
+msgid "Create Sidebar"
+msgstr ""
+
+#: views/widgets-export.php:10 views/widgets-export.php:26
+msgid "Export"
+msgstr ""
+
+#: views/widgets-export.php:21
+msgid "Optional description for the export file:"
+msgstr ""
+
+#: views/widgets-export.php:31
+msgid "Import"
+msgstr ""
+
+#: views/widgets-export.php:35
+msgid "Export file"
+msgstr ""
+
+#: views/widgets-export.php:40
+msgid "Preview"
+msgstr ""
+
+#: views/widgets-location.php:30
+msgid "Replaced by another sidebar:"
+msgstr ""
+
+#: views/widgets-location.php:38
+msgid "As <strong>%1$s</strong> for selected %2$s"
+msgstr ""
+
+#: views/widgets-location.php:50
+msgid "Click here to pick available %1$s"
+msgstr ""
+
+#: views/widgets-location.php:94 views/widgets-location.php:135
+msgid "Click to toggle"
+msgstr ""
+
+#: views/widgets-location.php:95
+msgid "For all Single Entries matching selected criteria"
+msgstr ""
+
+#: views/widgets-location.php:98
+msgid ""
+"These replacements will be applied to every single post that matches a "
+"certain post type or category."
+msgstr ""
+
+#: views/widgets-location.php:106
+msgid "categories"
+msgstr ""
+
+#: views/widgets-location.php:118
+msgid "Post Types"
+msgstr ""
+
+#: views/widgets-location.php:136
+msgid "For Archives"
+msgstr ""
+
+#: views/widgets-location.php:139
+msgid "These replacements will be applied to Archive Type posts and pages."
+msgstr ""
+
+#: views/widgets-location.php:142 views/widgets-location.php:153
+msgid "Archive Types"
+msgstr ""
+
+#: views/widgets-location.php:143 views/widgets-location.php:164
+msgid "Category Archives"
+msgstr ""
+
+#: views/widgets-location.php:144
+msgid "Authors"
+msgstr ""
+
+#: views/widgets-location.php:192 views/widgets.php:43
+msgid "Save Changes"
+msgstr ""
+
+#: views/widgets.php:21
+msgid "Create a new sidebar"
+msgstr ""
+
+#: views/widgets.php:23 views/widgets.php:47
+msgid "Import / Export Sidebars"
+msgstr ""
+
+#: views/widgets.php:41
+msgid "Edit [Sidebar]"
+msgstr ""
+
+#: views/widgets.php:42
+msgid "New Custom Sidebar"
+msgstr ""
+
+#: views/widgets.php:45
+msgid "Delete Sidebar"
+msgstr ""
+
+#: views/widgets.php:46
+msgid "Define where you want this sidebar to appear."
+msgstr ""
+
+#: views/widgets.php:49
+msgid "Theme Sidebars"
+msgstr ""
+
+#: views/widgets.php:50
+msgid "Couldn't load data from WordPress..."
+msgstr ""
+
+#: views/widgets.php:51 views/widgets.php:105
+msgid "This sidebar can be replaced on certain pages"
+msgstr ""
+
+#: views/widgets.php:52
+msgid ""
+"Activate this option to replace the sidebar with one of your custom "
+"sidebars."
+msgstr ""
+
+#: views/widgets.php:53
+msgid "Filter..."
+msgstr ""
+
+#: views/widgets.php:69
+msgid "Delete this sidebar."
+msgstr ""
+
+#: views/widgets.php:78
+msgid "Edit this sidebar."
+msgstr ""
+
+#: views/widgets.php:80
+msgid "Edit"
+msgstr ""
+
+#: views/widgets.php:87 views/widgets.php:124
+msgid "Where do you want to show the sidebar?"
+msgstr ""
+
+#: views/widgets.php:89 views/widgets.php:126
+msgid "Sidebar Location"
+msgstr ""
+
+#: views/widgets.php:106
+msgid "This sidebar will always be same on all pages"
+msgstr ""
+
+#: views/widgets.php:115
+msgid "Allow this sidebar to be replaced"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
