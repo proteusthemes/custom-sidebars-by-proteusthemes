@@ -89,24 +89,24 @@ class CustomSidebars {
 				'widgets'
 			);
 		} else {
-			// Load javascripts/css files
+			// Load javascripts/css files.
 			WDev()->add_ui( 'core', 'widgets.php' );
 			WDev()->add_ui( 'scrollbar', 'widgets.php' );
 			WDev()->add_ui( 'select', 'widgets.php' );
 			WDev()->add_ui( PT_CS_URL . 'js/cs.min.js', 'widgets.php' );
 			WDev()->add_ui( PT_CS_URL . 'css/cs.css', 'widgets.php' );
 
-			// AJAX actions
+			// AJAX actions.
 			add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
 
-			// Extensions use this hook to initialize themselfs.
+			// Extensions use this hook to initialize themselves.
 			do_action( 'cs_init' );
 
 			// Display a message after import.
 			if ( ! empty( $_GET['cs-msg'] ) ) {
 				$msg = base64_decode( $_GET['cs-msg'] );
 
-				// Prevent XSS attacks...
+				// Prevent XSS attacks.
 				$kses_args = array(
 					'br' => array(),
 					'b' => array(),
@@ -123,14 +123,11 @@ class CustomSidebars {
 		}
 	}
 
-
-
-	// =========================================================================
-	// == DATA ACCESS
-	// =========================================================================
-
-
 	/**
+	 *
+	 * =========================================================================
+	 * == DATA ACCESS
+	 * =========================================================================
 	 *
 	 * ==1== PLUGIN OPTIONS
 	 *   Option-Key: cs_modifiable
@@ -231,84 +228,52 @@ class CustomSidebars {
 	 * Also contains information on the default replacements of these sidebars.
 	 *
 	 * Option-Key: 'cs_modifiable' (1)
+	 *
+	 * @param string $key a key of the options array.
 	 */
 	static public function get_options( $key = null ) {
-		static $Options = null;
+		static $options = null;
 		$need_update = false;
 
-		if ( null === $Options ) {
-			$Options = get_option( 'cs_modifiable', array() );
-			if ( ! is_array( $Options ) ) {
-				$Options = array();
+		if ( null === $options ) {
+			$options = get_option( 'cs_modifiable', array() );
+			if ( ! is_array( $options ) ) {
+				$options = array();
 			}
 
 			// List of modifiable sidebars.
-			if ( ! is_array( @$Options['modifiable'] ) ) {
-				// By default we make ALL theme sidebars replaceable:
+			if ( ! is_array( $options['modifiable'] ) ) {
+
+				// By default we make ALL theme sidebars replaceable.
 				$all = self::get_sidebars( 'theme' );
-				$Options['modifiable'] = array_keys( $all );
+				$options['modifiable'] = array_keys( $all );
 				$need_update = true;
 			}
 
-			/**
-			 * In version 2.0 four config values have been renamed and are
-			 * migrated in the following block:
-			 */
+			// Single/Archive pages.
+			$options['post_type_single']  = isset( $options['post_type_single'] ) ? self::get_array( $options['post_type_single'] ) : array();
+			$options['post_type_archive'] = isset( $options['post_type_archive'] ) ? self::get_array( $options['post_type_archive'] ) : array();
+			$options['category_single']   = isset( $options['category_single'] ) ? self::get_array( $options['category_single'] ) : array();
+			$options['category_archive']  = isset( $options['category_archive'] ) ? self::get_array( $options['category_archive'] ) : array();
 
-			// Single/Archive pages - new names
-			$Options['post_type_single'] = self::get_array(
-				@$Options['post_type_single'], // new name
-				@$Options['defaults']          // old name
-			);
-			$Options['post_type_archive'] = self::get_array(
-				@$Options['post_type_archive'], // new name
-				@$Options['post_type_pages']    // old name
-			);
-			$Options['category_single'] = self::get_array(
-				@$Options['category_single'], // new name
-				@$Options['category_posts']   // old name
-			);
-			$Options['category_archive'] = self::get_array(
-				@$Options['category_archive'], // new name
-				@$Options['category_pages']    // old name
-			);
+			// Special archive pages.
+			$options['blog']    = isset( $options['blog'] ) ? self::get_array( $options['blog'] ) : array();
+			$options['tags']    = isset( $options['tags'] ) ? self::get_array( $options['tags'] ) : array();
+			$options['authors'] = isset( $options['authors'] ) ? self::get_array( $options['authors'] ) : array();
+			$options['search']  = isset( $options['search'] ) ? self::get_array( $options['search'] ) : array();
+			$options['date']    = isset( $options['date'] ) ? self::get_array( $options['date'] ) : array();
 
-			// Remove old item names from the array.
-			if ( isset( $Options['defaults'] ) ) {
-				unset( $Options['defaults'] );
-				$need_update = true;
-			}
-			if ( isset( $Options['post_type_pages'] ) ) {
-				unset( $Options['post_type_pages'] );
-				$need_update = true;
-			}
-			if ( isset( $Options['category_posts'] ) ) {
-				unset( $Options['category_posts'] );
-				$need_update = true;
-			}
-			if ( isset( $Options['category_pages'] ) ) {
-				unset( $Options['category_pages'] );
-				$need_update = true;
-			}
-
-			// Special archive pages
-			$Options['blog'] = self::get_array( @$Options['blog'] );
-			$Options['tags'] = self::get_array( @$Options['tags'] );
-			$Options['authors'] = self::get_array( @$Options['authors'] );
-			$Options['search'] = self::get_array( @$Options['search'] );
-			$Options['date'] = self::get_array( @$Options['date'] );
-
-			$Options = self::validate_options( $Options );
+			$options = self::validate_options( $options );
 
 			if ( $need_update ) {
-				self::set_options( $Options );
+				self::set_options( $options );
 			}
 		}
 
 		if ( ! empty( $key ) ) {
-			return @$Options[ $key ];
+			return $options[ $key ];
 		} else {
-			return $Options;
+			return $options;
 		}
 	}
 
