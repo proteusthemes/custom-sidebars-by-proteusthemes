@@ -11,15 +11,15 @@ require_once PT_CS_PATH . 'inc/class-custom-sidebars-editor.php';
 require_once PT_CS_PATH . 'inc/class-custom-sidebars-replacer.php';
 require_once PT_CS_PATH . 'inc/class-custom-sidebars-explain.php';
 
-
 /**
  * Main plugin file.
- * The CustomSidebars class encapsulates all our plugin logic.
+ * The PT_CS_Main class encapsulates all our plugin logic.
  */
-class CustomSidebars {
+class PT_CS_Main {
 	/**
 	 * Prefix used for the sidebar-ID of custom sidebars. This is also used to
 	 * distinguish theme sidebars from custom sidebars.
+	 *
 	 * @var  string
 	 */
 	static protected $sidebar_prefix = 'cs-';
@@ -27,6 +27,7 @@ class CustomSidebars {
 	/**
 	 * Capability required to use *any* of the plugin features. If user does not
 	 * have this capability then he will not see any change on admin dashboard.
+	 *
 	 * @var  string
 	 */
 	static protected $cap_required = 'edit_theme_options';
@@ -34,8 +35,8 @@ class CustomSidebars {
 	/**
 	 * Flag that specifies if the page is loaded in accessibility mode.
 	 * This plugin does not support accessibility mode!
+	 *
 	 * @var   bool
-	 * @since 2.0.9
 	 */
 	static protected $accessibility_mode = false;
 
@@ -45,8 +46,8 @@ class CustomSidebars {
 	 *
 	 * @since  2.0
 	 */
-	static public function instance() {
-		static $Inst = null;
+	public static function instance() {
+		static $inst = null;
 
 		// We can initialize the plugin once we know the current user:
 		// The WDev()->pointer() notification is based on current user...
@@ -55,11 +56,11 @@ class CustomSidebars {
 			return null;
 		}
 
-		if ( null === $Inst ) {
-			$Inst = new CustomSidebars();
+		if ( null === $inst ) {
+			$inst = new PT_CS_Main();
 		}
 
-		return $Inst;
+		return $inst;
 	}
 
 	/**
@@ -208,12 +209,11 @@ class CustomSidebars {
 	 * If the specified variable is an array it will be returned. Otherwise
 	 * an empty array is returned.
 	 *
-	 * @since  2.0
 	 * @param  mixed $val1 Value that maybe is an array.
 	 * @param  mixed $val2 Optional, Second value that maybe is an array.
 	 * @return array
 	 */
-	static public function get_array( $val1, $val2 = array() ) {
+	public static function get_array( $val1, $val2 = array() ) {
 		if ( is_array( $val1 ) ) {
 			return $val1;
 		} else if ( is_array( $val2 ) ) {
@@ -231,7 +231,7 @@ class CustomSidebars {
 	 *
 	 * @param string $key a key of the options array.
 	 */
-	static public function get_options( $key = null ) {
+	public static function get_options( $key = null ) {
 		static $options = null;
 		$need_update = false;
 
@@ -281,10 +281,11 @@ class CustomSidebars {
 	 * Saves the sidebar options to DB.
 	 *
 	 * Option-Key: 'cs_modifiable' (1)
-	 * @since  2.0
+	 *
 	 * @param  array $value The options array.
 	 */
-	static public function set_options( $value ) {
+	public static function set_options( $value ) {
+
 		// Permission check.
 		if ( ! current_user_can( self::$cap_required ) ) {
 			return;
@@ -296,17 +297,16 @@ class CustomSidebars {
 	/**
 	 * Removes invalid settings from the options array.
 	 *
-	 * @since  1.0.4
 	 * @param  array $data This array will be validated and returned.
 	 * @return array
 	 */
-	static public function validate_options( $data = null ) {
+	public static function validate_options( $data = null ) {
 		$data = (is_object( $data ) ? (array) $data : $data );
 		if ( ! is_array( $data ) ) {
 			return array();
 		}
 		$valid = array_keys( self::get_sidebars( 'theme' ) );
-		$current = self::get_array( @$data['modifiable'] );
+		$current = isset( $data['modifiable'] ) ? self::get_array( $data['modifiable'] ) : array();
 
 		// Get all the sidebars that are modifiable AND exist.
 		$modifiable = array_intersect( $valid, $current );
@@ -321,7 +321,7 @@ class CustomSidebars {
 	 *
 	 * Option-Key: 'cs_sidebars' (3)
 	 */
-	static public function get_custom_sidebars() {
+	public static function get_custom_sidebars() {
 		$sidebars = get_option( 'cs_sidebars', array() );
 		if ( ! is_array( $sidebars ) ) {
 			$sidebars = array();
@@ -341,9 +341,10 @@ class CustomSidebars {
 	 * Saves the custom sidebars to DB.
 	 *
 	 * Option-Key: 'cs_sidebars' (3)
-	 * @since  2.0
+	 *
+	 * @param array $value Array with custom sidebars data.
 	 */
-	static public function set_custom_sidebars( $value ) {
+	public static function set_custom_sidebars( $value ) {
 		// Permission check.
 		if ( ! current_user_can( self::$cap_required ) ) {
 			return;
@@ -357,9 +358,8 @@ class CustomSidebars {
 	 * widgets (this is stored inside a WordPress core option).
 	 *
 	 * Option-Key: 'sidebars_widgets' (4)
-	 * @since  2.0
 	 */
-	static public function get_sidebar_widgets() {
+	public static function get_sidebar_widgets() {
 		return get_option( 'sidebars_widgets', array() );
 	}
 
@@ -370,20 +370,20 @@ class CustomSidebars {
 	 *
 	 * Option-Key: 'sidebars_widgets' (4)
 	 */
-	static public function refresh_sidebar_widgets() {
+	public static function refresh_sidebar_widgets() {
+
 		// Contains an array of all sidebars and widgets inside each sidebar.
 		$widgetized_sidebars = self::get_sidebar_widgets();
 
 		$cs_sidebars = self::get_custom_sidebars();
 		$delete_widgetized_sidebars = array();
 
-
 		foreach ( $widgetized_sidebars as $id => $bar ) {
 			if ( substr( $id, 0, 3 ) == self::$sidebar_prefix ) {
-				$found = FALSE;
+				$found = false;
 				foreach ( $cs_sidebars as $csbar ) {
 					if ( $csbar['id'] == $id ) {
-						$found = TRUE;
+						$found = true;
 					}
 				}
 				if ( ! $found ) {
@@ -396,12 +396,12 @@ class CustomSidebars {
 		foreach ( $cs_sidebars as $cs ) {
 			$sb_id = $cs['id'];
 			if ( ! in_array( $sb_id, $all_ids ) ) {
-				$widgetized_sidebars[$sb_id] = array();
+				$widgetized_sidebars[ $sb_id ] = array();
 			}
 		}
 
 		foreach ( $delete_widgetized_sidebars as $id ) {
-			unset( $widgetized_sidebars[$id] );
+			unset( $widgetized_sidebars[ $id ] );
 		}
 
 		update_option( 'sidebars_widgets', $widgetized_sidebars );
@@ -411,10 +411,11 @@ class CustomSidebars {
 	 * Returns the custom sidebar metadata of a single post.
 	 *
 	 * Meta-Key: '_cs_replacements' (2)
-	 * @since  2.0
+	 *
+	 * @param int $post_id ID of the post.
 	 */
-	static public function get_post_meta( $post_id ) {
-		$data = get_post_meta( $post_id, '_cs_replacements', TRUE );
+	public static function get_post_meta( $post_id ) {
+		$data = get_post_meta( $post_id, '_cs_replacements', true );
 		if ( ! is_array( $data ) ) {
 			$data = array();
 		}
@@ -425,11 +426,11 @@ class CustomSidebars {
 	 * Saves custom sidebar metadata to a single post.
 	 *
 	 * Meta-Key: '_cs_replacements' (2)
-	 * @since  2.0
-	 * @param int $post_id
+	 *
+	 * @param int   $post_id ID of the post.
 	 * @param array $data When array is empty the meta data will be deleted.
 	 */
-	static public function set_post_meta( $post_id, $data ) {
+	public static function set_post_meta( $post_id, $data ) {
 		if ( ! empty( $data ) ) {
 			update_post_meta( $post_id, '_cs_replacements', $data );
 		} else {
@@ -444,7 +445,7 @@ class CustomSidebars {
 	 *
 	 * @param string $type [all|cust|theme] What kind of sidebars to return.
 	 */
-	static public function get_sidebars( $type = 'theme' ) {
+	public static function get_sidebars( $type = 'theme' ) {
 		global $wp_registered_sidebars;
 		$allsidebars = $wp_registered_sidebars;
 		$result = array();
@@ -452,25 +453,27 @@ class CustomSidebars {
 		// Remove inactive sidebars.
 		foreach ( $allsidebars as $sb_id => $sidebar ) {
 			if ( false !== strpos( $sidebar['class'], 'inactive-sidebar' ) ) {
-				unset( $allsidebars[$sb_id] );
+				unset( $allsidebars[ $sb_id ] );
 			}
 		}
 
 		ksort( $allsidebars );
-		if ( $type == 'all' ) {
+		if ( 'all' === $type ) {
 			$result = $allsidebars;
-		} else if ( $type == 'cust' ) {
+		} else if ( 'cust' === $type ) {
 			foreach ( $allsidebars as $key => $sb ) {
+
 				// Only keep custom sidebars in the results.
-				if ( substr( $key, 0, 3 ) == self::$sidebar_prefix ) {
-					$result[$key] = $sb;
+				if ( substr( $key, 0, 3 ) === self::$sidebar_prefix ) {
+					$result[ $key ] = $sb;
 				}
 			}
-		} else if ( $type == 'theme' ) {
+		} else if ( 'theme' === $type ) {
 			foreach ( $allsidebars as $key => $sb ) {
+
 				// Remove custom sidebars from results.
-				if ( substr( $key, 0, 3 ) != self::$sidebar_prefix ) {
-					$result[$key] = $sb;
+				if ( substr( $key, 0, 3 ) !== self::$sidebar_prefix ) {
+					$result[ $key ] = $sb;
 				}
 			}
 		}
@@ -485,10 +488,10 @@ class CustomSidebars {
 	 * @param string $id Sidebar-ID.
 	 * @param string $type [all|cust|theme] What kind of sidebars to check.
 	 */
-	static public function get_sidebar( $id, $type = 'all' ) {
+	public static function get_sidebar( $id, $type = 'all' ) {
 		if ( empty( $id ) ) { return false; }
 
-		// Get all sidebars
+		// Get all sidebars.
 		$sidebars = self::get_sidebars( $type );
 
 		if ( isset( $sidebars[ $id ] ) ) {
@@ -500,43 +503,41 @@ class CustomSidebars {
 
 	/**
 	 * Get sidebar replacement information for a single post.
+	 *
+	 * @param int $postid ID of the post.
 	 */
-	static public function get_replacements( $postid ) {
+	public static function get_replacements( $postid ) {
 		$replacements = self::get_post_meta( $postid );
-		if ( ! is_array( $replacements ) ) {
-			$replacements = array();
-		} else {
-			$replacements = $replacements;
+		if ( is_array( $replacements ) ) {
+			return $replacements;
 		}
-		return $replacements;
+		return array();
 	}
 
 	/**
 	 * Returns true, when the specified post type supports custom sidebars.
 	 *
-	 * @since  2.0
-	 * @param  object|string $posttype The posttype to validate. Either the
-	 *                posttype name or the full posttype object.
+	 * @param  object|string $posttype The posttype to validate. Either the posttype name or the full posttype object.
 	 * @return bool
 	 */
-	static public function supported_post_type( $posttype ) {
-		$Ignored_types = null;
-		$Response = array();
+	public static function supported_post_type( $posttype ) {
+		$ignored_types = null;
+		$response = array();
 
-		if ( null === $Ignored_types ) {
-			$Ignored_types = get_post_types(
+		if ( null === $ignored_types ) {
+			$ignored_types = get_post_types(
 				array( 'public' => false ),
 				'names'
 			);
-			$Ignored_types[] = 'attachment';
+			$ignored_types[] = 'attachment';
 		}
 
 		if ( is_object( $posttype ) ) {
 			$posttype = $posttype->name;
 		}
 
-		if ( ! isset( $Response[ $posttype ] ) ) {
-			$response = ! in_array( $posttype, $Ignored_types );
+		if ( ! isset( $response[ $posttype ] ) ) {
+			$supported = ! in_array( $posttype, $ignored_types );
 
 			/**
 			 * Filters the support-flag. The flag defines if the posttype supports
@@ -544,14 +545,14 @@ class CustomSidebars {
 			 *
 			 * @since  2.0
 			 *
-			 * @param  bool $response Flag if the posttype is supported.
+			 * @param  bool $supported Flag if the posttype is supported.
 			 * @param  string $posttype Name of the posttype that is checked.
 			 */
-			$response = apply_filters( 'cs_support_posttype', $response, $posttype );
-			$Response[ $posttype ] = $response;
+			$supported = apply_filters( 'cs_support_posttype', $supported, $posttype );
+			$response[ $posttype ] = $supported;
 		}
 
-		return $Response[ $posttype ];
+		return $response[ $posttype ];
 	}
 
 	/**
@@ -561,37 +562,36 @@ class CustomSidebars {
 	 * @param  string $type [names|objects] Defines details of return data.
 	 * @return array List of posttype names or objects, depending on the param.
 	 */
-	static public function get_post_types( $type = 'names' ) {
-		$Valid = array();
+	public static function get_post_types( $type = 'names' ) {
+		$valid = array();
 
-		if ( $type != 'objects' ) {
+		if ( 'objects' !== $type ) {
 			$type = 'names';
 		}
 
-		if ( ! isset( $Valid[ $type ] ) ) {
+		if ( ! isset( $valid[ $type ] ) ) {
 			$all = get_post_types( array(), $type );
-			$Valid[ $type ] = array();
+			$valid[ $type ] = array();
 
 			foreach ( $all as $post_type ) {
 				if ( self::supported_post_type( $post_type ) ) {
-					$Valid[ $type ][] = $post_type;
+					$valid[ $type ][] = $post_type;
 				}
 			}
 		}
 
-		return $Valid[ $type ];
+		return $valid[ $type ];
 	}
 
 	/**
 	 * Returns an array of all categories.
 	 *
-	 * @since  2.0
 	 * @return array List of categories, including empty ones.
 	 */
-	static public function get_all_categories() {
+	public static function get_all_categories() {
 		$args = array(
 			'hide_empty' => 0,
-			'taxonomy' => 'category',
+			'taxonomy'   => 'category',
 		);
 
 		return get_categories( $args );
@@ -602,29 +602,32 @@ class CustomSidebars {
 	 * This information is used to find sidebar replacements.
 	 *
 	 * @uses  self::cmp_cat_level()
+	 * @param int $post_id ID of the post.
 	 */
-	static public function get_sorted_categories( $post_id = null ) {
-		static $Sorted = array();
+	public static function get_sorted_categories( $post_id = null ) {
+		static $sorted = array();
 
 		// Return categories of current post when no post_id is specified.
 		$post_id = empty( $post_id ) ? get_the_ID() : $post_id;
 
-		if ( ! isset( $Sorted[ $post_id ] ) ) {
-			$Sorted[ $post_id ] = get_the_category( $post_id );
-			@usort( $Sorted[ $post_id ], array( self, 'cmp_cat_level' ) );
+		if ( ! isset( $sorted[ $post_id ] ) ) {
+			$sorted[ $post_id ] = get_the_category( $post_id );
+			@usort( $sorted[ $post_id ], array( self, 'cmp_cat_level' ) );
 		}
-		return $Sorted[ $post_id ];
+		return $sorted[ $post_id ];
 	}
 
 	/**
 	 * Helper function used to sort categories.
 	 *
 	 * @uses  self::get_category_level()
+	 * @param obj $cat1 Category 1.
+	 * @param obj $cat2 Category 2.
 	 */
-	static public function cmp_cat_level( $cat1, $cat2 ) {
+	public static function cmp_cat_level( $cat1, $cat2 ) {
 		$l1 = self::get_category_level( $cat1->cat_ID );
 		$l2 = self::get_category_level( $cat2->cat_ID );
-		if ( $l1 == $l2 ) {
+		if ( $l1 === $l2 ) {
 			return strcasecmp( $cat1->name, $cat1->name );
 		} else {
 			return $l1 < $l2 ? 1 : -1;
@@ -633,9 +636,11 @@ class CustomSidebars {
 
 	/**
 	 * Helper function used to sort categories.
+	 *
+	 * @param int $catid ID of the category.
 	 */
-	static public function get_category_level( $catid ) {
-		if ( $catid == 0 ) {
+	public static function get_category_level( $catid ) {
+		if ( 0 === $catid ) {
 			return 0;
 		}
 
@@ -652,24 +657,24 @@ class CustomSidebars {
 	/**
 	 * Output JSON data and die()
 	 *
-	 * @since  1.0.0
+	 * @param obj $obj Response object.
 	 */
-	static protected function json_response( $obj ) {
-		// Flush any output that was made prior to this function call
+	protected static function json_response( $obj ) {
+
+		// Flush any output that was made prior to this function call.
 		while ( 0 < ob_get_level() ) { ob_end_clean(); }
 
-		header( 'Content-Type: application/json' );
-		echo json_encode( (object) $obj );
-		die();
+		wp_send_json( (object) $obj );
 	}
 
 	/**
 	 * Output HTML data and die()
 	 *
-	 * @since  2.0
+	 * @param string $data HTML output string.
 	 */
-	static protected function plain_response( $data ) {
-		// Flush any output that was made prior to this function call
+	protected static function plain_response( $data ) {
+
+		// Flush any output that was made prior to this function call.
 		while ( 0 < ob_get_level() ) { ob_end_clean(); }
 
 		header( 'Content-Type: text/plain' );
@@ -680,12 +685,11 @@ class CustomSidebars {
 	/**
 	 * Sets the response object to ERR state with the specified message/reason.
 	 *
-	 * @since  2.0
 	 * @param  object $req Initial response object.
 	 * @param  string $message Error message or reason; already translated.
 	 * @return object Updated response object.
 	 */
-	static protected function req_err( $req, $message ) {
+	protected static function req_err( $req, $message ) {
 		$req->status = 'ERR';
 		$req->message = $message;
 		return $req;
@@ -703,12 +707,9 @@ class CustomSidebars {
 	 *
 	 *    self::json_response( $obj )
 	 *    self::plain_response( $text )
-	 *
-	 * --------------------------------
-	 *
-	 * @since  1.0.0
 	 */
 	public function ajax_handler() {
+
 		// Permission check.
 		if ( ! current_user_can( self::$cap_required ) ) {
 			return;
@@ -722,23 +723,13 @@ class CustomSidebars {
 		// Catch any unexpected output via output buffering.
 		ob_start();
 
-		$action = @$_POST['do'];
-		$get_action = @$_GET['do'];
+		$action = isset( $_POST['do'] ) ? $_POST['do'] : '';
 
 		/**
 		 * Notify all extensions about the ajax call.
 		 *
-		 * @since  2.0
 		 * @param  string $action The specified ajax action.
 		 */
 		do_action( 'cs_ajax_request', $action );
-
-		/**
-		 * Notify all extensions about the GET ajax call.
-		 *
-		 * @since  2.0.9.7
-		 * @param  string $action The specified ajax action.
-		 */
-		do_action( 'cs_ajax_request_get', $get_action );
 	}
-};
+}

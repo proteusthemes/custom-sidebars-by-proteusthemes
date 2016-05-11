@@ -50,7 +50,7 @@
 		'lbl_replaceable': "<?php _e( 'This sidebar can be replaced on certain pages', PT_CS_TD ); ?>",
 		'replace_tip': "<?php _e( 'Activate this option to replace the sidebar with one of your custom sidebars.', PT_CS_TD ); ?>",
 		'filter': "<?php _e( 'Filter...', PT_CS_TD ); ?>",
-		'replaceable': <?php echo json_encode( (object) CustomSidebars::get_options( 'modifiable' ) ); ?>
+		'replaceable': <?php echo json_encode( (object) PT_CS_Main::get_options( 'modifiable' ) ); ?>
 	};
 	</script>
 

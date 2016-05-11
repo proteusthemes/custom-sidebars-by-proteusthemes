@@ -6,13 +6,13 @@
  * This file is included in widgets.php.
  */
 
-$sidebars = CustomSidebars::get_sidebars( 'theme' );
+$sidebars = PT_CS_Main::get_sidebars( 'theme' );
 
 /**
  * Output the input fields to configure replacements for a single sidebar.
  *
  * @since  2.0
- * @param  array $sidebar Details provided by CustomSidebars::get_sidebar().
+ * @param  array $sidebar Details provided by PT_CS_Main::get_sidebar().
  * @param  string $prefix Category specific prefix used for input field ID/Name.
  * @param  string $cat_name Used in label: "Replace sidebar for <cat_name>".
  * @param  string $class Optinal classname added to the wrapper element.

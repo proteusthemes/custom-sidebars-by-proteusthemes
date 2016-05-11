@@ -5,7 +5,7 @@ add_action( 'cs_init', array( 'CustomSidebarsWidgets', 'instance' ) );
 /**
  * Extends the widgets section to add the custom sidebars UI elements.
  */
-class CustomSidebarsWidgets extends CustomSidebars {
+class CustomSidebarsWidgets extends PT_CS_Main {
 
 	/**
 	 * Returns the singleton object.

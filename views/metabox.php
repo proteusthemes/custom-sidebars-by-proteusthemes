@@ -10,7 +10,7 @@
  */
 
 $available = $wp_registered_sidebars;
-$sidebars = CustomSidebars::get_options( 'modifiable' );
+$sidebars = PT_CS_Main::get_options( 'modifiable' );
 
 $is_front = $post_id == get_option( 'page_on_front' );
 $is_blog = $post_id == get_option( 'page_for_posts' );

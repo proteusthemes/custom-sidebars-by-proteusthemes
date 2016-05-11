@@ -72,7 +72,7 @@ class PT_Custom_Sidebars {
 		require_once PT_CS_PATH . 'inc/class-pt-cs-empty-widget.php';
 
 		// Load the actual core of this plugin.
-		require_once PT_CS_PATH . 'inc/class-custom-sidebars.php';
+		require_once PT_CS_PATH . 'inc/class-pt-cs-main.php';
 
 		// Include function library.
 		if ( file_exists( PT_CS_PATH . 'inc/external/wpmu-lib/core.php' ) ) {
@@ -83,7 +83,7 @@ class PT_Custom_Sidebars {
 		WDev()->translate_plugin( PT_CS_TD, PT_CS_PATH . 'languages/' );
 
 		// Initialize the plugin.
-		CustomSidebars::instance();
+		PT_CS_Main::instance();
 	}
 
 

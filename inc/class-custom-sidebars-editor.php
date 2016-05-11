@@ -5,7 +5,7 @@ add_action( 'cs_init', array( 'CustomSidebarsEditor', 'instance' ) );
 /**
  * Provides all the functionality for editing sidebars on the widgets page.
  */
-class CustomSidebarsEditor extends CustomSidebars {
+class CustomSidebarsEditor extends PT_CS_Main {
 
 	/**
 	 * Returns the singleton object.

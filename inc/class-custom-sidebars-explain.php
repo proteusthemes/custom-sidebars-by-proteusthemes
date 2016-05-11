@@ -22,7 +22,7 @@ add_action( 'cs_init', array( 'CustomSidebarsExplain', 'instance' ) );
  * =============================================================================
  *
  */
-class CustomSidebarsExplain extends CustomSidebars {
+class CustomSidebarsExplain extends PT_CS_Main {
 
 	/**
 	 * Infos added via cs_explain.

@@ -7,7 +7,7 @@ add_action( 'cs_init', array( 'CustomSidebarsReplacer', 'instance' ) );
  *
  * @since  2.0
  */
-class CustomSidebarsReplacer extends CustomSidebars {
+class CustomSidebarsReplacer extends PT_CS_Main {
 
 	private $original_post_id = 0;
 
