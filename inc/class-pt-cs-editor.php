@@ -1,66 +1,61 @@
 <?php
+/**
+ * Provides all the functionality for editing sidebars on the widgets page. *Singleton*
+ *
+ * @package pt-cs
+ */
 
-add_action( 'pt_cs_init', array( 'CustomSidebarsEditor', 'instance' ) );
+add_action( 'pt_cs_init', array( 'PT_CS_Editor', 'instance' ) );
 
 /**
  * Provides all the functionality for editing sidebars on the widgets page.
  */
-class CustomSidebarsEditor extends PT_CS_Main {
+class PT_CS_Editor extends PT_CS_Main {
 
 	/**
 	 * Returns the singleton object.
-	 *
-	 * @since  2.0
 	 */
 	public static function instance() {
-		static $Inst = null;
+		static $inst = null;
 
-		if ( null === $Inst ) {
-			$Inst = new CustomSidebarsEditor();
+		if ( null === $inst ) {
+			$inst = new PT_CS_Editor();
 		}
 
-		return $Inst;
+		return $inst;
 	}
 
 	/**
 	 * Constructor is private -> singleton.
-	 *
-	 * @since  2.0
 	 */
 	private function __construct() {
 		if ( is_admin() ) {
+
 			// Add the sidebar metabox to posts.
-			add_action(
-				'add_meta_boxes',
-				array( $this, 'add_meta_box' )
-			);
+			add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 
 			// Save the options from the sidebars-metabox.
-			add_action(
-				'save_post',
-				array( $this, 'store_replacements' )
-			);
+			add_action( 'save_post', array( $this, 'store_replacements' ) );
 
 			// Handle ajax requests.
-			add_action(
-				'cs_ajax_request',
-				array( $this, 'handle_ajax' )
-			);
+			add_action( 'cs_ajax_request', array( $this, 'handle_ajax' ) );
 		}
 	}
 
 	/**
 	 * Handles the ajax requests.
+	 *
+	 * @param string $action String for the appropriate action.
 	 */
 	public function handle_ajax( $action ) {
 		$req = (object) array(
 			'status' => 'ERR',
 		);
-		$is_json = true;
+		$is_json   = true;
 		$handle_it = false;
 		$view_file = '';
 
-		$sb_id = @$_POST['sb'];
+		$sb_id = isset( $_POST['sb'] ) ? $_POST['sb'] : null;
 
 		switch ( $action ) {
 			case 'get':
@@ -90,6 +85,7 @@ class CustomSidebarsEditor extends PT_CS_Main {
 			);
 		} else {
 			switch ( $action ) {
+
 				// Return details for the specified sidebar.
 				case 'get':
 					$req->sidebar = $sb_data;
@@ -142,20 +138,19 @@ class CustomSidebarsEditor extends PT_CS_Main {
 	 * object. When $req->id is empty a new sidebar will be created. Otherwise
 	 * the existing sidebar is updated.
 	 *
-	 * @since  2.0
 	 * @param  object $req Initial response object.
-	 * @param  array $data Sidebar data to save (typically this is $_POST).
+	 * @param  array  $data Sidebar data to save (typically this is $_POST).
 	 * @return object Updated response object.
 	 */
-	private function save_item( $req, $data )  {
+	private function save_item( $req, $data ) {
 		$sidebars = self::get_custom_sidebars();
-		$sb_id = $req->id;
-		$sb_desc = stripslashes( trim( @$_POST['description'] ) );
+		$sb_id    = $req->id;
+		$sb_desc  = isset( $data['description'] ) ? stripslashes( trim( $data['description'] ) ) : '';
 
 		if ( function_exists( 'mb_substr' ) ) {
-			$sb_name = mb_substr( stripslashes( trim( @$data['name'] ) ), 0, 40 );
+			$sb_name = isset( $data['name'] ) ? mb_substr( stripslashes( trim( $data['name'] ) ), 0, 40 ) : '';
 		} else {
-			$sb_name = substr( stripslashes( trim( @$data['name'] ) ), 0, 40 );
+			$sb_name = isset( $data['name'] ) ? substr( stripslashes( trim( $data['name'] ) ), 0, 40 ) : '';
 		}
 
 		if ( empty( $sb_name ) ) {
@@ -166,9 +161,10 @@ class CustomSidebarsEditor extends PT_CS_Main {
 		}
 
 		if ( empty( $sb_id ) ) {
+
 			// Create a new sidebar.
 			$action = 'insert';
-			$num = count( $sidebars );
+			$num    = count( $sidebars );
 			do {
 				$num += 1;
 				$sb_id = self::$sidebar_prefix . $num;
@@ -178,7 +174,8 @@ class CustomSidebarsEditor extends PT_CS_Main {
 				'id' => $sb_id,
 			);
 		} else {
-			// Update existing sidebar
+
+			// Update existing sidebar.
 			$action = 'update';
 			$sidebar = self::get_sidebar( $sb_id, 'cust' );
 
@@ -191,8 +188,8 @@ class CustomSidebarsEditor extends PT_CS_Main {
 		}
 
 		if ( function_exists( 'mb_strlen' ) ) {
-		if ( mb_strlen( $sb_desc ) > 200 ) {
-			$sb_desc = mb_substr( $sb_desc, 0, 200 );
+			if ( mb_strlen( $sb_desc ) > 200 ) {
+				$sb_desc = mb_substr( $sb_desc, 0, 200 );
 			}
 		} else {
 			if ( strlen( $sb_desc ) > 200 ) {
@@ -201,15 +198,15 @@ class CustomSidebarsEditor extends PT_CS_Main {
 		}
 
 		// Populate the sidebar object.
-		$sidebar['name'] = $sb_name;
-		$sidebar['description'] = $sb_desc;
-		$sidebar['before_widget'] = stripslashes( trim( @$_POST['before_widget'] ) );
-		$sidebar['after_widget'] = stripslashes( trim( @$_POST['after_widget'] ) );
-		$sidebar['before_title'] = stripslashes( trim( @$_POST['before_title'] ) );
-		$sidebar['after_title'] = stripslashes( trim( @$_POST['after_title'] ) );
+		$sidebar['name']          = $sb_name;
+		$sidebar['description']   = $sb_desc;
+		$sidebar['before_widget'] = isset( $data['before_widget'] ) ? stripslashes( trim( $data['before_widget'] ) ) : '';
+		$sidebar['after_widget']  = isset( $data['after_widget'] ) ? stripslashes( trim( $data['after_widget'] ) ) : '';
+		$sidebar['before_title']  = isset( $data['before_title'] ) ? stripslashes( trim( $data['before_title'] ) ) : '';
+		$sidebar['after_title']   = isset( $data['after_title'] ) ? stripslashes( trim( $data['after_title'] ) ) : '';
 
-		if ( $action == 'insert' ) {
-			$sidebars[] = $sidebar;
+		if ( 'insert' === $action ) {
+			$sidebars[]   = $sidebar;
 			$req->message = sprintf(
 				__( 'Created new sidebar <strong>%1$s</strong>', PT_CS_TD ),
 				esc_html( $sidebar['name'] )
@@ -217,7 +214,7 @@ class CustomSidebarsEditor extends PT_CS_Main {
 		} else {
 			$found = false;
 			foreach ( $sidebars as $ind => $item ) {
-				if ( $item['id'] == $sb_id ) {
+				if ( $item['id'] === $sb_id ) {
 					$req->message = sprintf(
 						__( 'Updated sidebar <strong>%1$s</strong>', PT_CS_TD ),
 						esc_html( $sidebar['name'] )
@@ -240,7 +237,7 @@ class CustomSidebarsEditor extends PT_CS_Main {
 		self::refresh_sidebar_widgets();
 
 		$req->action = $action;
-		$req->data = $sidebar;
+		$req->data   = $sidebar;
 
 		return $req;
 	}
@@ -248,13 +245,12 @@ class CustomSidebarsEditor extends PT_CS_Main {
 	/**
 	 * Delete the specified sidebar and update the response object.
 	 *
-	 * @since  2.0
 	 * @param  object $req Initial response object.
 	 * @return object Updated response object.
 	 */
 	private function delete_item( $req ) {
 		$sidebars = self::get_custom_sidebars();
-		$sidebar = self::get_sidebar( $req->id, 'cust' );
+		$sidebar  = self::get_sidebar( $req->id, 'cust' );
 
 		if ( ! $sidebar ) {
 			return self::req_err(
@@ -291,14 +287,13 @@ class CustomSidebarsEditor extends PT_CS_Main {
 	}
 
 	/**
-	 * Save the repaceable flag of a theme sidebar.
+	 * Save the replaceable flag of a theme sidebar.
 	 *
-	 * @since  2.0
 	 * @param  object $req Initial response object.
 	 * @return object Updated response object.
 	 */
 	private function set_replaceable( $req ) {
-		$state = @$_POST['state'];
+		$state = isset( $_POST['state'] ) ? $_POST['state'] : '' ;
 
 		$options = self::get_options();
 		if ( 'true' === $state ) {
@@ -310,7 +305,7 @@ class CustomSidebarsEditor extends PT_CS_Main {
 			$req->status = false;
 			foreach ( $options['modifiable'] as $i => $sb_id ) {
 				if ( $sb_id == $req->id ) {
-					unset( $options['modifiable'][$i] );
+					unset( $options['modifiable'][ $i ] );
 					break;
 				}
 			}
@@ -327,31 +322,30 @@ class CustomSidebarsEditor extends PT_CS_Main {
 	 * Location data defines where a custom sidebar is displayed, i.e. on which
 	 * pages it is used and which theme-sidebars are replaced.
 	 *
-	 * @since  2.0
 	 * @param  object $req Initial response object.
 	 * @return object Updated response object.
 	 */
 	private function get_location_data( $req ) {
-		$defaults = self::get_options();
+		$defaults     = self::get_options();
 		$raw_posttype = self::get_post_types( 'objects' );
-		$raw_cat = self::get_all_categories();
+		$raw_cat      = self::get_all_categories();
 
 		$archive_type = array(
-			'_blog' => __( 'Front Page', PT_CS_TD ),
-			'_search' => __( 'Search Results', PT_CS_TD ),
-			'_404' => __( 'Not found (404)', PT_CS_TD ),
+			'_blog'    => __( 'Front Page', PT_CS_TD ),
+			'_search'  => __( 'Search Results', PT_CS_TD ),
+			'_404'     => __( 'Not found (404)', PT_CS_TD ),
 			'_authors' => __( 'Any Author Archive', PT_CS_TD ),
-			'_tags' => __( 'Tag Archives', PT_CS_TD ),
-			'_date' => __( 'Date Archives', PT_CS_TD ),
+			'_tags'    => __( 'Tag Archives', PT_CS_TD ),
+			'_date'    => __( 'Date Archives', PT_CS_TD ),
 		);
 
 		// Collect required data for all posttypes.
 		$posttypes = array();
 		foreach ( $raw_posttype as $item ) {
-			$sel_single = @$defaults['post_type_single'][$item->name];
+			$sel_single = isset( $defaults['post_type_single'][ $item->name ] ) ? $defaults['post_type_single'][ $item->name ] : array();
 
 			$posttypes[ $item->name ] = array(
-				'name' => $item->labels->name,
+				'name'   => $item->labels->name,
 				'single' => self::get_array( $sel_single ),
 			);
 		}
@@ -359,13 +353,13 @@ class CustomSidebarsEditor extends PT_CS_Main {
 		// Extract the data from categories list that we need.
 		$categories = array();
 		foreach ( $raw_cat as $item ) {
-			$sel_single = @$defaults['category_single'][$item->term_id];
-			$sel_archive = @$defaults['category_archive'][$item->term_id];
+			$sel_single  = isset( $defaults['category_single'][ $item->term_id ] ) ? $defaults['category_single'][ $item->term_id ]: array();
+			$sel_archive = isset( $defaults['category_archive'][ $item->term_id ] ) ? $defaults['category_archive'][ $item->term_id ] : array();
 
 			$categories[ $item->term_id ] = array(
-				'name' => $item->name,
-				'count' => $item->count,
-				'single' => self::get_array( $sel_single ),
+				'name'    => $item->name,
+				'count'   => $item->count,
+				'single'  => self::get_array( $sel_single ),
 				'archive' => self::get_array( $sel_archive ),
 			);
 		}
@@ -373,7 +367,7 @@ class CustomSidebarsEditor extends PT_CS_Main {
 		// Build a list of archive types.
 		$archives = array(); // Start with a copy of the posttype list.
 		foreach ( $raw_posttype as $item ) {
-			if ( $item->name == 'post' ) {
+			if ( 'post' === $item->name ) {
 				$label = __( 'Post Index', PT_CS_TD );
 			} else {
 				if ( ! $item->has_archive ) { continue; }
@@ -383,27 +377,28 @@ class CustomSidebarsEditor extends PT_CS_Main {
 				);
 			}
 
-			$sel_archive = @$defaults['post_type_archive'][$item->name];
+			$sel_archive = isset( $defaults['post_type_archive'][ $item->name ] ) ? $defaults['post_type_archive'][ $item->name ] : array();
 
 			$archives[ $item->name ] = array(
-				'name' => $label,
+				'name'    => $label,
 				'archive' => self::get_array( $sel_archive ),
 			);
 		}
 
 		foreach ( $archive_type as $key => $name ) {
-			$sel_archive = @$defaults[ substr( $key, 1 ) ];
+			$sel_archive = isset( $defaults[ substr( $key, 1 ) ] ) ? $defaults[ substr( $key, 1 ) ] : array();
 
 			$archives[ $key ] = array(
-				'name' => $name,
+				'name'    => $name,
 				'archive' => self::get_array( $sel_archive ),
 			);
 		}
 
 		$req->replaceable = $defaults['modifiable'];
-		$req->posttypes = $posttypes;
-		$req->categories = $categories;
-		$req->archives = $archives;
+		$req->posttypes   = $posttypes;
+		$req->categories  = $categories;
+		$req->archives    = $archives;
+
 		return $req;
 	}
 
@@ -412,17 +407,16 @@ class CustomSidebarsEditor extends PT_CS_Main {
 	 * Location data defines where a custom sidebar is displayed, i.e. on which
 	 * pages it is used and which theme-sidebars are replaced.
 	 *
-	 * @since  2.0
 	 * @param  object $req Initial response object.
 	 * @return object Updated response object.
 	 */
 	private function set_location_data( $req ) {
-		$options = self::get_options();
-		$sidebars = $options['modifiable'];
+		$options      = self::get_options();
+		$sidebars     = $options['modifiable'];
 		$raw_posttype = self::get_post_types( 'objects' );
-		$raw_cat = self::get_all_categories();
-		$data = @$_POST['cs'];
-		$special_arc = array(
+		$raw_cat      = self::get_all_categories();
+		$data         = isset( $_POST['cs'] ) ? $_POST['cs'] : array();
+		$special_arc  = array(
 			'blog',
 			'404',
 			'tags',
@@ -431,81 +425,45 @@ class CustomSidebarsEditor extends PT_CS_Main {
 			'date',
 		);
 
-		// == Update the options
-
+		// Update the options.
 		foreach ( $sidebars as $sb_id ) {
 			// Post-type settings.
 			foreach ( $raw_posttype as $item ) {
 				$pt = $item->name;
-				if (
-					is_array( @$data['pt'][$sb_id] ) &&
-					in_array( $pt, $data['pt'][$sb_id] )
-				) {
-					$options['post_type_single'][$pt][$sb_id] = $req->id;
-				} else
-				if (
-					isset( $options['post_type_single'][$pt][$sb_id] ) &&
-					$options['post_type_single'][$pt][$sb_id] == $req->id
-				) {
-					unset( $options['post_type_single'][$pt][$sb_id] );
+				if ( is_array( @$data['pt'][ $sb_id ] ) && in_array( $pt, $data['pt'][ $sb_id ] ) ) {
+					$options['post_type_single'][ $pt ][ $sb_id ] = $req->id;
+				} else if ( isset( $options['post_type_single'][ $pt ][ $sb_id ] ) && $options['post_type_single'][ $pt ][ $sb_id ] == $req->id ) {
+					unset( $options['post_type_single'][ $pt ][ $sb_id ] );
 				}
 
-				if (
-					is_array( @$data['arc'][$sb_id] ) &&
-					in_array( $pt, $data['arc'][$sb_id] )
-				) {
-					$options['post_type_archive'][$pt][$sb_id] = $req->id;
-				} else
-				if (
-					isset( $options['post_type_archive'][$pt][$sb_id] ) &&
-					$options['post_type_archive'][$pt][$sb_id] == $req->id
-				) {
-					unset( $options['post_type_archive'][$pt][$sb_id] );
+				if ( is_array( @$data['arc'][ $sb_id ] ) && in_array( $pt, $data['arc'][ $sb_id ] ) ) {
+					$options['post_type_archive'][ $pt ][ $sb_id ] = $req->id;
+				} else if ( isset( $options['post_type_archive'][ $pt ][ $sb_id ] ) && $options['post_type_archive'][ $pt ][ $sb_id ] == $req->id ) {
+					unset( $options['post_type_archive'][ $pt ][ $sb_id ] );
 				}
 			}
 
 			// Category settings.
 			foreach ( $raw_cat as $item ) {
 				$cat = $item->term_id;
-				if (
-					is_array( @$data['cat'][$sb_id] ) &&
-					in_array( $cat, $data['cat'][$sb_id] )
-				) {
-					$options['category_single'][$cat][$sb_id] = $req->id;
-				} else
-				if (
-					isset( $options['category_single'][$cat][$sb_id] ) &&
-					$options['category_single'][$cat][$sb_id] == $req->id
-				) {
-					unset( $options['category_single'][$cat][$sb_id] );
+				if ( is_array( @$data['cat'][ $sb_id ] ) && in_array( $cat, $data['cat'][ $sb_id ] ) ) {
+					$options['category_single'][ $cat ][ $sb_id ] = $req->id;
+				} else if ( isset( $options['category_single'][ $cat ][ $sb_id ] ) && $options['category_single'][ $cat ][ $sb_id ] == $req->id ) {
+					unset( $options['category_single'][ $cat ][ $sb_id ] );
 				}
 
-				if (
-					is_array( @$data['arc-cat'][$sb_id] ) &&
-					in_array( $cat, $data['arc-cat'][$sb_id] )
-				) {
-					$options['category_archive'][$cat][$sb_id] = $req->id;
-				} else
-				if (
-					isset( $options['category_archive'][$cat][$sb_id] ) &&
-					$options['category_archive'][$cat][$sb_id] == $req->id
-				) {
-					unset( $options['category_archive'][$cat][$sb_id] );
+				if ( is_array( @$data['arc-cat'][ $sb_id ] ) && in_array( $cat, $data['arc-cat'][ $sb_id ] ) ) {
+					$options['category_archive'][ $cat ][ $sb_id ] = $req->id;
+				} else if ( isset( $options['category_archive'][ $cat ][ $sb_id ] ) && $options['category_archive'][ $cat ][ $sb_id ] == $req->id ) {
+					unset( $options['category_archive'][ $cat ][ $sb_id ] );
 				}
 			}
 
 			foreach ( $special_arc as $key ) {
-				if (
-					is_array( @$data['arc'][$sb_id] ) &&
-					in_array( '_' . $key, $data['arc'][$sb_id] )
-				) {
-					$options[$key][$sb_id] = $req->id;
-				} else
-				if (
-					isset( $options[$key][$sb_id] ) &&
-					$options[$key][$sb_id] == $req->id
-				) {
-					unset( $options[$key][$sb_id] );
+				if ( is_array( @$data['arc'][ $sb_id ] ) && in_array( '_' . $key, $data['arc'][ $sb_id ] ) ) {
+					$options[ $key ][ $sb_id ] = $req->id;
+				} else if ( isset( $options[ $key ][ $sb_id ] ) && $options[ $key ][ $sb_id ] == $req->id ) {
+					unset( $options[ $key ][ $sb_id ] );
 				}
 			}
 		}
@@ -522,24 +480,17 @@ class CustomSidebarsEditor extends PT_CS_Main {
 	 * Registers the "Sidebars" meta box in the post-editor.
 	 */
 	public function add_meta_box() {
-		global $post;
 
-		$post_type = get_post_type( $post );
+		$post_type = get_post_type();
 		if ( ! $post_type ) { return false; }
 		if ( ! self::supported_post_type( $post_type ) ) { return false; }
 
 		/**
-		 * Option that can be set in wp-config.php to remove the custom sidebar
-		 * meta box for certain post types.
+		 * Option that can be set in wp-config.php to remove the custom sidebar meta box.
 		 *
-		 * @since  2.0
-		 *
-		 * @option bool TRUE will hide all meta boxes.
+		 * @option bool true will hide all meta boxes.
 		 */
-		if (
-			defined( 'CUSTOM_SIDEBAR_DISABLE_METABOXES' ) &&
-			CUSTOM_SIDEBAR_DISABLE_METABOXES == true
-		) {
+		if ( defined( 'CUSTOM_SIDEBAR_DISABLE_METABOXES' ) && CUSTOM_SIDEBAR_DISABLE_METABOXES ) {
 			return false;
 		}
 
@@ -566,8 +517,8 @@ class CustomSidebarsEditor extends PT_CS_Main {
 	/**
 	 * Renders the Custom Sidebars form.
 	 *
-	 * @param  int $post_id The post-ID to display
-	 * @param  string $type Which form to display. 'metabox/quick-edit/col-sidebars'.
+	 * @param int    $post_id The post-ID to display.
+	 * @param string $type Which form to display. 'metabox/quick-edit/col-sidebars'.
 	 */
 	protected function print_sidebars_form( $post_id, $type = 'metabox' ) {
 		global $wp_registered_sidebars;
@@ -580,10 +531,10 @@ class CustomSidebarsEditor extends PT_CS_Main {
 		$selected = array();
 		if ( ! empty( $sidebars ) ) {
 			foreach ( $sidebars as $s ) {
-				if ( isset( $replacements[$s] ) ) {
-					$selected[$s] = $replacements[$s];
+				if ( isset( $replacements[ $s ] ) ) {
+					$selected[ $s ] = $replacements[ $s ];
 				} else {
-					$selected[$s] = '';
+					$selected[ $s ] = '';
 				}
 			}
 		}
@@ -591,6 +542,11 @@ class CustomSidebarsEditor extends PT_CS_Main {
 		include PT_CS_VIEWS_DIR . 'metabox.php';
 	}
 
+	/**
+	 * Saves the options from the metabox.
+	 *
+	 * @param int $post_id The post-ID to display.
+	 */
 	public function store_replacements( $post_id ) {
 		global $action;
 
@@ -600,7 +556,7 @@ class CustomSidebarsEditor extends PT_CS_Main {
 
 		/*
 		 * Verify if this is an auto save routine. If it is our form has not
-		 * been submitted, so we dont want to do anything
+		 * been submitted, so we don't want to do anything
 		 * (Copied and pasted from wordpress add_metabox_tutorial)
 		 */
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -612,7 +568,7 @@ class CustomSidebarsEditor extends PT_CS_Main {
 		 * 'inline-save' .. Saved via the quick-edit form.
 		 * We do not (yet) offer a bulk-editing option for custom sidebars.
 		 */
-		if ( $action != 'editpost' ) {
+		if ( 'editpost' !== $action ) {
 			return $post_id;
 		}
 
@@ -627,7 +583,7 @@ class CustomSidebarsEditor extends PT_CS_Main {
 			foreach ( $sidebars as $sb_id ) {
 				if ( isset( $_POST[ 'cs_replacement_' . $sb_id ] ) ) {
 					$replacement = $_POST[ 'cs_replacement_' . $sb_id ];
-					if ( ! empty( $replacement ) && $replacement != '' ) {
+					if ( ! empty( $replacement ) && '' != $replacement ) {
 						$data[ $sb_id ] = $replacement;
 					}
 				}
@@ -636,5 +592,4 @@ class CustomSidebarsEditor extends PT_CS_Main {
 
 		self::set_post_meta( $post_id, $data );
 	}
-
-};
+}
