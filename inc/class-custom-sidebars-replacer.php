@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'cs_init', array( 'CustomSidebarsReplacer', 'instance' ) );
+add_action( 'pt_cs_init', array( 'CustomSidebarsReplacer', 'instance' ) );
 
 /**
  * This class actually replaces sidebars on the frontend.

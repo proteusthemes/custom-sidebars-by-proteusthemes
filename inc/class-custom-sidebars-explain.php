@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'cs_init', array( 'CustomSidebarsExplain', 'instance' ) );
+add_action( 'pt_cs_init', array( 'CustomSidebarsExplain', 'instance' ) );
 
 /**
  * Adds some additional information to the page output which explain why which

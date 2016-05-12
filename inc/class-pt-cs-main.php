@@ -6,7 +6,7 @@
  */
 
 // Load additional files.
-require_once PT_CS_PATH . 'inc/class-custom-sidebars-widgets.php';
+require_once PT_CS_PATH . 'inc/class-pt-cs-widgets.php';
 require_once PT_CS_PATH . 'inc/class-custom-sidebars-editor.php';
 require_once PT_CS_PATH . 'inc/class-custom-sidebars-replacer.php';
 require_once PT_CS_PATH . 'inc/class-custom-sidebars-explain.php';
@@ -101,7 +101,7 @@ class PT_CS_Main {
 			add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
 
 			// Extensions use this hook to initialize themselves.
-			do_action( 'cs_init' );
+			do_action( 'pt_cs_init' );
 
 			// Display a message after import.
 			if ( ! empty( $_GET['cs-msg'] ) ) {

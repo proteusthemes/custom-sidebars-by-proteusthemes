@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'cs_init', array( 'CustomSidebarsEditor', 'instance' ) );
+add_action( 'pt_cs_init', array( 'CustomSidebarsEditor', 'instance' ) );
 
 /**
  * Provides all the functionality for editing sidebars on the widgets page.
