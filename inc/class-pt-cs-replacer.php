@@ -84,7 +84,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 			$wp_registered_sidebars,
 			$wp_registered_widgets;
 
-		$expl = CustomSidebarsExplain::do_explain();
+		$expl = PT_CS_Explain::do_explain();
 
 		$expl && do_action( 'cs_explain', '<h4>Replace sidebars</h4>', true );
 
@@ -165,7 +165,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 		$sidebars          = self::get_options( 'modifiable' );
 		$replacements_todo = count( $sidebars );
 		$replacements      = array();
-		$expl              = CustomSidebarsExplain::do_explain();
+		$expl              = PT_CS_Explain::do_explain();
 
 		foreach ( $sidebars as $sb ) {
 			$replacements[ $sb ] = false;
