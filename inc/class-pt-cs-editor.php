@@ -5,6 +5,7 @@
  * @package pt-cs
  */
 
+// Initialize this class in the main plugin class.
 add_action( 'pt_cs_init', array( 'PT_CS_Editor', 'instance' ) );
 
 /**

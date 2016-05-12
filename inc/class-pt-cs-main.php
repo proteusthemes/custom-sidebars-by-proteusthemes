@@ -8,7 +8,7 @@
 // Load additional files.
 require_once PT_CS_PATH . 'inc/class-pt-cs-widgets.php';
 require_once PT_CS_PATH . 'inc/class-pt-cs-editor.php';
-require_once PT_CS_PATH . 'inc/class-custom-sidebars-replacer.php';
+require_once PT_CS_PATH . 'inc/class-pt-cs-replacer.php';
 require_once PT_CS_PATH . 'inc/class-custom-sidebars-explain.php';
 
 /**
