@@ -96,15 +96,11 @@ class PT_CS_Main {
 		if ( 'widgets.php' === $hook ) {
 
 			// JS.
-			wp_enqueue_script( 'pt-cs-wpmu-ui-js', PT_CS_URL . 'assets/js/wpmu-ui.js', array( 'jquery' ), PT_CS_VERSION, true );
-			wp_enqueue_script( 'pt-cs-tiny-scrollbar-js', PT_CS_URL . 'assets/js/tiny-scrollbar.js', array( 'jquery' ), PT_CS_VERSION, true );
-			wp_enqueue_script( 'pt-cs-select2-js', PT_CS_URL . 'assets/js/select2.js', array( 'jquery' ), PT_CS_VERSION, true );
-			wp_enqueue_script( 'pt-cs-main-js', PT_CS_URL . 'assets/js/cs.js', array( 'jquery' ), PT_CS_VERSION, true );
+			wp_enqueue_script( 'pt-cs-tiny-scrollbar-js', PT_CS_URL . 'bower_components/tinyscrollbar/lib/jquery.tinyscrollbar.min.js', array( 'jquery' ), PT_CS_VERSION, true );
+			wp_enqueue_script( 'pt-cs-main-js', PT_CS_URL . 'assets/js/main.min.js', array( 'jquery' ), PT_CS_VERSION, true );
 
 			// CSS.
-			wp_enqueue_style( 'pt-cs-wpmu-ui-css', PT_CS_URL . 'assets/css/wpmu-ui.css', array(), PT_CS_VERSION );
-			wp_enqueue_style( 'pt-cs-select2-css', PT_CS_URL . 'assets/css/select2.css', array(), PT_CS_VERSION );
-			wp_enqueue_style( 'pt-cs-main-css', PT_CS_URL . 'assets/css/cs.css', array(), PT_CS_VERSION );
+			wp_enqueue_style( 'pt-cs-main-css', PT_CS_URL . 'assets/css/main.min.css', array(), PT_CS_VERSION );
 		}
 	}
 

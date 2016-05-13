@@ -16,6 +16,38 @@ module.exports = function ( grunt ) {
 
 		config: config,
 
+		// requireJS optimizer
+		// https://github.com/gruntjs/grunt-contrib-requirejs
+		requirejs: {
+			build: {
+				// Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
+				options: {
+					baseUrl:                 '',
+					mainConfigFile:          'assets/js/main.js',
+					optimize:                'uglify2',
+					preserveLicenseComments: true,
+					useStrict:               true,
+					wrap:                    true,
+					name:                    'bower_components/almond/almond',
+					include:                 'assets/js/main',
+					out:                     'assets/js/main.min.js'
+				}
+			}
+		},
+
+		// https://github.com/gruntjs/grunt-contrib-cssmin
+		cssmin: {
+			options: {
+				shorthandCompacting: false,
+				roundingPrecision: -1
+			},
+			target: {
+				files: {
+					'assets/css/main.min.css': ['assets/css/src/*.css']
+				}
+			}
+		},
+
 		// // https://github.com/gruntjs/grunt-contrib-copy
 		// copy: {
 		// 	// create new directory for deployment
