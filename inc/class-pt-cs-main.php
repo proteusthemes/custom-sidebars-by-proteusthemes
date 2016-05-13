@@ -43,8 +43,6 @@ class PT_CS_Main {
 
 	/**
 	 * Returns the singleton instance of the custom sidebars class.
-	 *
-	 * @since  2.0
 	 */
 	public static function instance() {
 		static $inst = null;
@@ -542,8 +540,6 @@ class PT_CS_Main {
 			/**
 			 * Filters the support-flag. The flag defines if the posttype supports
 			 * custom sidebars or not.
-			 *
-			 * @since  2.0
 			 *
 			 * @param  bool $supported Flag if the posttype is supported.
 			 * @param  string $posttype Name of the posttype that is checked.

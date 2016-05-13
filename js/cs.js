@@ -68,15 +68,11 @@ function CsSidebar(id, type) {
 	/**
 	 * Replace % to fix bug http://wordpress.org/support/topic/in-wp-35-sidebars-are-not-collapsable-anymore?replies=16#post-3990447
 	 * We'll use this.id to select and the original id for html
-	 *
-	 * @since  1.2
 	 */
 	this.id = id.split('%').join('\\%');
 
 	/**
 	 * Either 'custom' or 'theme'
-	 *
-	 * @since  2.0
 	 */
 	this.type = type;
 
@@ -103,8 +99,6 @@ function CsSidebar(id, type) {
 
 /**
  * Returns the sidebar ID.
- *
- * @since  2.0
  */
 CsSidebar.prototype.getID = function() {
 	return this.id.split('\\').join('');
@@ -200,8 +194,6 @@ window.csSidebars = null;
 		/**
 		 * =====================================================================
 		 * Initialize DOM and find jQuery objects
-		 *
-		 * @since  1.0.0
 		 */
 		initControls: function(){
 			csSidebars.right = jQuery( '#widgets-right' );
@@ -232,8 +224,6 @@ window.csSidebars = null;
 		/**
 		 * =====================================================================
 		 * Initialize the custom scrollbars on the right side.
-		 *
-		 * @since  1.0.0
 		 */
 		initScrollbar: function(){
 			var right_side = jQuery( '.widget-liquid-right' ),
@@ -286,8 +276,6 @@ window.csSidebars = null;
 		 * =====================================================================
 		 * Arrange sidebars in left/right columns.
 		 * Left column: Custom sidebars. Right column: Theme sidebars.
-		 *
-		 * @since  2.0
 		 */
 		initColumns: function() {
 			var col1 = csSidebars.right.find( '.sidebars-column-1' ),
@@ -334,8 +322,6 @@ window.csSidebars = null;
 		/**
 		 * =====================================================================
 		 * Initialization function, creates a CsSidebar object for each sidebar.
-		 *
-		 * @since  1.0.0
 		 */
 		initSidebars: function(){
 			csSidebars.right.find('.widgets-sortables').each(function() {
@@ -372,8 +358,6 @@ window.csSidebars = null;
 		/**
 		 * =====================================================================
 		 * Initialize the top toolbar, above the sidebar list.
-		 *
-		 * @since  1.0.0
 		 */
 		initTopTools: function() {
 			var btn_create = jQuery( '.btn-create-sidebar' ),
@@ -397,8 +381,6 @@ window.csSidebars = null;
 		 * =====================================================================
 		 * Hook up all the functions in the sidebar toolbar.
 		 * Toolbar is in the bottom of each sidebar.
-		 *
-		 * @since  1.0.0
 		 */
 		initToolbars: function() {
 			var tool_action = function( ev ) {
@@ -423,8 +405,6 @@ window.csSidebars = null;
 
 		/**
 		 * Triggers the callback function for the specified toolbar action.
-		 *
-		 * @since  2.0
 		 */
 		handleAction: function( action, sb ) {
 			if ( 'function' === typeof csSidebars.action_handlers[ action ] ) {
@@ -436,8 +416,6 @@ window.csSidebars = null;
 		/**
 		 * Registers a new callback function that is triggered when the
 		 * associated toolbar icon is clicked.
-		 *
-		 * @since  2.0
 		 */
 		registerAction: function( action, callback ) {
 			csSidebars.action_handlers[ action ] = callback;
@@ -446,7 +424,6 @@ window.csSidebars = null;
 		/**
 		 * Displays a error notification that something has gone wrong.
 		 *
-		 * @since  2.0
 		 * @param  mixed details Ajax response string/object.
 		 */
 		showAjaxError: function( details ) {
@@ -475,7 +452,6 @@ window.csSidebars = null;
 		 * =====================================================================
 		 * Show the editor for a custom sidebar as a popup window.
 		 *
-		 * @since  2.0
 		 * @param  Object data Data describing the popup window.
 		 *           - id .. ID of the sidebar (text).
 		 *           - name .. Value of field "name".
@@ -645,8 +621,6 @@ window.csSidebars = null;
 
 		/**
 		 * Update the name/description of an existing sidebar container.
-		 *
-		 * @since  1.0.0
 		 */
 		updateSidebar: function( sb, data ) {
 			// Update the title.
@@ -666,8 +640,6 @@ window.csSidebars = null;
 
 		/**
 		 * Insert a brand new sidebar container.
-		 *
-		 * @since  1.0.0
 		 */
 		insertSidebar: function( data ) {
 			var box = jQuery( '<div class="widgets-holder-wrap"></div>' ),
@@ -819,8 +791,6 @@ window.csSidebars = null;
 		/**
 		 * =====================================================================
 		 * Show popup to assign sidebar to default categories.
-		 *
-		 * @since  2.0
 		 */
 		showLocations: function( sb ){
 			var popup = null,
@@ -1080,8 +1050,6 @@ window.csSidebars = null;
 		/**
 		 * =====================================================================
 		 * Change the replaceable flag
-		 *
-		 * @since  1.0.0
 		 */
 		setReplaceable: function( sb, state, do_ajax ) {
 			var ajax,
@@ -1180,8 +1148,6 @@ window.csSidebars = null;
 		/**
 		 * =====================================================================
 		 * Find the specified CsSidebar object.
-		 *
-		 * @since  1.0.0
 		 */
 		find: function(id){
 			return csSidebars.sidebars[id];
@@ -1190,8 +1156,7 @@ window.csSidebars = null;
 		/**
 		 * =====================================================================
 		 * Create a new CsSidebar object.
-		 *
-		 * @since  1.0.0
+
 		 */
 		add: function(id, type){
 			csSidebars.sidebars[id] = new CsSidebar(id, type);
@@ -1201,8 +1166,6 @@ window.csSidebars = null;
 		/**
 		 * =====================================================================
 		 * Removes a new CsSidebar object.
-		 *
-		 * @since  2.0
 		 */
 		remove: function(id){
 			delete csSidebars.sidebars[id];
@@ -1212,8 +1175,6 @@ window.csSidebars = null;
 		 * =====================================================================
 		 * Returns true when the specified ID is recognized as a sidebar
 		 * that was created by the custom sidebars plugin.
-		 *
-		 * @since  2.0
 		 */
 		isCustomSidebar: function( el ) {
 			var id = jQuery( el ).attr('id'),
@@ -1225,8 +1186,6 @@ window.csSidebars = null;
 		/**
 		 * =====================================================================
 		 * Append the specified sidebar ID to the label and input element.
-		 *
-		 * @since  2.0
 		 */
 		addIdToLabel: function( $obj, id ){
 			if ( true !== $obj.data( 'label-done' ) ) {
@@ -1241,7 +1200,6 @@ window.csSidebars = null;
 		 * =====================================================================
 		 * Returns the sidebar ID based on the sidebar DOM object.
 		 *
-		 * @since  2.0
 		 * @param  jQuery $obj Any DOM object inside the Sidebar HTML structure.
 		 * @return string The sidebar ID
 		 */
