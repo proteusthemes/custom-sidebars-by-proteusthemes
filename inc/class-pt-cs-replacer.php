@@ -16,22 +16,30 @@ class PT_CS_Replacer extends PT_CS_Main {
 	private $original_post_id = 0;
 
 	/**
-	 * Returns the singleton object.
+	 * Reference to Singleton instance of this class.
+	 *
+	 * @var Singleton The reference to *Singleton* instance of this class
+	 */
+	private static $instance;
+
+	/**
+	 * Returns the *Singleton* instance of this class.
+	 *
+	 * @return PT_CS_Replacer the *Singleton* instance.
 	 */
 	public static function instance() {
-		static $inst = null;
-
-		if ( null === $inst ) {
-			$inst = new PT_CS_Replacer();
+		if ( null === static::$instance ) {
+			static::$instance = new static();
 		}
 
-		return $inst;
+		return static::$instance;
 	}
 
 	/**
-	 * Constructor is private -> singleton.
+	 * Protected constructor to prevent creating a new instance of the
+	 * *Singleton* via the `new` operator from outside of this class.
 	 */
-	private function __construct() {
+	protected function __construct() {
 		add_action( 'widgets_init', array( $this, 'register_custom_sidebars' ) );
 
 		// Frontend hooks.

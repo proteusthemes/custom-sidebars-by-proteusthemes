@@ -12,24 +12,31 @@ add_action( 'pt_cs_init', array( 'PT_CS_Widgets', 'instance' ) );
  * Extends the widgets section to add the custom sidebars UI elements.
  */
 class PT_CS_Widgets extends PT_CS_Main {
+	/**
+	 * Reference to Singleton instance of this class.
+	 *
+	 * @var Singleton The reference to *Singleton* instance of this class
+	 */
+	private static $instance;
 
 	/**
-	 * Returns the singleton object.
+	 * Returns the *Singleton* instance of this class.
+	 *
+	 * @return PT_CS_Widgets the *Singleton* instance.
 	 */
 	public static function instance() {
-		static $inst = null;
-
-		if ( null === $inst ) {
-			$inst = new PT_CS_Widgets();
+		if ( null === static::$instance ) {
+			static::$instance = new static();
 		}
 
-		return $inst;
+		return static::$instance;
 	}
 
 	/**
-	 * Constructor is private -> singleton.
+	 * Protected constructor to prevent creating a new instance of the
+	 * *Singleton* via the `new` operator from outside of this class.
 	 */
-	private function __construct() {
+	protected function __construct() {
 		if ( is_admin() ) {
 
 			// Actions.

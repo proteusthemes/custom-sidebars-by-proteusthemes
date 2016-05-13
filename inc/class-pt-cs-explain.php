@@ -34,22 +34,30 @@ class PT_CS_Explain extends PT_CS_Main {
 	private $infos = array();
 
 	/**
-	 * Returns the singleton object.
+	 * Reference to Singleton instance of this class.
+	 *
+	 * @var Singleton The reference to *Singleton* instance of this class
+	 */
+	private static $instance;
+
+	/**
+	 * Returns the *Singleton* instance of this class.
+	 *
+	 * @return PT_CS_Explain the *Singleton* instance.
 	 */
 	public static function instance() {
-		static $inst = null;
-
-		if ( null === $inst ) {
-			$inst = new PT_CS_Explain();
+		if ( null === static::$instance ) {
+			static::$instance = new static();
 		}
 
-		return $inst;
+		return static::$instance;
 	}
 
 	/**
-	 * Constructor is private -> singleton.
+	 * Protected constructor to prevent creating a new instance of the
+	 * *Singleton* via the `new` operator from outside of this class.
 	 */
-	private function __construct() {
+	protected function __construct() {
 		if ( ! session_id() ) {
 			session_start();
 		}

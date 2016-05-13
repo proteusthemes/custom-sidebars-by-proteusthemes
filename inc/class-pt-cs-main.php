@@ -17,12 +17,18 @@ require_once PT_CS_PATH . 'inc/class-pt-cs-explain.php';
  */
 class PT_CS_Main {
 	/**
+	 * Reference to Singleton instance of this class.
+	 *
+	 * @var Singleton The reference to *Singleton* instance of this class
+	 */
+	private static $instance;
+	/**
 	 * Prefix used for the sidebar-ID of custom sidebars. This is also used to
 	 * distinguish theme sidebars from custom sidebars.
 	 *
 	 * @var  string
 	 */
-	static protected $sidebar_prefix = 'cs-';
+	protected static $sidebar_prefix = 'cs-';
 
 	/**
 	 * Capability required to use *any* of the plugin features. If user does not
@@ -30,7 +36,7 @@ class PT_CS_Main {
 	 *
 	 * @var  string
 	 */
-	static protected $cap_required = 'edit_theme_options';
+	protected static $cap_required = 'edit_theme_options';
 
 	/**
 	 * Flag that specifies if the page is loaded in accessibility mode.
@@ -38,27 +44,29 @@ class PT_CS_Main {
 	 *
 	 * @var   bool
 	 */
-	static protected $accessibility_mode = false;
+	protected static $accessibility_mode = false;
 
 
 	/**
-	 * Returns the singleton instance of the custom sidebars class.
+	 * Returns the *Singleton* instance of this class.
+	 *
+	 * @return PT_CS_Main the *Singleton* instance.
 	 */
 	public static function instance() {
-		static $inst = null;
-
-		if ( null === $inst ) {
-			$inst = new PT_CS_Main();
+		if ( null === static::$instance ) {
+			static::$instance = new static();
 		}
 
-		return $inst;
+		return static::$instance;
 	}
 
 	/**
-	 * Private, since it is a singleton.
+	 * Protected constructor to prevent creating a new instance of the
+	 * *Singleton* via the `new` operator from outside of this class.
+	 *
 	 * We directly initialize sidebar options when class is created.
 	 */
-	private function __construct() {
+	protected function __construct() {
 
 		// Find out if the page is loaded in accessibility mode.
 		$flag = isset( $_GET['widgets-access'] ) ? $_GET['widgets-access'] : get_user_setting( 'widgets_access' );
@@ -724,4 +732,18 @@ class PT_CS_Main {
 		 */
 		do_action( 'cs_ajax_request', $action );
 	}
+
+	/**
+	 * Private clone method to prevent cloning of the instance of the *Singleton* instance.
+	 *
+	 * @return void
+	 */
+	private function __clone() {}
+
+	/**
+	 * Private unserialize method to prevent unserializing of the *Singleton* instance.
+	 *
+	 * @return void
+	 */
+	private function __wakeup() {}
 }
