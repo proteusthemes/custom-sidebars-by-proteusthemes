@@ -47,13 +47,6 @@ class PT_CS_Main {
 	public static function instance() {
 		static $inst = null;
 
-		// We can initialize the plugin once we know the current user:
-		// The WDev()->pointer() notification is based on current user...
-		if ( ! did_action( 'set_current_user' ) ) {
-			add_action( 'set_current_user', array( __CLASS__, 'instance' ) );
-			return null;
-		}
-
 		if ( null === $inst ) {
 			$inst = new PT_CS_Main();
 		}
@@ -73,53 +66,56 @@ class PT_CS_Main {
 
 		// We don't support accessibility mode. Display a note to the user.
 		if ( true === self::$accessibility_mode ) {
-			WDev()->message(
-				sprintf(
-					__(
-						'<strong>Accessibility mode is not supported by the
-						%1$s plugin.</strong><br /><a href="%2$s">Click here</a>
-						to disable accessibility mode and use the %1$s plugin!',
-						PT_CS_TD
-					),
-					'Custom Sidebars',
-					admin_url( 'widgets.php?widgets-access=off' )
-				),
-				'err',
-				'widgets'
-			);
+			add_action( 'admin_notices', array( $this, 'accessibility_mode_notice' ) );
 		} else {
 			// Load javascripts/css files.
-			WDev()->add_ui( 'core', 'widgets.php' );
-			WDev()->add_ui( 'scrollbar', 'widgets.php' );
-			WDev()->add_ui( 'select', 'widgets.php' );
-			WDev()->add_ui( PT_CS_URL . 'js/cs.js', 'widgets.php' );
-			WDev()->add_ui( PT_CS_URL . 'css/cs.css', 'widgets.php' );
+			add_action( 'admin_enqueue_scripts', array( $this, 'load_plugin_admin_scripts' ) );
 
 			// AJAX actions.
 			add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
 
 			// Extensions use this hook to initialize themselves.
 			do_action( 'pt_cs_init' );
-
-			// Display a message after import.
-			if ( ! empty( $_GET['cs-msg'] ) ) {
-				$msg = base64_decode( $_GET['cs-msg'] );
-
-				// Prevent XSS attacks.
-				$kses_args = array(
-					'br' => array(),
-					'b' => array(),
-					'strong' => array(),
-					'i' => array(),
-					'em' => array(),
-				);
-				$msg = wp_kses( $msg, $kses_args );
-
-				if ( ! empty( $msg ) ) {
-					WDev()->message( $msg );
-				}
-			}
 		}
+	}
+
+	/**
+	 * Enqueue admin scripts and styles.
+	 *
+	 * @param string $hook Current admin page.
+	 */
+	public function load_plugin_admin_scripts( $hook ) {
+		if ( 'widgets.php' === $hook ) {
+
+			// JS.
+			wp_enqueue_script( 'pt-cs-wpmu-ui-js', PT_CS_URL . 'assets/js/wpmu-ui.js', array( 'jquery' ), PT_CS_VERSION, true );
+			wp_enqueue_script( 'pt-cs-tiny-scrollbar-js', PT_CS_URL . 'assets/js/tiny-scrollbar.js', array( 'jquery' ), PT_CS_VERSION, true );
+			wp_enqueue_script( 'pt-cs-select2-js', PT_CS_URL . 'assets/js/select2.js', array( 'jquery' ), PT_CS_VERSION, true );
+			wp_enqueue_script( 'pt-cs-main-js', PT_CS_URL . 'assets/js/cs.js', array( 'jquery' ), PT_CS_VERSION, true );
+
+			// CSS.
+			wp_enqueue_style( 'pt-cs-wpmu-ui-css', PT_CS_URL . 'assets/css/wpmu-ui.css', array(), PT_CS_VERSION );
+			wp_enqueue_style( 'pt-cs-select2-css', PT_CS_URL . 'assets/css/select2.css', array(), PT_CS_VERSION );
+			wp_enqueue_style( 'pt-cs-main-css', PT_CS_URL . 'assets/css/cs.css', array(), PT_CS_VERSION );
+		}
+	}
+
+	/**
+	 * Admin notice if the accessibility mode is on.
+	 */
+	public function accessibility_mode_notice() {
+	?>
+		<div class="notice notice-error is-dismissible"><p>
+		<strong><?php esc_html_e( 'Accessibility mode is not supported by the ProteusThemes Custom Sidebars plugin.' , PT_CS_TD ); ?></strong>
+			<?php
+				printf(
+					esc_html__( '%1$sClick here%2$s to disable accessibility mode and use the ProteusThemes Custom Sidebars plugin!', PT_CS_TD ),
+					'<a href="' . esc_url( admin_url( 'widgets.php?widgets-access=off' ) ) . '">',
+					'</a>'
+				);
+			?>
+		</p></div>
+	<?php
 	}
 
 	/**

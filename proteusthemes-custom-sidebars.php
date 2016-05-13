@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 // Path/URL to root of this plugin, with trailing slash.
 define( 'PT_CS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'PT_CS_URL', plugin_dir_url( __FILE__ ) );
+define( 'PT_CS_VERSION', '0.1' );
 
 /**
  * PT Custom Sidebars class, so we don't have to worry about namespaces.
@@ -80,7 +81,7 @@ class PT_Custom_Sidebars {
 		}
 
 		// Load the text domain for the plugin.
-		WDev()->translate_plugin( PT_CS_TD, PT_CS_PATH . 'languages/' );
+		load_plugin_textdomain( PT_CS_TD, false, PT_CS_PATH . 'languages/' );
 
 		// Initialize the plugin.
 		PT_CS_Main::instance();

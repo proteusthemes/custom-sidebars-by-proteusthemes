@@ -28,7 +28,7 @@ $is_blog  = get_option( 'page_for_posts' ) === $post_id;
 		</ul>
 	</p>
 
-	<img src="<?php echo esc_url( PT_CS_URL . 'img/frontpage-info.png' ); ?>" style="width: 274px;margin: 0 0 -14px -10px;" />
+	<img src="<?php echo esc_url( PT_CS_URL . 'assets/img/frontpage-info.png' ); ?>" style="width: 274px;margin: 0 0 -14px -10px;" />
 
 	<?php foreach ( $sidebars as $s ) : ?>
 		<input type="hidden" name="cs_replacement_<?php echo esc_attr( $s ); ?>" value="<?php echo esc_attr( $selected[ $s ] ); ?>" />
