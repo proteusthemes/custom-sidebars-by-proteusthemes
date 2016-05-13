@@ -94,7 +94,7 @@ class PT_CS_Main {
 			WDev()->add_ui( 'core', 'widgets.php' );
 			WDev()->add_ui( 'scrollbar', 'widgets.php' );
 			WDev()->add_ui( 'select', 'widgets.php' );
-			WDev()->add_ui( PT_CS_URL . 'js/cs.min.js', 'widgets.php' );
+			WDev()->add_ui( PT_CS_URL . 'js/cs.js', 'widgets.php' );
 			WDev()->add_ui( PT_CS_URL . 'css/cs.css', 'widgets.php' );
 
 			// AJAX actions.

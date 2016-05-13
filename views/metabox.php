@@ -1,56 +1,47 @@
 <?php
 /**
- * Metabox inside posts/pages where user can define custom sidebars for an
- * individual post.
+ * Metabox inside posts/pages where user can define custom sidebars for an individual post.
  *
  * Uses:
  *   $selected
  *   $wp_registered_sidebars
  *   $post_id
+ *
+ * @package pt-cs
  */
 
 $available = $wp_registered_sidebars;
 $sidebars = PT_CS_Main::get_options( 'modifiable' );
 
-$is_front = $post_id == get_option( 'page_on_front' );
-$is_blog = $post_id == get_option( 'page_for_posts' );
+$is_front = get_option( 'page_on_front' ) === $post_id;
+$is_blog  = get_option( 'page_for_posts' ) === $post_id;
 ?>
 
 <?php if ( $is_front || $is_blog ) : ?>
 	<p>
-		<?php printf(
-			__(
-				'<strong>To change the sidebar for static Front-Page or ' .
-				'Posts-Page</strong>:<ul>' .
-				'<li>Go to the <a href="%1$s">Widgets page</a></li>' .
-				'<li>Click on "Sidebar Location"</li>' .
-				'<li>Open the "Archive-Types" tab</li>' .
-				'<li>Choose "Front-Page" or "Post-Index"</li></ul>',
-				PT_CS_TD
-			),
-			admin_url( 'widgets.php' )
-		); ?>
+		<strong><?php esc_html_e( 'To change the sidebar for static Front-Page or Posts-Page:', PT_CS_TD ); ?></strong>
+		<ul>
+			<li><?php printf( esc_html__( 'Go to the %1$sWidgets page%2$s', PT_CS_TD ), '<a href="' . esc_url( admin_url( 'widgets.php' ) ) . '">', '</a>' ); ?></li>
+			<li><?php esc_html_e( 'Click on "Sidebar Location"', PT_CS_TD ); ?></li>
+			<li><?php esc_html_e( 'Open the "Archive-Types" tab', PT_CS_TD ); ?></li>
+			<li><?php esc_html_e( 'Choose "Front-Page" or "Post-Index"', PT_CS_TD ); ?></li>
+		</ul>
 	</p>
 
-	<img src="<?php echo esc_url( PT_CS_URL . 'img/frontpage-info.png' ); ?>" style="width:274px;margin:0 0 -14px -10px;" />
+	<img src="<?php echo esc_url( PT_CS_URL . 'img/frontpage-info.png' ); ?>" style="width: 274px;margin: 0 0 -14px -10px;" />
 
-	<?php foreach ( $sidebars as $s ) { ?>
-		<input type="hidden"
-			name="cs_replacement_<?php echo esc_attr( $s ); ?>"
-			value="<?php echo esc_attr( $selected[ $s ] ); ?>" />
-	<?php } ?>
+	<?php foreach ( $sidebars as $s ) : ?>
+		<input type="hidden" name="cs_replacement_<?php echo esc_attr( $s ); ?>" value="<?php echo esc_attr( $selected[ $s ] ); ?>" />
+	<?php endforeach; ?>
 
 <?php else : ?>
 
 	<p>
-		<?php _e(
-			'Here you can replace the default sidebars. Simply select what ' .
-			'sidebar you want to show for this post!', PT_CS_TD
-		); ?>
+		<?php esc_html_e( 'Here you can replace the default sidebars. Simply select what sidebar you want to show for this post!', PT_CS_TD ); ?>
 	</p>
 
-	<?php if ( ! empty( $sidebars ) ) { ?>
-		<?php foreach ( $sidebars as $s ) { ?>
+	<?php if ( ! empty( $sidebars ) ) : ?>
+		<?php foreach ( $sidebars as $s ) : ?>
 			<?php $sb_name = $available[ $s ]['name']; ?>
 			<p>
 				<label for="cs_replacement_<?php echo esc_attr( $s ); ?>">
@@ -68,17 +59,13 @@ $is_blog = $post_id == get_option( 'page_for_posts' );
 				</select>
 			</p>
 		<?php
-		}
-	} else {
-		?>
+		endforeach;
+	else :
+	?>
 		<p id="message" class="updated">
-			<?php _e(
-				'All sidebars have been locked, you cannot replace them. ' .
-				'Go to <a href="widgets.php">the widgets page</a> to unlock a ' .
-				'sidebar', PT_CS_TD
-			); ?>
+			<?php printf( esc_html__( 'All sidebars have been locked, you cannot replace them. Go to %1$sthe widgets page%2$s to unlock a sidebar.', PT_CS_TD ), '<a href="' . esc_url( admin_url( 'widgets.php' ) ) . '">', '</a>' ); ?>
 		</p>
 		<?php
-	}
+	endif;
 
 endif;

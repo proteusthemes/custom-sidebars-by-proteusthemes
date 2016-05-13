@@ -82,7 +82,7 @@ function CsSidebar(id, type) {
 
 	this.sb = jQuery('#' + this.id);
 	this.widgets = '';
-	this.name = trim(this.sb.find('.sidebar-name h3').text());
+	this.name = trim(this.sb.find('.sidebar-name h2').text());
 	this.description = trim(this.sb.find('.sidebar-description').text());
 
 	// Add one of two editbars to each sidebar.

@@ -4,6 +4,8 @@
  * User can define default locations where the custom sidebar will be used.
  *
  * This file is included in widgets.php.
+ *
+ * @package pt-cs
  */
 
 $sidebars = PT_CS_Main::get_sidebars( 'theme' );
@@ -11,11 +13,10 @@ $sidebars = PT_CS_Main::get_sidebars( 'theme' );
 /**
  * Output the input fields to configure replacements for a single sidebar.
  *
- * @since  2.0
- * @param  array $sidebar Details provided by PT_CS_Main::get_sidebar().
- * @param  string $prefix Category specific prefix used for input field ID/Name.
- * @param  string $cat_name Used in label: "Replace sidebar for <cat_name>".
- * @param  string $class Optinal classname added to the wrapper element.
+ * @param array  $sidebar Details provided by PT_CS_Main::get_sidebar().
+ * @param string $prefix Category specific prefix used for input field ID/Name.
+ * @param string $cat_name Used in label: "Replace sidebar for <cat_name>".
+ * @param string $class Optinal classname added to the wrapper element.
  */
 function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 	$base_id = 'cs-' . $prefix;
@@ -27,38 +28,36 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 	?>
 	<div
 		class="cs-replaceable <?php echo esc_attr( $sb_id . $class ); ?>"
-		data-lbl-used="<?php _e( 'Replaced by another sidebar:', PT_CS_TD ); ?>"
+		data-lbl-used="<?php esc_html_e( 'Replaced by another sidebar:', PT_CS_TD ); ?>"
 		>
 		<label for="<?php echo esc_attr( $inp_id ); ?>">
 			<input type="checkbox"
 				id="<?php echo esc_attr( $inp_id ); ?>"
 				class="detail-toggle"
 				/>
-			<?php printf(
-				__( 'As <strong>%1$s</strong> for selected %2$s', PT_CS_TD ),
-				$sidebar['name'],
-				$cat_name
-			); ?>
+			<?php
+			printf(
+				esc_html__( 'As %1$s for selected %2$s', PT_CS_TD ),
+				'<strong>' . esc_html( $sidebar['name'] ) . '</strong>',
+				esc_html( $cat_name )
+			);
+			?>
 		</label>
 		<div class="details">
 			<select
 				class="cs-datalist <?php echo esc_attr( $base_id ); ?>"
 				name="<?php echo esc_attr( $inp_name ); ?>[]"
 				multiple="multiple"
-				placeholder="<?php echo esc_attr(
-					sprintf(
-						__( 'Click here to pick available %1$s', PT_CS_TD ),
-						$cat_name
-					)
+				placeholder="<?php printf(
+					esc_html__( 'Click here to pick available %1$s', PT_CS_TD ),
+					esc_html( $cat_name )
 				); ?>"
 			>
 			</select>
 		</div>
 	</div>
 	<?php
-
 }
-
 ?>
 
 <form class="frm-location wpmui-form">
@@ -72,15 +71,9 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 	</div>
 	<p>
 		<i class="dashicons dashicons-info light"></i>
-		<?php printf(
-			__(
-			'To attach this sidebar to a unique Post or Page please visit ' .
-			'that <a href="%1$s">Post</a> or <a href="%2$s">Page</a> & set it ' .
-			'up via the sidebars metabox.', PT_CS_TD
-			),
-			admin_url( 'edit.php' ),
-			admin_url( 'edit.php?post_type=page' )
-		); ?>
+		<?php
+			esc_html_e( 'To attach this sidebar to a unique Post or Page please visit that Post or Page & set it up via the sidebars metabox.', PT_CS_TD );
+		?>
 	</p>
 
 	<?php
@@ -91,11 +84,11 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 	?>
 	<div class="wpmui-box">
 		<h3>
-			<a href="#" class="toggle" title="<?php _e( 'Click to toggle' ); /* This is a Wordpress default language */ ?>"><br></a>
-			<span><?php _e( 'For all Single Entries matching selected criteria', PT_CS_TD ); ?></span>
+			<a href="#" class="toggle" title="<?php esc_html_e( 'Click to toggle' ); ?>"><br></a>
+			<span><?php esc_html_e( 'For all Single Entries matching selected criteria', PT_CS_TD ); ?></span>
 		</h3>
 		<div class="inside">
-			<p><?php _e( 'These replacements will be applied to every single post that matches a certain post type or category.', PT_CS_TD ); ?>
+			<p><?php esc_html_e( 'These replacements will be applied to every single post that matches a certain post type or category.', PT_CS_TD ); ?>
 
 			<div class="cs-half">
 			<?php
@@ -103,7 +96,7 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 			 * ========== SINGLE -- Categories ========== *
 			 */
 			foreach ( $sidebars as $sb_id => $details ) {
-				$cat_name = __( 'categories', PT_CS_TD );
+				$cat_name = esc_html__( 'categories', PT_CS_TD );
 				_show_replaceable( $details, 'cat', $cat_name );
 			}
 			?>
@@ -115,7 +108,7 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 			 * ========== SINGLE -- Post-Type ========== *
 			 */
 			foreach ( $sidebars as $sb_id => $details ) {
-				$cat_name = __( 'Post Types', PT_CS_TD );
+				$cat_name = esc_html__( 'Post Types', PT_CS_TD );
 				_show_replaceable( $details, 'pt', $cat_name );
 			}
 			?>
@@ -132,15 +125,15 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 	?>
 	<div class="wpmui-box closed">
 		<h3>
-			<a href="#" class="toggle" title="<?php _e( 'Click to toggle' ); /* This is a Wordpress default language */ ?>"><br></a>
-			<span><?php _e( 'For Archives', PT_CS_TD ); ?></span>
+			<a href="#" class="toggle" title="<?php esc_html_e( 'Click to toggle' ); ?>"><br></a>
+			<span><?php esc_html_e( 'For Archives', PT_CS_TD ); ?></span>
 		</h3>
 		<div class="inside">
-			<p><?php _e( 'These replacements will be applied to Archive Type posts and pages.', PT_CS_TD ); ?>
+			<p><?php esc_html_e( 'These replacements will be applied to Archive Type posts and pages.', PT_CS_TD ); ?>
 
 			<h3 class="wpmui-tabs">
-				<a href="#tab-arch" class="tab active"><?php _e( 'Archive Types', PT_CS_TD ); ?></a>
-				<a href="#tab-catg" class="tab"><?php _e( 'Category Archives', PT_CS_TD ); ?></a>
+				<a href="#tab-arch" class="tab active"><?php esc_html_e( 'Archive Types', PT_CS_TD ); ?></a>
+				<a href="#tab-catg" class="tab"><?php esc_html_e( 'Category Archives', PT_CS_TD ); ?></a>
 			</h3>
 			<div class="wpmui-tab-contents">
 				<div id="tab-arch" class="tab active">
@@ -149,7 +142,7 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 					 * ========== ARCHIVE -- Special ========== *
 					 */
 					foreach ( $sidebars as $sb_id => $details ) {
-						$cat_name = __( 'Archive Types', PT_CS_TD );
+						$cat_name = esc_html__( 'Archive Types', PT_CS_TD );
 						_show_replaceable( $details, 'arc', $cat_name );
 					}
 					?>
@@ -160,7 +153,7 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 					 * ========== ARCHIVE -- Category ========== *
 					 */
 					foreach ( $sidebars as $sb_id => $details ) {
-						$cat_name = __( 'Category Archives', PT_CS_TD );
+						$cat_name = esc_html__( 'Category Archives', PT_CS_TD );
 						_show_replaceable( $details, 'arc-cat', $cat_name );
 					}
 					?>
@@ -170,7 +163,7 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 	</div>
 
 	<div class="buttons">
-		<button type="button" class="button-link btn-cancel"><?php _e( 'Cancel', PT_CS_TD ); ?></button>
-		<button type="button" class="button-primary btn-save"><?php _e( 'Save Changes', PT_CS_TD ); ?></button>
+		<button type="button" class="button-link btn-cancel"><?php esc_html_e( 'Cancel', PT_CS_TD ); ?></button>
+		<button type="button" class="button-primary btn-save"><?php esc_html_e( 'Save Changes', PT_CS_TD ); ?></button>
 	</div>
 </form>
