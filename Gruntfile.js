@@ -86,21 +86,6 @@ module.exports = function ( grunt ) {
 			},
 		},
 
-		// // https://www.npmjs.com/package/grunt-wp-i18n
-		// addtextdomain: {
-		// 	options: {
-		// 		updateDomains: true
-		// 	},
-		// 	target: {
-		// 		files: {
-		// 			src: [
-		// 				'*.php',
-		// 				'inc/**/*.php',
-		// 			]
-		// 		}
-		// 	}
-		// },
-
 		// https://www.npmjs.com/package/grunt-po2mo
 		po2mo: {
 			files: {
@@ -119,9 +104,14 @@ module.exports = function ( grunt ) {
 
 	} );
 
+	// Main build task
+	grunt.registerTask( 'build', [
+		'requirejs:build',
+		'cssmin',
+	] );
+
 	// update languages files
 	grunt.registerTask( 'plugin_i18n', [
-		// 'addtextdomain',
 		'makepot:plugin',
 		'po2mo',
 	] );
