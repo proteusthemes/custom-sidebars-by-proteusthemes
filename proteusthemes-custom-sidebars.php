@@ -81,7 +81,7 @@ class PT_Custom_Sidebars {
 		}
 
 		// Load the text domain for the plugin.
-		load_plugin_textdomain( PT_CS_TD, false, PT_CS_PATH . 'languages/' );
+		load_plugin_textdomain( PT_CS_TD, false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 
 		// Initialize the plugin.
 		PT_CS_Main::instance();
