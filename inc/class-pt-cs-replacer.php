@@ -184,7 +184,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 
 		if ( is_single() ) {
 			/*
-			 * 1 |== Single posts --------------------------------------------
+			 * 1 |== Single posts ---------------------------------------------------------
 			 */
 			$post_type = get_post_type();
 			$expl && do_action( 'cs_explain', 'Type 1: Single ' . ucfirst( $post_type ) );
@@ -258,81 +258,11 @@ class PT_CS_Replacer extends PT_CS_Main {
 					}
 				}
 			}
-		} else if ( is_category() ) {
-			/*
-			 * 2 |== Category archive ----------------------------------------------
-			 */
-			$expl && do_action( 'cs_explain', 'Type 2: Category Archive' );
-
-			// 2.1 Start at current category and travel up all parents
-			$category_object = get_queried_object();
-			$current_category = $category_object->term_id;
-			while ( 0 !== $current_category && $replacements_todo > 0 ) {
-				foreach ( $sidebars as $sb_id ) {
-					if ( $replacements[ $sb_id ] ) { continue; }
-					if ( ! empty( $options['category_archive'][ $current_category ][ $sb_id ] ) ) {
-						$replacements[ $sb_id ] = array(
-							$options['category_archive'][ $current_category ][ $sb_id ],
-							'category_archive',
-							$current_category,
-						);
-						$replacements_todo -= 1;
-					}
-				}
-				$current_category = $category_object->category_parent;
-				if ( 0 !== $current_category ) {
-					$category_object = get_category( $current_category );
-				}
-			}
-		} else if ( is_search() ) {
-			/*
-			 * 3 |== Search --------------------------------------------------------
-			 * Must be before the post-type archive section; otherwise a search with
-			 * no results is recognized as post-type archive...
-			 */
-			$expl && do_action( 'cs_explain', 'Type 3: Search Results' );
-
-			foreach ( $sidebars as $sb_id ) {
-				if ( ! empty( $options['search'][ $sb_id ] ) ) {
-					$replacements[ $sb_id ] = array(
-						$options['search'][ $sb_id ],
-						'search',
-						-1,
-					);
-				}
-			}
-		} else if ( ! is_category() && ! is_singular() && 'post' !== get_post_type() ) {
-			/*
-			 * 4 |== Post-Tpe Archive ----------------------------------------------
-			 * `get_post_type() != 'post'` .. post-archive = post-index (see 7)
-			 */
-			$post_type = get_post_type();
-			$expl && do_action( 'cs_explain', 'Type 4: ' . ucfirst( $post_type ) . ' Archive' );
-
-			if ( ! self::supported_post_type( $post_type ) ) {
-				$expl && do_action( 'cs_explain', 'Invalid post type, use default sidebars.' );
-				return $options;
-			}
-
-			foreach ( $sidebars as $sb_id ) {
-				if (
-					isset( $options['post_type_archive'][ $post_type ] )
-					&& ! empty( $options['post_type_archive'][ $post_type ][ $sb_id ] )
-				) {
-					$replacements[ $sb_id ] = array(
-						$options['post_type_archive'][ $post_type ][ $sb_id ],
-						'post_type_archive',
-						$post_type,
-					);
-					$replacements_todo -= 1;
-				}
-			}
 		} else if ( is_page() || is_front_page() || is_home() ) {
 			/*
-			 * 5 |== Page ----------------------------------------------------------
-			 * `! is_front_page()` .. in case the site uses static front page.
+			 * 2 |== Pages, Front page and Posts page (blog) -------------------------------
+			 *
 			 */
-
 			$post_type = get_post_type();
 			$expl && do_action( 'cs_explain', 'Type 5: ' . ucfirst( $post_type ) );
 
@@ -341,7 +271,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 				return $options;
 			}
 
-			// 5.1 Check if replacements are defined in the post metadata.
+			// 2.1 Check if replacements are defined in the post metadata.
 			$reps = self::get_post_meta( $this->original_post_id );
 			foreach ( $sidebars as $sb_id ) {
 				if ( is_array( $reps ) && ! empty( $reps[ $sb_id ] ) ) {
@@ -354,16 +284,16 @@ class PT_CS_Replacer extends PT_CS_Main {
 				}
 			}
 
-			// 5.2 Try to use the parents metadata.
-			if ( $post->post_parent != 0 && $replacements_todo > 0 ) {
+			// 2.2 Try to use the parents metadata.
+			if ( 0 !== $post->post_parent && $replacements_todo > 0 ) {
 				$reps = self::get_post_meta( $post->post_parent );
 				foreach ( $sidebars as $sb_id ) {
-					if ( $replacements[$sb_id] ) { continue; }
+					if ( $replacements[ $sb_id ] ) { continue; }
 					if ( is_array( $reps )
-						&& ! empty( $reps[$sb_id] )
+						&& ! empty( $reps[ $sb_id ] )
 					) {
-						$replacements[$sb_id] = array(
-							$reps[$sb_id],
+						$replacements[ $sb_id ] = array(
+							$reps[ $sb_id ],
 							'particular',
 							-1,
 						);
@@ -372,7 +302,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 				}
 			}
 
-			// 5.3 Look for post-type level replacements.
+			// 2.3 Look for post-type level replacements.
 			if ( $replacements_todo > 0 ) {
 				foreach ( $sidebars as $sb_id ) {
 					if ( $replacements[ $sb_id ] ) { continue; }
@@ -386,72 +316,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 						);
 						$replacements_todo -= 1;
 					}
-				}
-			}
-		} else if ( is_tag() ) {
-			/*
-			 * 8 |== Tag archive ---------------------------------------------------
-			 */
-			$expl && do_action( 'cs_explain', 'Type 8: Tag Archive' );
-
-			foreach ( $sidebars as $sb_id ) {
-				if ( ! empty( $options['tags'][ $sb_id ] ) ) {
-					$replacements[ $sb_id ] = array(
-						$options['tags'][ $sb_id ],
-						'tags',
-						-1,
-					);
-				}
-			}
-		} else if ( is_author() ) {
-			/*
-			 * 9 |== Author archive ------------------------------------------------
-			 */
-			$author_object  = get_queried_object();
-			$current_author = $author_object->ID;
-			$expl && do_action( 'cs_explain', 'Type 9: Author Archive' );
-
-			// 9.2 Then check if there is an "Any authors" sidebar
-			if ( $replacements_todo > 0 ) {
-				foreach ( $sidebars as $sb_id ) {
-					if ( $replacements[ $sb_id ] ) { continue; }
-					if ( ! empty( $options['authors'][ $sb_id ] ) ) {
-						$replacements[ $sb_id ] = array(
-							$options['authors'][ $sb_id ],
-							'authors',
-							-1,
-						);
-					}
-				}
-			}
-		} else if ( is_date() ) {
-			/*
-			 * 10 |== Date archive -------------------------------------------------
-			 */
-			$expl && do_action( 'cs_explain', 'Type 10: Date Archive' );
-
-			foreach ( $sidebars as $sb_id ) {
-				if ( ! empty( $options['date'][ $sb_id ] ) ) {
-					$replacements[ $sb_id ] = array(
-						$options['date'][ $sb_id ],
-						'date',
-						-1,
-					);
-				}
-			}
-		} else if ( is_404() ) {
-			/*
-			 * 11 |== 404 not found ------------------------------------------------
-			 */
-			$expl && do_action( 'cs_explain', 'Type 11: 404 not found' );
-
-			foreach ( $sidebars as $sb_id ) {
-				if ( ! empty( $options['404'][ $sb_id ] ) ) {
-					$replacements[ $sb_id ] = array(
-						$options['404'][ $sb_id ],
-						'404',
-						-1,
-					);
 				}
 			}
 		}
