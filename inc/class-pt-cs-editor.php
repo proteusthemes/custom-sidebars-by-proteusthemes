@@ -320,15 +320,6 @@ class PT_CS_Editor extends PT_CS_Main {
 		if ( ! $post_type ) { return false; }
 		if ( ! self::supported_post_type( $post_type ) ) { return false; }
 
-		/**
-		 * Option that can be set in wp-config.php to remove the custom sidebar meta box.
-		 *
-		 * @option bool true will hide all meta boxes.
-		 */
-		if ( defined( 'CUSTOM_SIDEBAR_DISABLE_METABOXES' ) && CUSTOM_SIDEBAR_DISABLE_METABOXES ) {
-			return false;
-		}
-
 		$pt_obj = get_post_type_object( $post_type );
 		if ( $pt_obj->publicly_queryable || $pt_obj->public ) {
 			add_meta_box(
