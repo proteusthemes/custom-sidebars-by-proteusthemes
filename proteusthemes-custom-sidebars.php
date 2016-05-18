@@ -75,11 +75,6 @@ class PT_Custom_Sidebars {
 		// Load the actual core of this plugin.
 		require_once PT_CS_PATH . 'inc/class-pt-cs-main.php';
 
-		// Include function library.
-		if ( file_exists( PT_CS_PATH . 'inc/external/wpmu-lib/core.php' ) ) {
-			require_once PT_CS_PATH . 'inc/external/wpmu-lib/core.php';
-		}
-
 		// Load the text domain for the plugin.
 		load_plugin_textdomain( PT_CS_TD, false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 
