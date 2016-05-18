@@ -73,7 +73,10 @@ class PT_CS_Replacer extends PT_CS_Main {
 	public function store_original_post_id() {
 		global $post;
 
-		if ( isset( $post->ID ) ) {
+		// Otherwise the "blog" page returns ID of the latest post.
+		if ( is_home() ) {
+			$this->original_post_id = get_option( 'page_for_posts' );
+		} else if ( isset( $post->ID ) ) {
 			$this->original_post_id = $post->ID;
 		}
 	}
@@ -181,7 +184,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 
 		if ( is_single() ) {
 			/*
-			 * 1 |== Single posts/pages --------------------------------------------
+			 * 1 |== Single posts --------------------------------------------
 			 */
 			$post_type = get_post_type();
 			$expl && do_action( 'cs_explain', 'Type 1: Single ' . ucfirst( $post_type ) );
@@ -324,11 +327,12 @@ class PT_CS_Replacer extends PT_CS_Main {
 					$replacements_todo -= 1;
 				}
 			}
-		} else if ( is_page() && ! is_front_page() ) {
+		} else if ( is_page() || is_front_page() || is_home() ) {
 			/*
 			 * 5 |== Page ----------------------------------------------------------
 			 * `! is_front_page()` .. in case the site uses static front page.
 			 */
+
 			$post_type = get_post_type();
 			$expl && do_action( 'cs_explain', 'Type 5: ' . ucfirst( $post_type ) );
 
@@ -382,78 +386,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 						);
 						$replacements_todo -= 1;
 					}
-				}
-			}
-		} else if ( is_front_page() ) {
-			/*
-			 * 6 |== Front Page ----------------------------------------------------
-			 * The front-page of the site. Either the post-index (default) or a static front-page.
-			 */
-			$expl && do_action( 'cs_explain', 'Type 6: Front Page' );
-
-			if ( ! is_home() ) {
-				// A static front-page. Maybe we need the post-meta data...
-				$reps_post   = self::get_post_meta( $this->original_post_id );
-				$reps_parent = self::get_post_meta( $post->post_parent );
-			}
-
-			foreach ( $sidebars as $sb_id ) {
-
-				// First check if there is a 'Front Page' replacement.
-				if ( ! empty( $options['blog'][ $sb_id ] ) ) {
-					$replacements[ $sb_id ] = array(
-						$options['blog'][ $sb_id ],
-						'blog',
-						-1,
-					);
-				} else if ( ! is_home() ) {
-					// There is no 'Front Page' reaplcement and this is a static
-					// front page, so check if the page has a replacement.
-
-					// 6.1 Check if replacements are defined in the post metadata.
-					if ( is_array( $reps_post ) && ! empty( $reps_post[ $sb_id ] ) ) {
-						$replacements[ $sb_id ] = array(
-							$reps_post[ $sb_id ],
-							'particular',
-							-1,
-						);
-						$replacements_todo -= 1;
-					}
-
-					// 6.2 Try to use the parents metadata.
-					if ( 0 !== $post->post_parent && $replacements_todo > 0 ) {
-						if ( $replacements[ $sb_id ] ) { continue; }
-						if ( is_array( $reps_parent ) && ! empty( $reps_parent[ $sb_id ] ) ) {
-							$replacements[ $sb_id ] = array(
-								$reps_parent[ $sb_id ],
-								'particular',
-								-1,
-							);
-							$replacements_todo -= 1;
-						}
-					}
-				}
-			}
-		} else if ( is_home() ) {
-			/*
-			 * 7 |== Post Index ----------------------------------------------------
-			 * The post-index of the site. Either
-			 * - the front-page (default)
-			 * - when a static front page is used the post-index page.
-			 *
-			 * Note: When the default front-page is used the condition 6
-			 * "is_front_page" above is used and this node is never executed.
-			 */
-
-			$expl && do_action( 'cs_explain', 'Type 7: Post Index' );
-
-			foreach ( $sidebars as $sb_id ) {
-				if ( ! empty( $options['post_type_archive']['post'][ $sb_id ] ) ) {
-					$replacements[ $sb_id ] = array(
-						$options['post_type_archive']['post'][ $sb_id ],
-						'postindex',
-						-1,
-					);
 				}
 			}
 		} else if ( is_tag() ) {
