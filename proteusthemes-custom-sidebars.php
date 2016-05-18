@@ -69,9 +69,6 @@ class PT_Custom_Sidebars {
 		// Define some constants for easier use.
 		define( 'PT_CS_VIEWS_DIR', PT_CS_PATH . 'views/' );
 
-		// Load empty widget needed in this plugin.
-		require_once PT_CS_PATH . 'inc/class-pt-cs-empty-widget.php';
-
 		// Load the actual core of this plugin.
 		require_once PT_CS_PATH . 'inc/class-pt-cs-main.php';
 

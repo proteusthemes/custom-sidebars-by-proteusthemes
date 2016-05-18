@@ -134,25 +134,19 @@ class PT_CS_Replacer extends PT_CS_Main {
 			if ( $check ) {
 				$expl && do_action( 'cs_explain', 'Replacement for "' . $sb_id . '": ' . $replacement );
 
-				if ( 0 === count( $original_widgets[ $replacement ] ) ) {
+				$_wp_sidebars_widgets[ $sb_id ] = $original_widgets[ $replacement ];
 
-					// No widgets on custom sidebar, show nothing.
-					$wp_registered_widgets['csemptywidget'] = $this->get_empty_widget();
-					$_wp_sidebars_widgets[ $sb_id ] = array( 'csemptywidget' );
-				} else {
-					$_wp_sidebars_widgets[ $sb_id ] = $original_widgets[ $replacement ];
-
-					/**
-					 * When custom sidebars use some wrapper code (before_title,
-					 * after_title, ...) then we need to strip-slashes for this
-					 * wrapper code to work properly
-					 */
-					$sidebar_for_replacing = $wp_registered_sidebars[ $replacement ];
-					if ( $this->has_wrapper_code( $sidebar_for_replacing ) ) {
-						$sidebar_for_replacing = $this->clean_wrapper_code( $sidebar_for_replacing );
-						$wp_registered_sidebars[ $sb_id ] = $sidebar_for_replacing;
-					}
+				/**
+				 * When custom sidebars use some wrapper code (before_title,
+				 * after_title, ...) then we need to strip-slashes for this
+				 * wrapper code to work properly
+				 */
+				$sidebar_for_replacing = $wp_registered_sidebars[ $replacement ];
+				if ( $this->has_wrapper_code( $sidebar_for_replacing ) ) {
+					$sidebar_for_replacing = $this->clean_wrapper_code( $sidebar_for_replacing );
+					$wp_registered_sidebars[ $sb_id ] = $sidebar_for_replacing;
 				}
+
 				$wp_registered_sidebars[ $sb_id ]['class'] = $replacement;
 			} else {
 				$expl && do_action( 'cs_explain', 'Replacement for "' . $sb_id . '": -none-' );
