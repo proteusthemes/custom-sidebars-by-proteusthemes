@@ -15,11 +15,6 @@ License URI: http://www.gnu.org/licenses/gpl.html
 // Block direct access to the main plugin file.
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-// Path/URL to root of this plugin, with trailing slash.
-define( 'PT_CS_PATH', plugin_dir_path( __FILE__ ) );
-define( 'PT_CS_URL', plugin_dir_url( __FILE__ ) );
-define( 'PT_CS_VERSION', '0.1' );
-
 /**
  * PT Custom Sidebars class, so we don't have to worry about namespaces.
  */
@@ -62,6 +57,11 @@ class PT_Custom_Sidebars {
 	 * Plugin setup function.
 	 */
 	public function setup_custom_sidebars_plugin() {
+
+		// Path/URL to root of this plugin, with trailing slash.
+		define( 'PT_CS_PATH', plugin_dir_path( __FILE__ ) );
+		define( 'PT_CS_URL', plugin_dir_url( __FILE__ ) );
+		define( 'PT_CS_VERSION', '0.1' );
 
 		// Used for more readable i18n functions: __( 'text', PT_CS_TD ).
 		define( 'PT_CS_TD', 'pt-cs' );
