@@ -69,8 +69,6 @@ class PT_CS_Editor extends PT_CS_Main {
 			case 'get':
 			case 'save':
 			case 'delete':
-			case 'get-location':
-			case 'set-location':
 			case 'replaceable':
 				$handle_it = true;
 				$req->status = 'OK';
@@ -108,18 +106,6 @@ class PT_CS_Editor extends PT_CS_Main {
 				case 'delete':
 					$req->sidebar = $sb_data;
 					$req = $this->delete_item( $req );
-					break;
-
-				// Get the location data.
-				case 'get-location':
-					$req->sidebar = $sb_data;
-					$req = $this->get_location_data( $req );
-					break;
-
-				// Update the location data.
-				case 'set-location':
-					$req->sidebar = $sb_data;
-					$req = $this->set_location_data( $req );
 					break;
 
 				// Toggle theme sidebar replaceable-flag.
@@ -322,165 +308,6 @@ class PT_CS_Editor extends PT_CS_Main {
 		self::set_options( $options );
 		$req->replaceable = (object) $options['modifiable'];
 
-		return $req;
-	}
-
-	/**
-	 * Populates the response object for the "get-location" ajax call.
-	 * Location data defines where a custom sidebar is displayed, i.e. on which
-	 * pages it is used and which theme-sidebars are replaced.
-	 *
-	 * @param  object $req Initial response object.
-	 * @return object Updated response object.
-	 */
-	private function get_location_data( $req ) {
-		$defaults     = self::get_options();
-		$raw_posttype = self::get_post_types( 'objects' );
-		$raw_cat      = self::get_all_categories();
-
-		$archive_type = array(
-			'_blog'    => esc_html__( 'Front Page', PT_CS_TD ),
-			'_search'  => esc_html__( 'Search Results', PT_CS_TD ),
-			'_404'     => esc_html__( 'Not found (404)', PT_CS_TD ),
-			'_authors' => esc_html__( 'Any Author Archive', PT_CS_TD ),
-			'_tags'    => esc_html__( 'Tag Archives', PT_CS_TD ),
-			'_date'    => esc_html__( 'Date Archives', PT_CS_TD ),
-		);
-
-		// Collect required data for all posttypes.
-		$posttypes = array();
-		foreach ( $raw_posttype as $item ) {
-			$sel_single = isset( $defaults['post_type_single'][ $item->name ] ) ? $defaults['post_type_single'][ $item->name ] : array();
-
-			$posttypes[ $item->name ] = array(
-				'name'   => $item->labels->name,
-				'single' => self::get_array( $sel_single ),
-			);
-		}
-
-		// Extract the data from categories list that we need.
-		$categories = array();
-		foreach ( $raw_cat as $item ) {
-			$sel_single  = isset( $defaults['category_single'][ $item->term_id ] ) ? $defaults['category_single'][ $item->term_id ]: array();
-			$sel_archive = isset( $defaults['category_archive'][ $item->term_id ] ) ? $defaults['category_archive'][ $item->term_id ] : array();
-
-			$categories[ $item->term_id ] = array(
-				'name'    => $item->name,
-				'count'   => $item->count,
-				'single'  => self::get_array( $sel_single ),
-				'archive' => self::get_array( $sel_archive ),
-			);
-		}
-
-		// Build a list of archive types.
-		$archives = array(); // Start with a copy of the posttype list.
-		foreach ( $raw_posttype as $item ) {
-			if ( 'post' === $item->name ) {
-				$label = esc_html__( 'Post Index', PT_CS_TD );
-			} else {
-				if ( ! $item->has_archive ) { continue; }
-				$label = sprintf(
-					esc_html__( '%1$s Archives', PT_CS_TD ),
-					$item->labels->singular_name
-				);
-			}
-
-			$sel_archive = isset( $defaults['post_type_archive'][ $item->name ] ) ? $defaults['post_type_archive'][ $item->name ] : array();
-
-			$archives[ $item->name ] = array(
-				'name'    => $label,
-				'archive' => self::get_array( $sel_archive ),
-			);
-		}
-
-		foreach ( $archive_type as $key => $name ) {
-			$sel_archive = isset( $defaults[ substr( $key, 1 ) ] ) ? $defaults[ substr( $key, 1 ) ] : array();
-
-			$archives[ $key ] = array(
-				'name'    => $name,
-				'archive' => self::get_array( $sel_archive ),
-			);
-		}
-
-		$req->replaceable = $defaults['modifiable'];
-		$req->posttypes   = $posttypes;
-		$req->categories  = $categories;
-		$req->archives    = $archives;
-
-		return $req;
-	}
-
-	/**
-	 * Save location data for a single sidebar and populate the response object.
-	 * Location data defines where a custom sidebar is displayed, i.e. on which
-	 * pages it is used and which theme-sidebars are replaced.
-	 *
-	 * @param  object $req Initial response object.
-	 * @return object Updated response object.
-	 */
-	private function set_location_data( $req ) {
-		$options      = self::get_options();
-		$sidebars     = $options['modifiable'];
-		$raw_posttype = self::get_post_types( 'objects' );
-		$raw_cat      = self::get_all_categories();
-		$data         = isset( $_POST['cs'] ) ? $_POST['cs'] : array();
-		$special_arc  = array(
-			'blog',
-			'404',
-			'tags',
-			'authors',
-			'search',
-			'date',
-		);
-
-		// Update the options.
-		foreach ( $sidebars as $sb_id ) {
-			// Post-type settings.
-			foreach ( $raw_posttype as $item ) {
-				$pt = $item->name;
-				if ( is_array( @$data['pt'][ $sb_id ] ) && in_array( $pt, $data['pt'][ $sb_id ] ) ) {
-					$options['post_type_single'][ $pt ][ $sb_id ] = $req->id;
-				} else if ( isset( $options['post_type_single'][ $pt ][ $sb_id ] ) && $options['post_type_single'][ $pt ][ $sb_id ] == $req->id ) {
-					unset( $options['post_type_single'][ $pt ][ $sb_id ] );
-				}
-
-				if ( is_array( @$data['arc'][ $sb_id ] ) && in_array( $pt, $data['arc'][ $sb_id ] ) ) {
-					$options['post_type_archive'][ $pt ][ $sb_id ] = $req->id;
-				} else if ( isset( $options['post_type_archive'][ $pt ][ $sb_id ] ) && $options['post_type_archive'][ $pt ][ $sb_id ] == $req->id ) {
-					unset( $options['post_type_archive'][ $pt ][ $sb_id ] );
-				}
-			}
-
-			// Category settings.
-			foreach ( $raw_cat as $item ) {
-				$cat = $item->term_id;
-				if ( is_array( @$data['cat'][ $sb_id ] ) && in_array( $cat, $data['cat'][ $sb_id ] ) ) {
-					$options['category_single'][ $cat ][ $sb_id ] = $req->id;
-				} else if ( isset( $options['category_single'][ $cat ][ $sb_id ] ) && $options['category_single'][ $cat ][ $sb_id ] == $req->id ) {
-					unset( $options['category_single'][ $cat ][ $sb_id ] );
-				}
-
-				if ( is_array( @$data['arc-cat'][ $sb_id ] ) && in_array( $cat, $data['arc-cat'][ $sb_id ] ) ) {
-					$options['category_archive'][ $cat ][ $sb_id ] = $req->id;
-				} else if ( isset( $options['category_archive'][ $cat ][ $sb_id ] ) && $options['category_archive'][ $cat ][ $sb_id ] == $req->id ) {
-					unset( $options['category_archive'][ $cat ][ $sb_id ] );
-				}
-			}
-
-			foreach ( $special_arc as $key ) {
-				if ( is_array( @$data['arc'][ $sb_id ] ) && in_array( '_' . $key, $data['arc'][ $sb_id ] ) ) {
-					$options[ $key ][ $sb_id ] = $req->id;
-				} else if ( isset( $options[ $key ][ $sb_id ] ) && $options[ $key ][ $sb_id ] == $req->id ) {
-					unset( $options[ $key ][ $sb_id ] );
-				}
-			}
-		}
-
-		$req->message = sprintf(
-			esc_html__( 'Updated sidebar %1$s settings.', PT_CS_TD ),
-			'<strong>' . esc_html( $req->sidebar['name'] ) . '</strong>'
-		);
-		self::set_options( $options );
 		return $req;
 	}
 

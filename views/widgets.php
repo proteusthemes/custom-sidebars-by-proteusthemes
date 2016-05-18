@@ -51,8 +51,6 @@
 		'btn_edit':        "<?php esc_html_e( 'Save Changes', PT_CS_TD ); ?>",
 		'btn_new':         "<?php esc_html_e( 'Create Sidebar', PT_CS_TD ); ?>",
 		'title_delete':    "<?php esc_html_e( 'Delete Sidebar', PT_CS_TD ); ?>",
-		'title_location':  "<?php esc_html_e( 'Define where you want this sidebar to appear.', PT_CS_TD ); ?>",
-		'title_export':    "<?php esc_html_e( 'Import / Export Sidebars', PT_CS_TD ); ?>",
 		'custom_sidebars': "<?php esc_html_e( 'Custom Sidebars', PT_CS_TD ); ?>",
 		'theme_sidebars':  "<?php esc_html_e( 'Theme Sidebars', PT_CS_TD ); ?>",
 		'ajax_error':      "<?php esc_html_e( 'Couldn\'t load data from WordPress...', PT_CS_TD ); ?>",
@@ -91,15 +89,6 @@
 			<?php esc_html_e( 'Edit', PT_CS_TD ); ?>
 		</a>
 		<span class="cs-separator">|</span>
-		<a
-			class="cs-tool"
-			data-action="location"
-			href="#"
-			title="<?php esc_html_e( 'Where do you want to show the sidebar?', PT_CS_TD ); ?>"
-			>
-			<?php esc_html_e( 'Sidebar Location', PT_CS_TD ); ?>
-		</a>
-		<span class="cs-separator">|</span>
 	</div>
 
 
@@ -126,18 +115,6 @@
 				<?php esc_html_e( 'Allow this sidebar to be replaced', PT_CS_TD ); ?>
 			</span>
 		</label>
-		<span class="cs-separator">|</span>
-		<span class="">
-			<a
-				class="cs-tool"
-				data-action="location"
-				href="#"
-				title="<?php esc_html_e( 'Where do you want to show the sidebar?', PT_CS_TD ); ?>"
-				>
-				<?php esc_html_e( 'Sidebar Location', PT_CS_TD ); ?>
-			</a>
-			<span class="cs-separator">|</span>
-		</span>
 	</div>
 
 
@@ -164,19 +141,6 @@
 	?>
 	<div class="cs-editor">
 	<?php include PT_CS_VIEWS_DIR . 'widgets-editor.php'; ?>
-	</div>
-
-
-	<?php
-
-	/*
-	============================================================================
-	===== LOCATION popup.
-	============================================================================
-	*/
-	?>
-	<div class="cs-location">
-	<?php include PT_CS_VIEWS_DIR . 'widgets-location.php'; ?>
 	</div>
 
  </div>

@@ -79,11 +79,8 @@ Custom Sidebars has the same license as WordPress, so you can use it wherever yo
 ### 2. screenshot-2.png Create and edit sidebars directly inside the widgets page. Easy and fast! ###
 ![screenshot-2.png Create and edit sidebars directly inside the widgets page. Easy and fast!](http://ps.w.org/proteusthemes-custom-sidebars/assets/screenshot-2.png)
 
-### 3. screenshot-3.png In the Location popup you can decide what page should display which sidebars. ###
-![screenshot-3.png In the Location popup you can decide what page should display which sidebars.](http://ps.w.org/proteusthemes-custom-sidebars/assets/screenshot-3.png)
-
-### 4. screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page! ###
-![screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page!](http://ps.w.org/proteusthemes-custom-sidebars/assets/screenshot-4.png)
+### 3. screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page! ###
+![screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page!](http://ps.w.org/proteusthemes-custom-sidebars/assets/screenshot-3.png)
 
 
 ## Changelog ##

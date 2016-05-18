@@ -75,8 +75,7 @@ Custom Sidebars has the same license as WordPress, so you can use it wherever yo
 
 1. screenshot-1.png The WordPress Widgets section is packed with features to create and manage your sidebars.
 2. screenshot-2.png Create and edit sidebars directly inside the widgets page. Easy and fast!
-3. screenshot-3.png In the Location popup you can decide what page should display which sidebars.
-4. screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page!
+3. screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page!
 
 == Changelog ==
 
