@@ -124,6 +124,7 @@ class PT_CS_Main {
 	 *           'sidebar_2'
 	 *       ],
 	 *
+	 *			-------------removed-------------------------------
 	 *       // Default replacements:
 	 *       'post_type_single': [ // Former "defaults"
 	 *           'post_type1': <replacement-def>,
@@ -146,8 +147,10 @@ class PT_CS_Main {
 	 *       'authors': <replacement-def>,
 	 *       'search': <replacement-def>,
 	 *       'date': <replacement-def>
+	 *			-------------END OF: removed------------------------
 	 *   }
 	 *
+	 * -------------removed-------------------------------
 	 * ==2== REPLACEMENT-DEF
 	 *   Meta-Key: _cs_replacements
 	 *   Option-Key: cs_modifiable <replacement-def>
@@ -156,6 +159,7 @@ class PT_CS_Main {
 	 *       'sidebar_1': 'custom_sb_id1',
 	 *       'sidebar_2': 'custom_sb_id2'
 	 *   }
+	 * -------------END OF: removed------------------------
 	 *
 	 * ==3== SIDEBAR DEFINITION
 	 *   Option-Key: cs_sidebars
@@ -217,7 +221,7 @@ class PT_CS_Main {
 	 */
 	public static function get_options( $key = null ) {
 		static $options = null;
-		$need_update = false;
+		$need_update    = false;
 
 		if ( null === $options ) {
 			$options = get_option( 'cs_modifiable', array() );
@@ -229,23 +233,10 @@ class PT_CS_Main {
 			if ( ! is_array( $options['modifiable'] ) ) {
 
 				// By default we make ALL theme sidebars replaceable.
-				$all = self::get_sidebars( 'theme' );
+				$all                   = self::get_sidebars( 'theme' );
 				$options['modifiable'] = array_keys( $all );
-				$need_update = true;
+				$need_update           = true;
 			}
-
-			// Single/Archive pages.
-			$options['post_type_single']  = isset( $options['post_type_single'] ) ? self::get_array( $options['post_type_single'] ) : array();
-			$options['post_type_archive'] = isset( $options['post_type_archive'] ) ? self::get_array( $options['post_type_archive'] ) : array();
-			$options['category_single']   = isset( $options['category_single'] ) ? self::get_array( $options['category_single'] ) : array();
-			$options['category_archive']  = isset( $options['category_archive'] ) ? self::get_array( $options['category_archive'] ) : array();
-
-			// Special archive pages.
-			$options['blog']    = isset( $options['blog'] ) ? self::get_array( $options['blog'] ) : array();
-			$options['tags']    = isset( $options['tags'] ) ? self::get_array( $options['tags'] ) : array();
-			$options['authors'] = isset( $options['authors'] ) ? self::get_array( $options['authors'] ) : array();
-			$options['search']  = isset( $options['search'] ) ? self::get_array( $options['search'] ) : array();
-			$options['date']    = isset( $options['date'] ) ? self::get_array( $options['date'] ) : array();
 
 			$options = self::validate_options( $options );
 
@@ -280,20 +271,23 @@ class PT_CS_Main {
 
 	/**
 	 * Removes invalid settings from the options array.
+	 * Checks 'modifiable' array values.
 	 *
 	 * @param  array $data This array will be validated and returned.
 	 * @return array
 	 */
 	public static function validate_options( $data = null ) {
-		$data = (is_object( $data ) ? (array) $data : $data );
+		$data = ( is_object( $data ) ? (array) $data : $data );
+
 		if ( ! is_array( $data ) ) {
 			return array();
 		}
-		$valid = array_keys( self::get_sidebars( 'theme' ) );
+
+		$valid   = array_keys( self::get_sidebars( 'theme' ) );
 		$current = isset( $data['modifiable'] ) ? self::get_array( $data['modifiable'] ) : array();
 
 		// Get all the sidebars that are modifiable AND exist.
-		$modifiable = array_intersect( $valid, $current );
+		$modifiable         = array_intersect( $valid, $current );
 		$data['modifiable'] = $modifiable;
 
 		return $data;
@@ -432,7 +426,7 @@ class PT_CS_Main {
 	public static function get_sidebars( $type = 'theme' ) {
 		global $wp_registered_sidebars;
 		$allsidebars = $wp_registered_sidebars;
-		$result = array();
+		$result      = array();
 
 		// Remove inactive sidebars.
 		foreach ( $allsidebars as $sb_id => $sidebar ) {
@@ -535,48 +529,6 @@ class PT_CS_Main {
 		}
 
 		return $response[ $posttype ];
-	}
-
-	/**
-	 * Returns a list of all post types that support custom sidebars.
-	 *
-	 * @uses   self::supported_post_type()
-	 * @param  string $type [names|objects] Defines details of return data.
-	 * @return array List of posttype names or objects, depending on the param.
-	 */
-	public static function get_post_types( $type = 'names' ) {
-		$valid = array();
-
-		if ( 'objects' !== $type ) {
-			$type = 'names';
-		}
-
-		if ( ! isset( $valid[ $type ] ) ) {
-			$all = get_post_types( array(), $type );
-			$valid[ $type ] = array();
-
-			foreach ( $all as $post_type ) {
-				if ( self::supported_post_type( $post_type ) ) {
-					$valid[ $type ][] = $post_type;
-				}
-			}
-		}
-
-		return $valid[ $type ];
-	}
-
-	/**
-	 * Returns an array of all categories.
-	 *
-	 * @return array List of categories, including empty ones.
-	 */
-	public static function get_all_categories() {
-		$args = array(
-			'hide_empty' => 0,
-			'taxonomy'   => 'category',
-		);
-
-		return get_categories( $args );
 	}
 
 	/**
