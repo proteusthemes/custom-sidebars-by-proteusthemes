@@ -38,15 +38,6 @@ class PT_CS_Main {
 	protected static $cap_required = 'edit_theme_options';
 
 	/**
-	 * Flag that specifies if the page is loaded in accessibility mode.
-	 * This plugin does not support accessibility mode!
-	 *
-	 * @var   bool
-	 */
-	protected static $accessibility_mode = false;
-
-
-	/**
 	 * Returns the *Singleton* instance of this class.
 	 *
 	 * @return PT_CS_Main the *Singleton* instance.
@@ -67,12 +58,8 @@ class PT_CS_Main {
 	 */
 	protected function __construct() {
 
-		// Find out if the page is loaded in accessibility mode.
-		$flag = isset( $_GET['widgets-access'] ) ? $_GET['widgets-access'] : get_user_setting( 'widgets_access' );
-		self::$accessibility_mode = ( 'on' == $flag );
-
-		// We don't support accessibility mode. Display a note to the user.
-		if ( true === self::$accessibility_mode ) {
+		// We don't support accessibility mode. Display a note to the user (on|off|null).
+		if ( 'on' === ( isset( $_GET['widgets-access'] ) ? $_GET['widgets-access'] : get_user_setting( 'widgets_access' ) ) ) {
 			add_action( 'admin_notices', array( $this, 'accessibility_mode_notice' ) );
 		} else {
 			// Load javascripts/css files.
