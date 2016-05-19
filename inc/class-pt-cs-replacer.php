@@ -86,7 +86,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 	 * Sidebars are replaced by directly modifying the WordPress globals
 	 * `$_wp_sidebars_widgets` and `$wp_registered_sidebars`
 	 *
-	 * What it really does: it not replacing a specific *sidebar* but simply
+	 * What it really does: it's not replacing a specific *sidebar* but simply
 	 * replacing all widgets inside the theme sidebars with the widgets of the
 	 * custom defined sidebars.
 	 */
@@ -204,42 +204,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 					}
 				}
 			}
-
-			// 1.3 If no metadata set then use the category settings.
-			if ( $replacements_todo > 0 ) {
-				$categories = self::get_sorted_categories();
-				$ind        = count( $categories ) - 1;
-				while ( $replacements_todo > 0 && $ind >= 0 ) {
-					$cat_id = $categories[ $ind ]->cat_ID;
-					foreach ( $sidebars as $sb_id ) {
-						if ( $replacements[ $sb_id ] ) { continue; }
-						if ( ! empty( $options['category_single'][ $cat_id ][ $sb_id ] ) ) {
-							$replacements[ $sb_id ] = array(
-								$options['category_single'][ $cat_id ][ $sb_id ],
-								'category_single',
-								$sidebar_category,
-							);
-							$replacements_todo -= 1;
-						}
-					}
-					$ind -= 1;
-				}
-			}
-
-			// 1.4 Look for post-type level replacements.
-			if ( $replacements_todo > 0 ) {
-				foreach ( $sidebars as $sb_id ) {
-					if ( $replacements[ $sb_id ] ) { continue; }
-					if ( isset( $options['post_type_single'][ $post_type ] ) && ! empty( $options['post_type_single'][ $post_type ][ $sb_id ] ) ) {
-						$replacements[ $sb_id ] = array(
-							$options['post_type_single'][ $post_type ][ $sb_id ],
-							'post_type_single',
-							$post_type,
-						);
-						$replacements_todo -= 1;
-					}
-				}
-			}
 		} else if ( is_page() || is_front_page() || is_home() ) {
 			/*
 			 * 2 |== Pages, Front page and Posts page (blog) -------------------------------
@@ -276,23 +240,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 							$reps[ $sb_id ],
 							'particular',
 							-1,
-						);
-						$replacements_todo -= 1;
-					}
-				}
-			}
-
-			// 2.3 Look for post-type level replacements.
-			if ( $replacements_todo > 0 ) {
-				foreach ( $sidebars as $sb_id ) {
-					if ( $replacements[ $sb_id ] ) { continue; }
-					if ( isset( $options['post_type_single'][ $post_type ] )
-						&& ! empty( $options['post_type_single'][ $post_type ][ $sb_id ] )
-					) {
-						$replacements[ $sb_id ] = array(
-							$options['post_type_single'][ $post_type ][ $sb_id ],
-							'post_type_single',
-							$post_type,
 						);
 						$replacements_todo -= 1;
 					}
@@ -368,21 +315,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Returns an empty dummy-widget. This dummy widget is used when a custom sidebar has no widgets.
-	 */
-	public function get_empty_widget() {
-		$widget = new PT_CS_Empty_Widget();
-		return array(
-			'name'        => 'CS Empty Widget',
-			'id'          => 'csemptywidget',
-			'callback'    => array( $widget, 'display_callback' ),
-			'params'      => array( array( 'number' => 2 ) ),
-			'classname'   => 'PTCustomSidebarsEmptyWidget',
-			'description' => 'CS dummy widget',
-		);
 	}
 
 	/**

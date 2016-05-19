@@ -532,26 +532,6 @@ class PT_CS_Main {
 	}
 
 	/**
-	 * Returns a sorted list of all category terms of the current post.
-	 * This information is used to find sidebar replacements.
-	 *
-	 * @uses  self::cmp_cat_level()
-	 * @param int $post_id ID of the post.
-	 */
-	public static function get_sorted_categories( $post_id = null ) {
-		static $sorted = array();
-
-		// Return categories of current post when no post_id is specified.
-		$post_id = empty( $post_id ) ? get_the_ID() : $post_id;
-
-		if ( ! isset( $sorted[ $post_id ] ) ) {
-			$sorted[ $post_id ] = get_the_category( $post_id );
-			@usort( $sorted[ $post_id ], array( self, 'cmp_cat_level' ) );
-		}
-		return $sorted[ $post_id ];
-	}
-
-	/**
 	 * Helper function used to sort categories.
 	 *
 	 * @uses  self::get_category_level()
