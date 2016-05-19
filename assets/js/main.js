@@ -6,7 +6,6 @@ require.config( {
 		jquery:        'assets/js/fix.jquery',
 		ptcs:          'assets/js/pt-custom-sidebars',
 		wpmuui:        'assets/js/wpmu-ui',
-		select2:       'assets/js/select2',
 	},
 	shim: {
 		ptcs: {
@@ -20,6 +19,5 @@ require.config( {
 require( [
 	'jquery',
 	'wpmuui',
-	'select2',
 	'ptcs',
 ] );
