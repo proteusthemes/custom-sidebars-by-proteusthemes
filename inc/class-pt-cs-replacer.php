@@ -95,10 +95,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 			$wp_registered_sidebars,
 			$wp_registered_widgets;
 
-		$expl = PT_CS_Explain::do_explain();
-
-		$expl && do_action( 'cs_explain', '<h4>Replace sidebars</h4>', true );
-
 		do_action( 'cs_before_replace_sidebars' );
 
 		/**
@@ -120,7 +116,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 
 		foreach ( $replacements as $sb_id => $replace_info ) {
 			if ( ! is_array( $replace_info ) || count( $replace_info ) < 3 ) {
-				$expl && do_action( 'cs_explain', 'Replacement for "' . $sb_id . '": -none-' );
 				continue;
 			}
 
@@ -132,8 +127,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 			$check = $this->is_valid_replacement( $sb_id, $replacement, $replacement_type, $extra_index );
 
 			if ( $check ) {
-				$expl && do_action( 'cs_explain', 'Replacement for "' . $sb_id . '": ' . $replacement );
-
 				$_wp_sidebars_widgets[ $sb_id ] = $original_widgets[ $replacement ];
 
 				/**
@@ -148,8 +141,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 				}
 
 				$wp_registered_sidebars[ $sb_id ]['class'] = $replacement;
-			} else {
-				$expl && do_action( 'cs_explain', 'Replacement for "' . $sb_id . '": -none-' );
 			}
 		}
 	}
@@ -170,7 +161,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 		$sidebars          = self::get_options( 'modifiable' );
 		$replacements_todo = count( $sidebars );
 		$replacements      = array();
-		$expl              = PT_CS_Explain::do_explain();
 
 		foreach ( $sidebars as $sb ) {
 			$replacements[ $sb ] = false;
@@ -181,10 +171,8 @@ class PT_CS_Replacer extends PT_CS_Main {
 			 * 1 |== Single posts ---------------------------------------------------------
 			 */
 			$post_type = get_post_type();
-			$expl && do_action( 'cs_explain', 'Type 1: Single ' . ucfirst( $post_type ) );
 
 			if ( ! self::supported_post_type( $post_type ) ) {
-				$expl && do_action( 'cs_explain', 'Invalid post type, use default sidebars.' );
 				return $options;
 			}
 
@@ -258,10 +246,8 @@ class PT_CS_Replacer extends PT_CS_Main {
 			 *
 			 */
 			$post_type = get_post_type();
-			$expl && do_action( 'cs_explain', 'Type 5: ' . ucfirst( $post_type ) );
 
 			if ( ! self::supported_post_type( $post_type ) ) {
-				$expl && do_action( 'cs_explain', 'Invalid post type, use default sidebars.' );
 				return $options;
 			}
 
