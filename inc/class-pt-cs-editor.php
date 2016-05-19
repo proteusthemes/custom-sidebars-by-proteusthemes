@@ -258,7 +258,7 @@ class PT_CS_Editor extends PT_CS_Main {
 			if ( $item['id'] == $req->id ) {
 				$found = true;
 				$req->message = sprintf(
-					esc_html__( 'Deleted sidebar %1$s</strong>', PT_CS_TD ),
+					esc_html__( 'Deleted sidebar %1$s', PT_CS_TD ),
 					'<strong>' . esc_html( $req->sidebar['name'] ) . '</strong>'
 				);
 				unset( $sidebars[ $ind ] );

@@ -49,15 +49,6 @@ class PT_Custom_Sidebars {
 	 */
 	protected function __construct() {
 
-		// Actions.
-		add_action( 'plugins_loaded', array( $this, 'setup_custom_sidebars_plugin' ) );
-	}
-
-	/**
-	 * Plugin setup function.
-	 */
-	public function setup_custom_sidebars_plugin() {
-
 		// Path/URL to root of this plugin, with trailing slash.
 		define( 'PT_CS_PATH', plugin_dir_path( __FILE__ ) );
 		define( 'PT_CS_URL', plugin_dir_url( __FILE__ ) );
@@ -72,11 +63,19 @@ class PT_Custom_Sidebars {
 		// Load the actual core of this plugin.
 		require_once PT_CS_PATH . 'inc/class-pt-cs-main.php';
 
-		// Load the text domain for the plugin.
-		load_plugin_textdomain( PT_CS_TD, false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
-
 		// Initialize the plugin.
 		PT_CS_Main::instance();
+
+		// Actions.
+		add_action( 'plugins_loaded', array( $this, 'setup_custom_sidebars_plugin' ) );
+	}
+
+
+	/**
+	 * Load the text domain for the plugin.
+	 */
+	public function setup_custom_sidebars_plugin() {
+		load_plugin_textdomain( PT_CS_TD, false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 	}
 
 
