@@ -126,46 +126,11 @@ class PT_CS_Main {
 	 *       'modifiable': [
 	 *           'sidebar_1',
 	 *           'sidebar_2'
-	 *       ],
-	 *
-	 *			-------------removed-------------------------------
-	 *       // Default replacements:
-	 *       'post_type_single': [ // Former "defaults"
-	 *           'post_type1': <replacement-def>,
-	 *           'post_type2': <replacement-def>
-	 *       ],
-	 *       'post_type_archive': [  // Former "post_type_pages"
-	 *           'post_type1': <replacement-def>,
-	 *           'post_type2': <replacement-def>
-	 *       ],
-	 *       'category_single': [ // Former "category_posts"
-	 *           'category_id1': <replacement-def>,
-	 *           'category_id2': <replacement-def>
-	 *       ],
-	 *       'category_archive': [ // Former "category_pages"
-	 *           'category_id1': <replacement-def>,
-	 *           'category_id2': <replacement-def>
-	 *       ],
-	 *       'blog': <replacement-def>,
-	 *       'tags': <replacement-def>,
-	 *       'authors': <replacement-def>,
-	 *       'search': <replacement-def>,
-	 *       'date': <replacement-def>
-	 *			-------------END OF: removed------------------------
+	 *       ]
 	 *   }
 	 *
-	 * -------------removed-------------------------------
-	 * ==2== REPLACEMENT-DEF
-	 *   Meta-Key: _cs_replacements
-	 *   Option-Key: cs_modifiable <replacement-def>
 	 *
-	 *   {
-	 *       'sidebar_1': 'custom_sb_id1',
-	 *       'sidebar_2': 'custom_sb_id2'
-	 *   }
-	 * -------------END OF: removed------------------------
-	 *
-	 * ==3== SIDEBAR DEFINITION
+	 * ==2== SIDEBAR DEFINITION
 	 *   Option-Key: cs_sidebars
 	 *
 	 *   Array of these objects
@@ -179,7 +144,7 @@ class PT_CS_Main {
 	 *       after_widget: ''
 	 *   }
 	 *
-	 * ==4== WIDGET LIST
+	 * ==3== WIDGET LIST
 	 *   Option-Key: sidebars_widgets
 	 *
 	 *   {
