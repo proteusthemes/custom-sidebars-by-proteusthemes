@@ -51,7 +51,7 @@ class PT_CS_Main {
 	 *
 	 * @return PT_CS_Main the *Singleton* instance.
 	 */
-	public static function instance() {
+	public static function get_instance() {
 		if ( null === static::$instance ) {
 			static::$instance = new static();
 		}

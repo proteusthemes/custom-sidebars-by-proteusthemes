@@ -6,7 +6,7 @@
  */
 
 // Initialize this class in the main plugin class.
-add_action( 'pt_cs_init', array( 'PT_CS_Editor', 'instance' ) );
+add_action( 'pt_cs_init', array( 'PT_CS_Editor', 'get_instance' ) );
 
 /**
  * Provides all the functionality for editing sidebars on the widgets page.
@@ -24,7 +24,7 @@ class PT_CS_Editor extends PT_CS_Main {
 	 *
 	 * @return PT_CS_Editor the *Singleton* instance.
 	 */
-	public static function instance() {
+	public static function get_instance() {
 		if ( null === static::$instance ) {
 			static::$instance = new static();
 		}

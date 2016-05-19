@@ -6,7 +6,7 @@
  */
 
 // Initialize this class in the main plugin class.
-add_action( 'pt_cs_init', array( 'PT_CS_Widgets', 'instance' ) );
+add_action( 'pt_cs_init', array( 'PT_CS_Widgets', 'get_instance' ) );
 
 /**
  * Extends the widgets section to add the custom sidebars UI elements.
@@ -24,7 +24,7 @@ class PT_CS_Widgets extends PT_CS_Main {
 	 *
 	 * @return PT_CS_Widgets the *Singleton* instance.
 	 */
-	public static function instance() {
+	public static function get_instance() {
 		if ( null === static::$instance ) {
 			static::$instance = new static();
 		}

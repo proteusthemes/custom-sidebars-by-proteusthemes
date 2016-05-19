@@ -6,7 +6,7 @@
  */
 
 // Initialize this class in the main plugin class.
-add_action( 'pt_cs_init', array( 'PT_CS_Replacer', 'instance' ) );
+add_action( 'pt_cs_init', array( 'PT_CS_Replacer', 'get_instance' ) );
 
 /**
  * This class actually replaces sidebars on the frontend.
@@ -27,7 +27,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 	 *
 	 * @return PT_CS_Replacer the *Singleton* instance.
 	 */
-	public static function instance() {
+	public static function get_instance() {
 		if ( null === static::$instance ) {
 			static::$instance = new static();
 		}

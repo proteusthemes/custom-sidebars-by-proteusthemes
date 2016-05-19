@@ -64,7 +64,7 @@ class PT_Custom_Sidebars {
 		require_once PT_CS_PATH . 'inc/class-pt-cs-main.php';
 
 		// Initialize the plugin.
-		PT_CS_Main::instance();
+		PT_CS_Main::get_instance();
 
 		// Actions.
 		add_action( 'plugins_loaded', array( $this, 'setup_custom_sidebars_plugin' ) );
