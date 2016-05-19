@@ -4,7 +4,7 @@
 Plugin Name: ProteusThemes Custom Sidebars
 Plugin URI:  https://www.proteusthemes.com/
 Description: Allows you to create custom sidebars. Replace sidebars for specific posts, pages, archives,...
-Version:     0.1
+Version:     0.2
 Author:      ProteusThemes
 Author URI:  https://www.proteusthemes.com/
 Textdomain:  pt-cs
@@ -52,7 +52,7 @@ class PT_Custom_Sidebars {
 		// Path/URL to root of this plugin, with trailing slash.
 		define( 'PT_CS_PATH', plugin_dir_path( __FILE__ ) );
 		define( 'PT_CS_URL', plugin_dir_url( __FILE__ ) );
-		define( 'PT_CS_VERSION', '0.1' );
+		define( 'PT_CS_VERSION', '0.2' );
 
 		// Used for more readable i18n functions: __( 'text', PT_CS_TD ).
 		define( 'PT_CS_TD', 'pt-cs' );
