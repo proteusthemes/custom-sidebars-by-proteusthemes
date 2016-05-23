@@ -83,14 +83,10 @@ class PT_CS_Main {
 
 			// JS.
 			wp_enqueue_script( 'pt-cs-tiny-scrollbar-js', PT_CS_URL . 'bower_components/tinyscrollbar/lib/jquery.tinyscrollbar.min.js', array( 'jquery' ), PT_CS_VERSION, true );
-			wp_enqueue_script( 'pt-cs-wpmu-ui-js', PT_CS_URL . 'assets/js/wpmu-ui.js', array( 'jquery' ), PT_CS_VERSION, true );
-			wp_enqueue_script( 'pt-cs-main-js', PT_CS_URL . 'assets/js/pt-custom-sidebars.js', array( 'jquery' ), PT_CS_VERSION, true );
-			// wp_enqueue_script( 'pt-cs-main-js', PT_CS_URL . 'assets/js/main.min.js', array( 'jquery' ), PT_CS_VERSION, true );
+			wp_enqueue_script( 'pt-cs-main-js', PT_CS_URL . 'assets/js/main.min.js', array( 'jquery' ), PT_CS_VERSION, true );
 
 			// CSS.
-			wp_enqueue_style( 'pt-cs-wpmu-ui-css', PT_CS_URL . 'assets/css/src/wpmu-ui.css', array(), PT_CS_VERSION );
-			wp_enqueue_style( 'pt-cs-pt-custom-sidebar-css', PT_CS_URL . 'assets/css/src/pt-custom-sidebars.css', array(), PT_CS_VERSION );
-			// wp_enqueue_style( 'pt-cs-main-css', PT_CS_URL . 'assets/css/main.min.css', array(), PT_CS_VERSION );
+			wp_enqueue_style( 'pt-cs-main-css', PT_CS_URL . 'assets/css/main.min.css', array(), PT_CS_VERSION );
 		}
 	}
 
