@@ -27,7 +27,7 @@ class PT_CS_Main {
 	 *
 	 * @var  string
 	 */
-	protected static $sidebar_prefix = 'cs-';
+	protected static $sidebar_prefix = 'pt-cs-';
 
 	/**
 	 * Capability required to use *any* of the plugin features. If user does not
@@ -115,7 +115,7 @@ class PT_CS_Main {
 	 * =========================================================================
 	 *
 	 * ==1== PLUGIN OPTIONS
-	 *   Option-Key: cs_modifiable
+	 *   Option-Key: pt_cs_modifiable
 	 *
 	 *   {
 	 *       // Sidebars that can be replaced:
@@ -127,7 +127,7 @@ class PT_CS_Main {
 	 *
 	 *
 	 * ==2== SIDEBAR DEFINITION
-	 *   Option-Key: cs_sidebars
+	 *   Option-Key: pt_cs_sidebars
 	 *
 	 *   Array of these objects
 	 *   {
@@ -180,7 +180,7 @@ class PT_CS_Main {
 	 * Returns a list with sidebars that were marked as "modifiable".
 	 * Also contains information on the default replacements of these sidebars.
 	 *
-	 * Option-Key: 'cs_modifiable' (1)
+	 * Option-Key: 'pt_cs_modifiable' (1)
 	 *
 	 * @param string $key a key of the options array.
 	 */
@@ -189,7 +189,7 @@ class PT_CS_Main {
 		$need_update    = false;
 
 		if ( null === $options ) {
-			$options = get_option( 'cs_modifiable', array() );
+			$options = get_option( 'pt_cs_modifiable', array() );
 			if ( ! is_array( $options ) ) {
 				$options = array();
 			}
@@ -220,7 +220,7 @@ class PT_CS_Main {
 	/**
 	 * Saves the sidebar options to DB.
 	 *
-	 * Option-Key: 'cs_modifiable' (1)
+	 * Option-Key: 'pt_cs_modifiable' (1)
 	 *
 	 * @param  array $value The options array.
 	 */
@@ -231,7 +231,7 @@ class PT_CS_Main {
 			return;
 		}
 
-		update_option( 'cs_modifiable', $value );
+		update_option( 'pt_cs_modifiable', $value );
 	}
 
 	/**
@@ -262,10 +262,10 @@ class PT_CS_Main {
 	 * Returns a list with all custom sidebars that were created by the user.
 	 * Array of custom sidebars
 	 *
-	 * Option-Key: 'cs_sidebars' (3)
+	 * Option-Key: 'pt_cs_sidebars' (3)
 	 */
 	public static function get_custom_sidebars() {
-		$sidebars = get_option( 'cs_sidebars', array() );
+		$sidebars = get_option( 'pt_cs_sidebars', array() );
 		if ( ! is_array( $sidebars ) ) {
 			$sidebars = array();
 		}
@@ -283,7 +283,7 @@ class PT_CS_Main {
 	/**
 	 * Saves the custom sidebars to DB.
 	 *
-	 * Option-Key: 'cs_sidebars' (3)
+	 * Option-Key: 'pt_cs_sidebars' (3)
 	 *
 	 * @param array $value Array with custom sidebars data.
 	 */
@@ -293,7 +293,7 @@ class PT_CS_Main {
 			return;
 		}
 
-		update_option( 'cs_sidebars', $value );
+		update_option( 'pt_cs_sidebars', $value );
 	}
 
 	/**
@@ -322,7 +322,7 @@ class PT_CS_Main {
 		$delete_widgetized_sidebars = array();
 
 		foreach ( $widgetized_sidebars as $id => $bar ) {
-			if ( substr( $id, 0, 3 ) == self::$sidebar_prefix ) {
+			if ( substr( $id, 0, strlen( self::$sidebar_prefix ) ) == self::$sidebar_prefix ) {
 				$found = false;
 				foreach ( $cs_sidebars as $csbar ) {
 					if ( $csbar['id'] == $id ) {
@@ -353,12 +353,12 @@ class PT_CS_Main {
 	/**
 	 * Returns the custom sidebar metadata of a single post.
 	 *
-	 * Meta-Key: '_cs_replacements' (2)
+	 * Meta-Key: '_pt_cs_replacements' (2)
 	 *
 	 * @param int $post_id ID of the post.
 	 */
 	public static function get_post_meta( $post_id ) {
-		$data = get_post_meta( $post_id, '_cs_replacements', true );
+		$data = get_post_meta( $post_id, '_pt_cs_replacements', true );
 		if ( ! is_array( $data ) ) {
 			$data = array();
 		}
@@ -368,16 +368,16 @@ class PT_CS_Main {
 	/**
 	 * Saves custom sidebar metadata to a single post.
 	 *
-	 * Meta-Key: '_cs_replacements' (2)
+	 * Meta-Key: '_pt_cs_replacements' (2)
 	 *
 	 * @param int   $post_id ID of the post.
 	 * @param array $data When array is empty the meta data will be deleted.
 	 */
 	public static function set_post_meta( $post_id, $data ) {
 		if ( ! empty( $data ) ) {
-			update_post_meta( $post_id, '_cs_replacements', $data );
+			update_post_meta( $post_id, '_pt_cs_replacements', $data );
 		} else {
-			delete_post_meta( $post_id, '_cs_replacements' );
+			delete_post_meta( $post_id, '_pt_cs_replacements' );
 		}
 	}
 
@@ -407,7 +407,7 @@ class PT_CS_Main {
 			foreach ( $allsidebars as $key => $sb ) {
 
 				// Only keep custom sidebars in the results.
-				if ( substr( $key, 0, 3 ) === self::$sidebar_prefix ) {
+				if ( substr( $key, 0, strlen( self::$sidebar_prefix ) ) === self::$sidebar_prefix ) {
 					$result[ $key ] = $sb;
 				}
 			}
@@ -415,7 +415,7 @@ class PT_CS_Main {
 			foreach ( $allsidebars as $key => $sb ) {
 
 				// Remove custom sidebars from results.
-				if ( substr( $key, 0, 3 ) !== self::$sidebar_prefix ) {
+				if ( substr( $key, 0, strlen( self::$sidebar_prefix ) ) !== self::$sidebar_prefix ) {
 					$result[ $key ] = $sb;
 				}
 			}
@@ -489,7 +489,7 @@ class PT_CS_Main {
 			 * @param  bool $supported Flag if the posttype is supported.
 			 * @param  string $posttype Name of the posttype that is checked.
 			 */
-			$supported = apply_filters( 'cs_support_posttype', $supported, $posttype );
+			$supported = apply_filters( 'pt_cs_support_posttype', $supported, $posttype );
 			$response[ $posttype ] = $supported;
 		}
 
@@ -609,7 +609,7 @@ class PT_CS_Main {
 		 *
 		 * @param  string $action The specified ajax action.
 		 */
-		do_action( 'cs_ajax_request', $action );
+		do_action( 'pt_cs_ajax_request', $action );
 	}
 
 	/**

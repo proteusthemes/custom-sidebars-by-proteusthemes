@@ -46,7 +46,7 @@ class PT_CS_Editor extends PT_CS_Main {
 			add_action( 'save_post', array( $this, 'store_replacements' ) );
 
 			// Handle ajax requests.
-			add_action( 'cs_ajax_request', array( $this, 'handle_ajax' ) );
+			add_action( 'pt_cs_ajax_request', array( $this, 'handle_ajax' ) );
 		}
 	}
 
@@ -323,7 +323,7 @@ class PT_CS_Editor extends PT_CS_Main {
 		$pt_obj = get_post_type_object( $post_type );
 		if ( $pt_obj->publicly_queryable || $pt_obj->public ) {
 			add_meta_box(
-				'customsidebars-mb',
+				'pt-customsidebars-mb',
 				esc_html__( 'Sidebars', 'pt-cs' ),
 				array( $this, 'print_metabox_editor' ),
 				$post_type,
@@ -407,8 +407,8 @@ class PT_CS_Editor extends PT_CS_Main {
 		$data = array();
 		if ( ! empty( $sidebars ) ) {
 			foreach ( $sidebars as $sb_id ) {
-				if ( isset( $_POST[ 'cs_replacement_' . $sb_id ] ) ) {
-					$replacement = $_POST[ 'cs_replacement_' . $sb_id ];
+				if ( isset( $_POST[ 'pt_cs_replacement_' . $sb_id ] ) ) {
+					$replacement = $_POST[ 'pt_cs_replacement_' . $sb_id ];
 					if ( ! empty( $replacement ) && '' != $replacement ) {
 						$data[ $sb_id ] = $replacement;
 					}

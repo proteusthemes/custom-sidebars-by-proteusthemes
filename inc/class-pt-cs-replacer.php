@@ -61,7 +61,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 			 *
 			 * @param  array $sidebar Options used by WordPress to display the sidebar.
 			 */
-			$sidebar = apply_filters( 'cs_sidebar_params', $sidebar );
+			$sidebar = apply_filters( 'pt_cs_sidebar_params', $sidebar );
 
 			register_sidebar( $sidebar );
 		}
@@ -95,7 +95,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 			$wp_registered_sidebars,
 			$wp_registered_widgets;
 
-		do_action( 'cs_before_replace_sidebars' );
+		do_action( 'pt_cs_before_replace_sidebars' );
 
 		/**
 		 * Original sidebar configuration by WordPress:
@@ -110,7 +110,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 		 *
 		 * @param  array $defaults Array of the default sidebars for the page.
 		 */
-		do_action( 'cs_predetermine_replacements', $defaults );
+		do_action( 'pt_cs_predetermine_replacements', $defaults );
 
 		$replacements = $this->determine_replacements( $defaults );
 
@@ -252,7 +252,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 		 *
 		 * @param  array $replacements List of the final/replaced sidebars.
 		 */
-		$replacements = apply_filters( 'cs_replace_sidebars', $replacements );
+		$replacements = apply_filters( 'pt_cs_replace_sidebars', $replacements );
 
 		return $replacements;
 	}

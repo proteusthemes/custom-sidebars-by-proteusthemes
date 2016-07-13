@@ -95,7 +95,7 @@ window.csSidebars = null;
 		 * This is the same prefix as defined in class-custom-sidebars.php
 		 * @type string
 		 */
-		sidebar_prefix: 'cs-',
+		sidebar_prefix: 'pt-cs-',
 
 		/**
 		 * Form for the edit-sidebar popup.

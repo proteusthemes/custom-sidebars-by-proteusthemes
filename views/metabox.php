@@ -22,11 +22,11 @@ $sidebars = PT_CS_Main::get_options( 'modifiable' );
 	<?php foreach ( $sidebars as $s ) : ?>
 		<?php $sb_name = $available[ $s ]['name']; ?>
 		<p>
-			<label for="cs_replacement_<?php echo esc_attr( $s ); ?>">
+			<label for="pt_cs_replacement_<?php echo esc_attr( $s ); ?>">
 				<b><?php echo esc_html( $sb_name ); ?></b>:
 			</label>
-			<select name="cs_replacement_<?php echo esc_attr( $s ); ?>"
-				id="cs_replacement_<?php echo esc_attr( $s ); ?>"
+			<select name="pt_cs_replacement_<?php echo esc_attr( $s ); ?>"
+				id="pt_cs_replacement_<?php echo esc_attr( $s ); ?>"
 				class="cs-replacement-field <?php echo esc_attr( $s ); ?>">
 				<option value=""></option>
 				<?php foreach ( $available as $a ) : ?>
