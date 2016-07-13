@@ -3,7 +3,7 @@ Contributors: capuderg, cyman
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 4.0
 Tested up to: 4.5
-Stable tag: 0.1
+Stable tag: 0.3
 
 Create your own sidebars and choose on which pages they show up.
 
