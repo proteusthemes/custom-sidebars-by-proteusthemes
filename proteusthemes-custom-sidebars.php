@@ -54,9 +54,6 @@ class PT_Custom_Sidebars {
 		define( 'PT_CS_URL', plugin_dir_url( __FILE__ ) );
 		define( 'PT_CS_VERSION', '0.2' );
 
-		// Used for more readable i18n functions: __( 'text', PT_CS_TD ).
-		define( 'PT_CS_TD', 'pt-cs' );
-
 		// Define some constants for easier use.
 		define( 'PT_CS_VIEWS_DIR', PT_CS_PATH . 'views/' );
 
@@ -75,7 +72,7 @@ class PT_Custom_Sidebars {
 	 * Load the text domain for the plugin.
 	 */
 	public function setup_custom_sidebars_plugin() {
-		load_plugin_textdomain( PT_CS_TD, false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( 'pt-cs', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 	}
 
 
