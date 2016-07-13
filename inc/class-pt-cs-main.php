@@ -69,7 +69,7 @@ class PT_CS_Main {
 			add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
 
 			// Extensions use this hook to initialize themselves.
-			do_action( 'pt_cs_init' );
+			do_action( 'pt-cs/init' );
 		}
 	}
 
@@ -489,7 +489,7 @@ class PT_CS_Main {
 			 * @param  bool $supported Flag if the posttype is supported.
 			 * @param  string $posttype Name of the posttype that is checked.
 			 */
-			$supported = apply_filters( 'pt_cs_support_posttype', $supported, $posttype );
+			$supported = apply_filters( 'pt-cs/support_posttype', $supported, $posttype );
 			$response[ $posttype ] = $supported;
 		}
 
@@ -609,7 +609,7 @@ class PT_CS_Main {
 		 *
 		 * @param  string $action The specified ajax action.
 		 */
-		do_action( 'pt_cs_ajax_request', $action );
+		do_action( 'pt-cs/ajax_request', $action );
 	}
 
 	/**

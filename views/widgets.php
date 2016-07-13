@@ -30,7 +30,7 @@
 			/**
 			 * Show additional functions in the widget header.
 			 */
-			do_action( 'pt_cs_widget_header' );
+			do_action( 'pt-cs/widget_header' );
 			?>
 		</div>
 	</div>

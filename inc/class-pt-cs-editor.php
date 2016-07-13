@@ -6,7 +6,7 @@
  */
 
 // Initialize this class in the main plugin class.
-add_action( 'pt_cs_init', array( 'PT_CS_Editor', 'get_instance' ) );
+add_action( 'pt-cs/init', array( 'PT_CS_Editor', 'get_instance' ) );
 
 /**
  * Provides all the functionality for editing sidebars on the widgets page.
@@ -46,7 +46,7 @@ class PT_CS_Editor extends PT_CS_Main {
 			add_action( 'save_post', array( $this, 'store_replacements' ) );
 
 			// Handle ajax requests.
-			add_action( 'pt_cs_ajax_request', array( $this, 'handle_ajax' ) );
+			add_action( 'pt-cs/ajax_request', array( $this, 'handle_ajax' ) );
 		}
 	}
 

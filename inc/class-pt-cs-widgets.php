@@ -6,7 +6,7 @@
  */
 
 // Initialize this class in the main plugin class.
-add_action( 'pt_cs_init', array( 'PT_CS_Widgets', 'get_instance' ) );
+add_action( 'pt-cs/init', array( 'PT_CS_Widgets', 'get_instance' ) );
 
 /**
  * Extends the widgets section to add the custom sidebars UI elements.
