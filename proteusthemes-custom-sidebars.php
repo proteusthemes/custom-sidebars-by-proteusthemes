@@ -64,14 +64,14 @@ class PT_Custom_Sidebars {
 		PT_CS_Main::get_instance();
 
 		// Actions.
-		add_action( 'plugins_loaded', array( $this, 'setup_custom_sidebars_plugin' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 	}
 
 
 	/**
 	 * Load the text domain for the plugin.
 	 */
-	public function setup_custom_sidebars_plugin() {
+	public function load_plugin_textdomain() {
 		load_plugin_textdomain( 'pt-cs', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 	}
 
