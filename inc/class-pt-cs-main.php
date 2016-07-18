@@ -306,46 +306,42 @@ class PT_CS_Main {
 
 	/**
 	 * Update the WordPress core settings for sidebar widgets:
-	 * 1. Add empty widget information for new sidebars.
-	 * 2. Remove widget information for sidebars that no longer exist.
+	 * 1. Remove widget information for custom sidebars that no longer exist.
+	 * 2. Add empty widget information for new custom sidebars.
+	 * 3. Update sidebars_widgets option.
 	 *
 	 * Option-Key: 'sidebars_widgets' (4)
 	 */
 	public static function refresh_sidebar_widgets() {
-
-		// Contains an array of all sidebars and widgets inside each sidebar.
 		$widgetized_sidebars = self::get_sidebar_widgets();
+		$cs_sidebars         = self::get_custom_sidebars();
 
-		$cs_sidebars = self::get_custom_sidebars();
-		$delete_widgetized_sidebars = array();
-
+		// 1. Remove widget information for custom sidebars that no longer exist.
 		foreach ( $widgetized_sidebars as $id => $bar ) {
 			if ( substr( $id, 0, strlen( self::$sidebar_prefix ) ) == self::$sidebar_prefix ) {
 				$found = false;
 				foreach ( $cs_sidebars as $csbar ) {
 					if ( $csbar['id'] == $id ) {
 						$found = true;
+						break;
 					}
 				}
 				if ( ! $found ) {
-					$delete_widgetized_sidebars[] = $id;
+					unset( $widgetized_sidebars[ $id ] );
 				}
 			}
 		}
 
+		// 2. Add empty widget information for new custom sidebars.
 		$all_ids = array_keys( $widgetized_sidebars );
 		foreach ( $cs_sidebars as $cs ) {
-			$sb_id = $cs['id'];
-			if ( ! in_array( $sb_id, $all_ids ) ) {
-				$widgetized_sidebars[ $sb_id ] = array();
+			if ( ! in_array( $cs['id'], $all_ids ) ) {
+				$widgetized_sidebars[ $cs['id'] ] = array();
 			}
 		}
 
-		foreach ( $delete_widgetized_sidebars as $id ) {
-			unset( $widgetized_sidebars[ $id ] );
-		}
-
-		update_option( 'sidebars_widgets', $widgetized_sidebars );
+		// 3. Update sidebars_widgets option.
+		return update_option( 'sidebars_widgets', $widgetized_sidebars );
 	}
 
 	/**
