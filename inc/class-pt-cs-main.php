@@ -227,9 +227,11 @@ class PT_CS_Main {
 	public static function set_options( $value ) {
 
 		// Permission check.
-		if ( current_user_can( self::$cap_required ) ) {
-			update_option( 'pt_cs_modifiable', $value );
+		if ( ! current_user_can( self::$cap_required ) ) {
+			return false;
 		}
+
+		update_option( 'pt_cs_modifiable', $value );
 	}
 
 	/**
