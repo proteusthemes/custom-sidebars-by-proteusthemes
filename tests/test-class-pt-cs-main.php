@@ -140,6 +140,46 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 		$this->assertArrayHasKey( 'sidebar-1', PT_CS_Main::get_sidebar_widgets(), 'sidebar-1 array key should be in the WP sidebar widgets array by default!' );
 	}
 
+	/**
+	 * Test PT_CS_Main::refresh_sidebar_widgets method.
+	 *
+	 * @dataProvider custom_siderbars_data_set
+	 */
+	function test_refresh_sidebar_widgets( $custom_sidebars ) {
+		$this->assertFalse( PT_CS_Main::refresh_sidebar_widgets(), 'refresh_sidebar_widgets method should return false by default, because there was nothing to update!' );
+
+		// Create an admin user, to pass the current_user_can check in set_custom_sidebars.
+		$this->create_and_set_admin_user();
+
+		PT_CS_Main::set_custom_sidebars( $custom_sidebars );
+
+		$this->assertTrue( PT_CS_Main::refresh_sidebar_widgets(), 'refresh_sidebar_widgets method should return true, because there was an update for the sidebars_widgets wp option!' );
+
+		$this->assertArrayHasKey( $custom_sidebars[0]['id'], PT_CS_Main::get_sidebar_widgets(), 'The id of the first custom sidebar, should be in the sidebars_widgets wp option!' );
+	}
+
+	/**
+	 * Test PT_CS_Main::set_post_meta and PT_CS_Main::get_post_meta method.
+	 *
+	 * @dataProvider postmeta_data_set
+	 */
+	function test_set_post_meta( $post_meta ) {
+
+		// Create a post.
+		$post_id = $this->factory->post->create();
+
+		// Set post meta
+		PT_CS_Main::set_post_meta( $post_id, $post_meta );
+
+		$this->assertEquals( $post_meta, PT_CS_Main::get_post_meta( $post_id ) );
+
+		// Delete the post meta.
+		PT_CS_Main::set_post_meta( $post_id, '' );
+
+		$this->assertEmpty( PT_CS_Main::get_post_meta( $post_id ) );
+	}
+
+
 
 /************************************************************/
 /************* Helper functions and data sets ***************/
@@ -174,6 +214,20 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 						'after_widget' => '',
 					),
 				),
+			),
+		);
+	}
+
+
+	/**
+	 * This is a dataProvider for testing postmeta for single posts "created" by the plugin.
+	 */
+	function postmeta_data_set() {
+		return array(
+			array(
+				array(
+					'sidebar-1' => 'pt-cs-1',
+				)
 			),
 		);
 	}
