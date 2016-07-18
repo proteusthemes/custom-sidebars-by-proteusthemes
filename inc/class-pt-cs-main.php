@@ -129,7 +129,7 @@ class PT_CS_Main {
 	 * ==2== SIDEBAR DEFINITION
 	 *   Option-Key: pt_cs_sidebars
 	 *
-	 *   Array of these objects
+	 *   Array of these arrays
 	 *   {
 	 *       id: '', // sidebar-id
 	 *       name: '',
@@ -285,12 +285,13 @@ class PT_CS_Main {
 	 * @param array $value Array with custom sidebars data.
 	 */
 	public static function set_custom_sidebars( $value ) {
+
 		// Permission check.
 		if ( ! current_user_can( self::$cap_required ) ) {
-			return;
+			return false;
 		}
 
-		update_option( 'pt_cs_sidebars', $value );
+		return update_option( 'pt_cs_sidebars', $value );
 	}
 
 	/**
