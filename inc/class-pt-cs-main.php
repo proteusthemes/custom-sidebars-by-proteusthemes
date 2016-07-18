@@ -185,29 +185,26 @@ class PT_CS_Main {
 	 * @param string $key a key of the options array.
 	 */
 	public static function get_options( $key = null ) {
-		static $options = null;
-		$need_update    = false;
+		$need_update = false;
 
-		if ( null === $options ) {
-			$options = get_option( 'pt_cs_modifiable', array() );
-			if ( ! is_array( $options ) ) {
-				$options = array();
-			}
+		$options = get_option( 'pt_cs_modifiable', array() );
+		if ( ! is_array( $options ) ) {
+			$options = array();
+		}
 
-			// List of modifiable sidebars.
-			if ( ! isset( $options['modifiable'] ) || ! is_array( $options['modifiable'] ) ) {
+		// List of modifiable sidebars.
+		if ( ! isset( $options['modifiable'] ) || ! is_array( $options['modifiable'] ) ) {
 
-				// By default we make ALL theme sidebars replaceable.
-				$all                   = self::get_sidebars( 'theme' );
-				$options['modifiable'] = array_keys( $all );
-				$need_update           = true;
-			}
+			// By default we make ALL theme sidebars replaceable.
+			$all                   = self::get_sidebars( 'theme' );
+			$options['modifiable'] = array_keys( $all );
+			$need_update           = true;
+		}
 
-			$options = self::validate_options( $options );
+		$options = self::validate_options( $options );
 
-			if ( $need_update ) {
-				self::set_options( $options );
-			}
+		if ( $need_update ) {
+			self::set_options( $options );
 		}
 
 		if ( ! empty( $key ) ) {
@@ -231,7 +228,7 @@ class PT_CS_Main {
 			return false;
 		}
 
-		update_option( 'pt_cs_modifiable', $value );
+		return update_option( 'pt_cs_modifiable', $value );
 	}
 
 	/**
