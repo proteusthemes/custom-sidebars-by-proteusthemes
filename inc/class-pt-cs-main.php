@@ -238,7 +238,7 @@ class PT_CS_Main {
 	 * @param  array $data This array will be validated and returned.
 	 * @return array
 	 */
-	public static function validate_options( $data = null ) {
+	public static function validate_options( $data ) {
 		$data = ( is_object( $data ) ? (array) $data : $data );
 
 		if ( ! is_array( $data ) ) {
