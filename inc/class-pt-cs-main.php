@@ -195,7 +195,7 @@ class PT_CS_Main {
 			}
 
 			// List of modifiable sidebars.
-			if ( ! is_array( $options['modifiable'] ) ) {
+			if ( ! isset( $options['modifiable'] ) || ! is_array( $options['modifiable'] ) ) {
 
 				// By default we make ALL theme sidebars replaceable.
 				$all                   = self::get_sidebars( 'theme' );
