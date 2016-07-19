@@ -495,7 +495,9 @@ class PT_CS_Main {
 	protected static function json_response( $obj ) {
 
 		// Flush any output that was made prior to this function call.
-		while ( 0 < ob_get_level() ) { ob_end_clean(); }
+		while ( 0 < ob_get_level() ) {
+			ob_end_clean();
+		}
 
 		wp_send_json( (object) $obj );
 	}
@@ -508,7 +510,9 @@ class PT_CS_Main {
 	protected static function plain_response( $data ) {
 
 		// Flush any output that was made prior to this function call.
-		while ( 0 < ob_get_level() ) { ob_end_clean(); }
+		while ( 0 < ob_get_level() ) {
+			ob_end_clean();
+		}
 
 		header( 'Content-Type: text/plain' );
 		echo '' . $data;
@@ -525,6 +529,7 @@ class PT_CS_Main {
 	protected static function req_err( $req, $message ) {
 		$req->status = 'ERR';
 		$req->message = $message;
+
 		return $req;
 	}
 
