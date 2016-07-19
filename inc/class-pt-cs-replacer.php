@@ -50,19 +50,13 @@ class PT_CS_Replacer extends PT_CS_Main {
 	}
 
 	/**
-	 * Tell WordPress about the custom sidebars.
+	 * Tell WordPress about the custom sidebars. Register custom sidebars.
 	 */
 	public function register_custom_sidebars() {
 		$sb = self::get_custom_sidebars();
 
 		foreach ( $sb as $sidebar ) {
-			/**
-			 * Filter sidebar options for custom sidebars.
-			 *
-			 * @param  array $sidebar Options used by WordPress to display the sidebar.
-			 */
 			$sidebar = apply_filters( 'pt-cs/sidebar_params', $sidebar );
-
 			register_sidebar( $sidebar );
 		}
 	}
