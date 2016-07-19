@@ -239,6 +239,16 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 		$this->assertEquals( $post_meta, PT_CS_Main::get_replacements( $post_id ), 'Post meta (replacement data), should be returned!' );
 	}
 
+	/**
+	 * Test PT_CS_Main::supported_post_type method.
+	 */
+	function test_supported_post_type() {
+		$this->assertTrue( PT_CS_Main::supported_post_type( 'post' ), 'Post post type is allowed by default!' );
+		$this->assertFalse( PT_CS_Main::supported_post_type( 'attachment' ), 'Attachment post type is ignored by default!' );
+	}
+
+
+
 
 
 /************************************************************/
