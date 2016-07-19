@@ -268,7 +268,7 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 	/**
 	 * This is a dataProvider for testing custom sidebars "created" by the plugin.
 	 */
-	function custom_siderbars_data_set() {
+	public static function custom_siderbars_data_set() {
 		return array(
 			array(
 				array(
