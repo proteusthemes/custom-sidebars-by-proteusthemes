@@ -384,8 +384,9 @@ class PT_CS_Main {
 	 */
 	public static function get_sidebars( $type = 'theme' ) {
 		global $wp_registered_sidebars;
-		$allsidebars = $wp_registered_sidebars;
-		$result      = array();
+		$allsidebars               = $wp_registered_sidebars;
+		$result = $theme = $custom = array();
+
 
 		// Remove inactive sidebars.
 		foreach ( $allsidebars as $sb_id => $sidebar ) {
@@ -394,25 +395,25 @@ class PT_CS_Main {
 			}
 		}
 
+		// Sort custom and theme sidebars in the appropriate arrays.
+		foreach ( $allsidebars as $key => $sb ) {
+			if ( substr( $key, 0, strlen( self::$sidebar_prefix ) ) === self::$sidebar_prefix ) {
+				$custom[ $key ] = $sb;
+			}
+			else {
+				$theme[ $key ] = $sb;
+			}
+		}
+
 		ksort( $allsidebars );
 		if ( 'all' === $type ) {
 			$result = $allsidebars;
-		} else if ( 'cust' === $type ) {
-			foreach ( $allsidebars as $key => $sb ) {
-
-				// Only keep custom sidebars in the results.
-				if ( substr( $key, 0, strlen( self::$sidebar_prefix ) ) === self::$sidebar_prefix ) {
-					$result[ $key ] = $sb;
-				}
-			}
-		} else if ( 'theme' === $type ) {
-			foreach ( $allsidebars as $key => $sb ) {
-
-				// Remove custom sidebars from results.
-				if ( substr( $key, 0, strlen( self::$sidebar_prefix ) ) !== self::$sidebar_prefix ) {
-					$result[ $key ] = $sb;
-				}
-			}
+		}
+		else if ( 'cust' === $type ) {
+			$result = $custom;
+		}
+		else if ( 'theme' === $type ) {
+			$result = $theme;
 		}
 
 		return $result;
