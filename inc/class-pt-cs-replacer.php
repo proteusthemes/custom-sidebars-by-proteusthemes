@@ -155,9 +155,10 @@ class PT_CS_Replacer extends PT_CS_Main {
 			$replacements[ $sb ] = false;
 		}
 
-		if ( is_single() ) {
+		if ( is_single() || is_page() || is_front_page() || is_home() ) {
 			/*
-			 * 1 |== Single posts ---------------------------------------------------------
+			 * 1 |== Single posts ---
+			 * 2 |== Pages, Front page and Posts page (blog) ---
 			 */
 			$post_type = get_post_type();
 
@@ -165,7 +166,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 				return $options;
 			}
 
-			// 1.1 Check if replacements are defined in the post metadata.
+			// Check if replacements are defined in the post metadata.
 			$reps = self::get_post_meta( $this->original_post_id );
 			foreach ( $sidebars as $sb_id ) {
 				if ( is_array( $reps ) && ! empty( $reps[ $sb_id ] ) ) {
@@ -174,45 +175,12 @@ class PT_CS_Replacer extends PT_CS_Main {
 				}
 			}
 
-			// 1.2 Try to use the parents metadata.
+			// Try to use the parents metadata.
 			if ( 0 !== $post->post_parent && $replacements_todo > 0 ) {
 				$reps = self::get_post_meta( $post->post_parent );
 				foreach ( $sidebars as $sb_id ) {
 					if ( $replacements[ $sb_id ] ) { continue; }
 					if ( is_array( $reps ) && ! empty( $reps[ $sb_id ] ) ) {
-						$replacements[ $sb_id ] = $reps[ $sb_id ];
-						$replacements_todo -= 1;
-					}
-				}
-			}
-		} else if ( is_page() || is_front_page() || is_home() ) {
-			/*
-			 * 2 |== Pages, Front page and Posts page (blog) -------------------------------
-			 *
-			 */
-			$post_type = get_post_type();
-
-			if ( ! self::supported_post_type( $post_type ) ) {
-				return $options;
-			}
-
-			// 2.1 Check if replacements are defined in the post metadata.
-			$reps = self::get_post_meta( $this->original_post_id );
-			foreach ( $sidebars as $sb_id ) {
-				if ( is_array( $reps ) && ! empty( $reps[ $sb_id ] ) ) {
-					$replacements[ $sb_id ] = $reps[ $sb_id ];
-					$replacements_todo -= 1;
-				}
-			}
-
-			// 2.2 Try to use the parents metadata.
-			if ( 0 !== $post->post_parent && $replacements_todo > 0 ) {
-				$reps = self::get_post_meta( $post->post_parent );
-				foreach ( $sidebars as $sb_id ) {
-					if ( $replacements[ $sb_id ] ) { continue; }
-					if ( is_array( $reps )
-						&& ! empty( $reps[ $sb_id ] )
-					) {
 						$replacements[ $sb_id ] = $reps[ $sb_id ];
 						$replacements_todo -= 1;
 					}
