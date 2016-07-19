@@ -108,17 +108,12 @@ class PT_CS_Replacer extends PT_CS_Main {
 
 		$replacements = $this->determine_replacements( $defaults );
 
-		foreach ( $replacements as $sb_id => $replace_info ) {
-			if ( ! is_array( $replace_info ) || count( $replace_info ) < 3 ) {
+		foreach ( $replacements as $sb_id => $replacement ) {
+			if ( empty( $replacement ) ) {
 				continue;
 			}
 
-			// Fix rare message "illegal offset type in isset or empty".
-			$replacement = (string) @$replace_info[0];
-			$replacement_type = (string) @$replace_info[1];
-			$extra_index = (string) @$replace_info[2];
-
-			$check = $this->is_valid_replacement( $sb_id, $replacement, $replacement_type, $extra_index );
+			$check = $this->is_valid_replacement( $sb_id, $replacement );
 
 			if ( $check ) {
 				$_wp_sidebars_widgets[ $sb_id ] = $original_widgets[ $replacement ];
@@ -174,11 +169,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 			$reps = self::get_post_meta( $this->original_post_id );
 			foreach ( $sidebars as $sb_id ) {
 				if ( is_array( $reps ) && ! empty( $reps[ $sb_id ] ) ) {
-					$replacements[ $sb_id ] = array(
-						$reps[ $sb_id ],
-						'particular',
-						-1,
-					);
+					$replacements[ $sb_id ] = $reps[ $sb_id ];
 					$replacements_todo -= 1;
 				}
 			}
@@ -189,11 +180,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 				foreach ( $sidebars as $sb_id ) {
 					if ( $replacements[ $sb_id ] ) { continue; }
 					if ( is_array( $reps ) && ! empty( $reps[ $sb_id ] ) ) {
-						$replacements[ $sb_id ] = array(
-							$reps[ $sb_id ],
-							'particular',
-							-1,
-						);
+						$replacements[ $sb_id ] = $reps[ $sb_id ];
 						$replacements_todo -= 1;
 					}
 				}
@@ -213,11 +200,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 			$reps = self::get_post_meta( $this->original_post_id );
 			foreach ( $sidebars as $sb_id ) {
 				if ( is_array( $reps ) && ! empty( $reps[ $sb_id ] ) ) {
-					$replacements[ $sb_id ] = array(
-						$reps[ $sb_id ],
-						'particular',
-						-1,
-					);
+					$replacements[ $sb_id ] = $reps[ $sb_id ];
 					$replacements_todo -= 1;
 				}
 			}
@@ -230,11 +213,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 					if ( is_array( $reps )
 						&& ! empty( $reps[ $sb_id ] )
 					) {
-						$replacements[ $sb_id ] = array(
-							$reps[ $sb_id ],
-							'particular',
-							-1,
-						);
+						$replacements[ $sb_id ] = $reps[ $sb_id ];
 						$replacements_todo -= 1;
 					}
 				}
@@ -260,11 +239,9 @@ class PT_CS_Replacer extends PT_CS_Main {
 	 *
 	 * @param string     $sb_id The original sidebar (the one that is replaced).
 	 * @param string     $replacement ID of the custom sidebar that should be used.
-	 * @param string     $method Info where the replacement setting is saved.
-	 * @param int|string $extra_index Depends on $method - can be either one: empty/post-type/category-ID.
 	 * @return bool
 	 */
-	public function is_valid_replacement( $sb_id, $replacement, $method, $extra_index ) {
+	public function is_valid_replacement( $sb_id, $replacement ) {
 		global $wp_registered_sidebars;
 		$options = self::get_options();
 
@@ -277,35 +254,13 @@ class PT_CS_Replacer extends PT_CS_Main {
 		/*
 		 * The replacement sidebar was not registered. Something's wrong, so we
 		 * update the options and not try to replace this sidebar again.
+		 *
+		 * Invalid replacement was found in post-meta data.
 		 */
-		if ( 'particular' == $method ) {
-
-			// Invalid replacement was found in post-meta data.
-			$sidebars = self::get_post_meta( $this->original_post_id );
-			if ( $sidebars && isset( $sidebars[ $sb_id ] ) ) {
-				unset( $sidebars[ $sb_id ] );
-				self::set_post_meta( $this->original_post_id, $sidebars );
-			}
-		} else {
-
-			// Invalid replacement is defined in wordpress options table.
-			if ( isset( $options[ $method ] ) ) {
-				if ( -1 != $extra_index &&
-					isset( $options[ $method ][ $extra_index ] ) &&
-					isset( $options[ $method ][ $extra_index ][ $sb_id ] )
-				) {
-					unset( $options[ $method ][ $extra_index ][ $sb_id ] );
-					self::set_options( $options );
-				}
-
-				if ( 1 == $extra_index &&
-					isset( $options[ $method ] ) &&
-					isset( $options[ $method ][ $sb_id ] )
-				) {
-					unset( $options[ $method ][ $sb_id ] );
-					self::set_options( $options );
-				}
-			}
+		$sidebars = self::get_post_meta( $this->original_post_id );
+		if ( $sidebars && isset( $sidebars[ $sb_id ] ) ) {
+			unset( $sidebars[ $sb_id ] );
+			self::set_post_meta( $this->original_post_id, $sidebars );
 		}
 
 		return false;
