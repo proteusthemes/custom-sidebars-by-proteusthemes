@@ -163,7 +163,7 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 	 *
 	 * @dataProvider postmeta_data_set
 	 */
-	function test_set_post_meta( $post_meta ) {
+	function test_set_and_get_post_meta( $post_meta ) {
 
 		// Create a post.
 		$post_id = $this->factory->post->create();
@@ -179,6 +179,27 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 		$this->assertEmpty( PT_CS_Main::get_post_meta( $post_id ) );
 	}
 
+	/**
+	 * Test PT_CS_Main::get_sidebars method.
+	 *
+	 * @dataProvider custom_siderbars_data_set
+	 */
+	function test_get_sidebars( $custom_sidebars, $expected ) {
+		global $wp_registered_sidebars;
+		$all_sidebars = $wp_registered_sidebars;
+
+		// By default 'all' and 'theme' should be the same and there are no custom sidebars.
+		$this->assertEquals( $wp_registered_sidebars, PT_CS_Main::get_sidebars( 'all' ), 'By default "all" parameter should return the same array as global $wp_registered_sidebars!' );
+		$this->assertEquals( $wp_registered_sidebars, PT_CS_Main::get_sidebars( 'theme' ), 'By default "theme" parameter should return the same array as global $wp_registered_sidebars!' );
+		$this->assertEmpty( PT_CS_Main::get_sidebars( 'cust' ), 'There should be no custom sidebars by default.' );
+
+		// Modify global $wp_registered_sidebars. Add custom sidebar
+		$wp_registered_sidebars = $this->modify_global_wp_registered_sidebars( $wp_registered_sidebars, $expected );
+
+		$this->assertEquals( $wp_registered_sidebars, PT_CS_Main::get_sidebars( 'all' ) );
+		$this->assertEquals( $all_sidebars, PT_CS_Main::get_sidebars( 'theme' ) );
+		$this->assertEquals( array( $expected[0]['id'] => $expected[0] ), PT_CS_Main::get_sidebars( 'cust' ) );
+	}
 
 
 /************************************************************/
@@ -193,25 +214,27 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 			array(
 				array(
 					array(
-						'id' => 'pt-cs-1',
-						'name' => 'Custom sidebar 1',
-						'description' => 'Testing custom sidebar',
-						'before_title' => '',
-						'after_title' => '',
+						'id'            => 'pt-cs-1',
+						'name'          => 'Custom sidebar 1',
+						'description'   => 'Testing custom sidebar',
+						'class'         => '',
+						'before_title'  => '',
+						'after_title'   => '',
 						'before_widget' => '',
-						'after_widget' => '',
+						'after_widget'  => '',
 					),
 					'invalid array item, that will be ignored',
 				),
 				array(
 					array(
-						'id' => 'pt-cs-1',
-						'name' => 'Custom sidebar 1',
-						'description' => 'Testing custom sidebar',
-						'before_title' => '',
-						'after_title' => '',
+						'id'            => 'pt-cs-1',
+						'name'          => 'Custom sidebar 1',
+						'description'   => 'Testing custom sidebar',
+						'class'         => '',
+						'before_title'  => '',
+						'after_title'   => '',
 						'before_widget' => '',
-						'after_widget' => '',
+						'after_widget'  => '',
 					),
 				),
 			),
@@ -250,5 +273,13 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 	private function get_all_theme_sidebars() {
 		$theme_sidebar_ids = array_keys( PT_CS_Main::get_sidebars( 'theme' ) );
 		return array( 'modifiable' => $theme_sidebar_ids );
+	}
+
+	/**
+	 * Helper function!
+	 * Modify the global $wp_registered_sidebars var.
+	 */
+	private function modify_global_wp_registered_sidebars( $org_wp_registered_sidebars, $custom_sidebars ) {
+		return array_merge( $org_wp_registered_sidebars, array( $custom_sidebars[0]['id'] => $custom_sidebars[0] ) );
 	}
 }
