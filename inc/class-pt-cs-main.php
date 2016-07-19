@@ -481,37 +481,6 @@ class PT_CS_Main {
 		return $supported;
 	}
 
-	/**
-	 * Helper function used to sort categories.
-	 *
-	 * @uses  self::get_category_level()
-	 * @param obj $cat1 Category 1.
-	 * @param obj $cat2 Category 2.
-	 */
-	public static function cmp_cat_level( $cat1, $cat2 ) {
-		$l1 = self::get_category_level( $cat1->cat_ID );
-		$l2 = self::get_category_level( $cat2->cat_ID );
-		if ( $l1 === $l2 ) {
-			return strcasecmp( $cat1->name, $cat1->name );
-		} else {
-			return $l1 < $l2 ? 1 : -1;
-		}
-	}
-
-	/**
-	 * Helper function used to sort categories.
-	 *
-	 * @param int $catid ID of the category.
-	 */
-	public static function get_category_level( $catid ) {
-		if ( 0 === $catid ) {
-			return 0;
-		}
-
-		$cat = get_category( $catid );
-		return 1 + self::get_category_level( $cat->category_parent );
-	}
-
 
 	// =========================================================================
 	// == AJAX FUNCTIONS
