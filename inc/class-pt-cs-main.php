@@ -462,36 +462,23 @@ class PT_CS_Main {
 	 * @return bool
 	 */
 	public static function supported_post_type( $posttype ) {
-		$ignored_types = null;
-		$response = array();
 
-		if ( null === $ignored_types ) {
-			$ignored_types = get_post_types(
-				array( 'public' => false ),
-				'names'
-			);
-			$ignored_types[] = 'attachment';
-		}
-
+		// Use posttype name.
 		if ( is_object( $posttype ) ) {
 			$posttype = $posttype->name;
 		}
 
-		if ( ! isset( $response[ $posttype ] ) ) {
-			$supported = ! in_array( $posttype, $ignored_types );
+		// Get post type names, that will be ignored.
+		$ignored_types = get_post_types(
+			array( 'public' => false ),
+			'names'
+		);
+		$ignored_types[] = 'attachment';
 
-			/**
-			 * Filters the support-flag. The flag defines if the posttype supports
-			 * custom sidebars or not.
-			 *
-			 * @param  bool $supported Flag if the posttype is supported.
-			 * @param  string $posttype Name of the posttype that is checked.
-			 */
-			$supported = apply_filters( 'pt-cs/support_posttype', $supported, $posttype );
-			$response[ $posttype ] = $supported;
-		}
+		$supported = ! in_array( $posttype, $ignored_types );
+		$supported = apply_filters( 'pt-cs/support_posttype', $supported, $posttype );
 
-		return $response[ $posttype ];
+		return $supported;
 	}
 
 	/**
