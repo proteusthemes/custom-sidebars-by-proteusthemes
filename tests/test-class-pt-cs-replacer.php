@@ -27,6 +27,7 @@ class PT_CS_Replacer_Test extends WP_UnitTestCase {
 	 */
 	function test_register_custom_sidebars( $custom_sidebars ) {
 		global $wp_registered_sidebars;
+		$default_sidebars = $wp_registered_sidebars;
 
 		$instance = PT_CS_Replacer::get_instance();
 
@@ -42,6 +43,9 @@ class PT_CS_Replacer_Test extends WP_UnitTestCase {
 		$instance->register_custom_sidebars();
 
 		$this->assertArrayHasKey( $custom_sidebars[0]['id'] , $wp_registered_sidebars, 'Custom sidebar should be registered!' );
+
+		// Revert the global variable change.
+		$wp_registered_sidebars = $default_sidebars;
 	}
 
 	/**
@@ -63,16 +67,54 @@ class PT_CS_Replacer_Test extends WP_UnitTestCase {
 	 * @dataProvider PT_CS_Main_Test::custom_siderbars_data_set
 	 */
 	function test_is_valid_replacement( $custom_sidebars, $expected ) {
+		global $wp_registered_sidebars;
+		$default_sidebars = $wp_registered_sidebars;
+
 		$instance = PT_CS_Replacer::get_instance();
 
+		// Get the sidebar replacement data.
+		$replacements = $this->get_replacement_data();
+
+		// Test without any custom sidebars being registered.
+		$this->assertFalse( $instance->is_valid_replacement( $replacements[0][0], $replacements[0][1] ), 'By default no custom sidebars are registered, so the replacement with a custom sidebar is not valid!' );
+		$this->assertFalse( $instance->is_valid_replacement( $replacements[1][0], $replacements[1][1] ), 'Replacement with a invalid sidebar id will always be invalid!' );
+
+		// Create an admin user, to pass the current_user_can check in set_custom_sidebars.
+		$this->create_and_set_admin_user();
+
+		// Set custom sidebars.
+		PT_CS_Replacer::set_custom_sidebars( $custom_sidebars );
+
+		// Register custom sidebars.
+		$instance->register_custom_sidebars();
+
+		// Test again with custom sidebars registered!
+		$this->assertTrue( $instance->is_valid_replacement( $replacements[0][0], $replacements[0][1] ), 'After custom sidebars have been registered, the replacement should be valid!' );
+
+		// Revert the global variable change.
+		$wp_registered_sidebars = $default_sidebars;
 	}
 
 
 
 
 /************************************************************/
-/************* Helper functions *****************************/
+/************* Helper functions and dataProviders ***********/
 /************************************************************/
+
+	/**
+	 * This is a dataProvider for testing postmeta for single posts "created" by the plugin.
+	 */
+	function sidebar_replacement_data_set() {
+		return array(
+			array(
+				array(
+					array( 'sidebar-1', 'pt-cs-1' ),
+					array( 'sidebar-2', 'invalid-sidebar-id' ),
+				)
+			),
+		);
+	}
 
 	/**
 	 * Helper function!
@@ -81,5 +123,14 @@ class PT_CS_Replacer_Test extends WP_UnitTestCase {
 	private function create_and_set_admin_user() {
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $user_id );
+	}
+
+	/**
+	 * Helper function!
+	 * Return the sidebar_replacement_data_set data.
+	 */
+	private function get_replacement_data() {
+		$replacement_data = $this->sidebar_replacement_data_set();
+		return $replacement_data[0][0];
 	}
 }
