@@ -221,6 +221,24 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 		$this->assertEquals( $all_sidebars[ 'pt-cs-1' ] , PT_CS_Main::get_sidebar( 'pt-cs-1', 'cust' ), 'Custom sidebar pt-cs-1, should be returned (used "cust" sidebar type)!' );
 	}
 
+	/**
+	 * Test PT_CS_Main::get_replacements method.
+	 *
+	 * @dataProvider postmeta_data_set
+	 */
+	function test_get_replacements( $post_meta ) {
+
+		// Create a post.
+		$post_id = $this->factory->post->create();
+
+		$this->assertEmpty( PT_CS_Main::get_replacements( $post_id ), 'By default (no post meta was set for this post), an empty array should be returned!' );
+
+		// Set post meta
+		PT_CS_Main::set_post_meta( $post_id, $post_meta );
+
+		$this->assertEquals( $post_meta, PT_CS_Main::get_replacements( $post_id ), 'Post meta (replacement data), should be returned!' );
+	}
+
 
 
 /************************************************************/

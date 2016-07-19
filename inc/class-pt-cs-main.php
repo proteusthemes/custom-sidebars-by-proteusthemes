@@ -451,6 +451,7 @@ class PT_CS_Main {
 		if ( is_array( $replacements ) ) {
 			return $replacements;
 		}
+
 		return array();
 	}
 
