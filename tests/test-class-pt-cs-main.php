@@ -186,7 +186,7 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 	 */
 	function test_get_sidebars( $custom_sidebars, $expected ) {
 		global $wp_registered_sidebars;
-		$all_sidebars = $wp_registered_sidebars;
+		$default_sidebars = $wp_registered_sidebars;
 
 		// By default 'all' and 'theme' should be the same and there are no custom sidebars.
 		$this->assertEquals( $wp_registered_sidebars, PT_CS_Main::get_sidebars( 'all' ), 'By default "all" parameter should return the same array as global $wp_registered_sidebars!' );
@@ -197,18 +197,25 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 		$wp_registered_sidebars = $this->modify_global_wp_registered_sidebars( $wp_registered_sidebars, $expected );
 
 		$this->assertEquals( $wp_registered_sidebars, PT_CS_Main::get_sidebars( 'all' ) );
-		$this->assertEquals( $all_sidebars, PT_CS_Main::get_sidebars( 'theme' ) );
+		$this->assertEquals( $default_sidebars, PT_CS_Main::get_sidebars( 'theme' ) );
 		$this->assertEquals( array( $expected[0]['id'] => $expected[0] ), PT_CS_Main::get_sidebars( 'cust' ) );
+
+		// Revert the global variable change.
+		$wp_registered_sidebars = $default_sidebars;
 	}
 
 	/**
 	 * Test PT_CS_Main::get_sidebar method.
 	 *
-	 * @depends test_get_sidebars
+	 * @dataProvider custom_siderbars_data_set
 	 */
-	function test_get_sidebar() {
+	function test_get_sidebar( $custom_sidebars, $expected ) {
+		global $wp_registered_sidebars;
+		$default_sidebars = $wp_registered_sidebars;
 
-		// The global $wp_registered_sidebars was modified in the last test (test_get_sidebars), so a custom sidebar is already added.
+		// Modify global $wp_registered_sidebars. Add custom sidebar
+		$wp_registered_sidebars = $this->modify_global_wp_registered_sidebars( $wp_registered_sidebars, $expected );
+
 		$all_sidebars = PT_CS_Main::get_sidebars( 'all' );
 
 		$this->assertFalse( PT_CS_Main::get_sidebar(''), 'Empty sidebar ID should return false!' );
@@ -219,6 +226,9 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 
 		$this->assertEquals( $all_sidebars[ 'pt-cs-1' ] , PT_CS_Main::get_sidebar( 'pt-cs-1' ), 'Custom sidebar pt-cs-1, should be returned!' );
 		$this->assertEquals( $all_sidebars[ 'pt-cs-1' ] , PT_CS_Main::get_sidebar( 'pt-cs-1', 'cust' ), 'Custom sidebar pt-cs-1, should be returned (used "cust" sidebar type)!' );
+
+		// Revert the global variable change.
+		$wp_registered_sidebars = $default_sidebars;
 	}
 
 	/**
