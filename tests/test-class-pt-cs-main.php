@@ -201,6 +201,27 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 		$this->assertEquals( array( $expected[0]['id'] => $expected[0] ), PT_CS_Main::get_sidebars( 'cust' ) );
 	}
 
+	/**
+	 * Test PT_CS_Main::get_sidebar method.
+	 *
+	 * @depends test_get_sidebars
+	 */
+	function test_get_sidebar() {
+
+		// The global $wp_registered_sidebars was modified in the last test (test_get_sidebars), so a custom sidebar is already added.
+		$all_sidebars = PT_CS_Main::get_sidebars( 'all' );
+
+		$this->assertFalse( PT_CS_Main::get_sidebar(''), 'Empty sidebar ID should return false!' );
+
+		$this->assertEquals( $all_sidebars[ 'sidebar-1' ] , PT_CS_Main::get_sidebar( 'sidebar-1' ), 'Default sidebar, sidebar-1 should be returned!' );
+
+		$this->assertFalse( PT_CS_Main::get_sidebar( 'this-sidebar-does-not-exist-id' ), 'An undefined sidebar ID, should return false!' );
+
+		$this->assertEquals( $all_sidebars[ 'pt-cs-1' ] , PT_CS_Main::get_sidebar( 'pt-cs-1' ), 'Custom sidebar pt-cs-1, should be returned!' );
+		$this->assertEquals( $all_sidebars[ 'pt-cs-1' ] , PT_CS_Main::get_sidebar( 'pt-cs-1', 'cust' ), 'Custom sidebar pt-cs-1, should be returned (used "cust" sidebar type)!' );
+	}
+
+
 
 /************************************************************/
 /************* Helper functions and data sets ***************/

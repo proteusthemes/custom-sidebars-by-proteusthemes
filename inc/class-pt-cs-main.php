@@ -427,16 +427,18 @@ class PT_CS_Main {
 	 * @param string $type [all|cust|theme] What kind of sidebars to check.
 	 */
 	public static function get_sidebar( $id, $type = 'all' ) {
-		if ( empty( $id ) ) { return false; }
+		if ( empty( $id ) ) {
+			return false;
+		}
 
-		// Get all sidebars.
+		// Get sidebars from specified type.
 		$sidebars = self::get_sidebars( $type );
 
 		if ( isset( $sidebars[ $id ] ) ) {
 			return $sidebars[ $id ];
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
