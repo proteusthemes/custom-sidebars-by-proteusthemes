@@ -112,7 +112,7 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 
 		update_option( 'pt_cs_sidebars', $custom_sidebars );
 
-		$this->assertEquals( array( $custom_sidebars[0] ), PT_CS_Main::get_custom_sidebars() );
+		$this->assertEquals( $expected, PT_CS_Main::get_custom_sidebars() );
 	}
 
 
@@ -277,6 +277,16 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 						'name'          => 'Custom sidebar 1',
 						'description'   => 'Testing custom sidebar',
 						'class'         => '',
+						'before_title'  => '<h3 class="widget-title">',
+						'after_title'   => '</h3>',
+						'before_widget' => '<section id="%1$s" class="widget %2$s">',
+						'after_widget'  => '</section>',
+					),
+					array(
+						'id'            => 'pt-cs-2',
+						'name'          => 'Custom sidebar 2',
+						'description'   => 'Testing custom sidebar 2',
+						'class'         => '',
 						'before_title'  => '',
 						'after_title'   => '',
 						'before_widget' => '',
@@ -289,6 +299,16 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 						'id'            => 'pt-cs-1',
 						'name'          => 'Custom sidebar 1',
 						'description'   => 'Testing custom sidebar',
+						'class'         => '',
+						'before_title'  => '<h3 class="widget-title">',
+						'after_title'   => '</h3>',
+						'before_widget' => '<section id="%1$s" class="widget %2$s">',
+						'after_widget'  => '</section>',
+					),
+					array(
+						'id'            => 'pt-cs-2',
+						'name'          => 'Custom sidebar 2',
+						'description'   => 'Testing custom sidebar 2',
 						'class'         => '',
 						'before_title'  => '',
 						'after_title'   => '',
