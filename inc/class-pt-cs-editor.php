@@ -194,6 +194,7 @@ class PT_CS_Editor extends PT_CS_Main {
 		// Populate the sidebar object.
 		$sidebar['name']          = $sb_name;
 		$sidebar['description']   = $sb_desc;
+		$sidebar['class']         = '';
 		$sidebar['before_widget'] = isset( $data['before_widget'] ) ? stripslashes( trim( $data['before_widget'] ) ) : '';
 		$sidebar['after_widget']  = isset( $data['after_widget'] ) ? stripslashes( trim( $data['after_widget'] ) ) : '';
 		$sidebar['before_title']  = isset( $data['before_title'] ) ? stripslashes( trim( $data['before_title'] ) ) : '';
