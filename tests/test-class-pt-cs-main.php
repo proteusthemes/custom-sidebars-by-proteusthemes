@@ -324,7 +324,7 @@ class PT_CS_Main_Test extends WP_UnitTestCase {
 	/**
 	 * This is a dataProvider for testing postmeta for single posts "created" by the plugin.
 	 */
-	function postmeta_data_set() {
+	public static function postmeta_data_set() {
 		return array(
 			array(
 				array(

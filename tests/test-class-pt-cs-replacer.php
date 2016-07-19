@@ -95,7 +95,27 @@ class PT_CS_Replacer_Test extends WP_UnitTestCase {
 		$wp_registered_sidebars = $default_sidebars;
 	}
 
+	/**
+	 * Test PT_CS_Replacer::determine_replacements methods.
+	 *
+	 * @dataProvider PT_CS_Main_Test::postmeta_data_set
+	 */
+	function test_determine_replacements( $post_meta ) {
+		$instance = PT_CS_Replacer::get_instance();
 
+		// Create a post.
+		$post_id = $this->factory->post->create();
+
+		// Set post meta to the created post.
+		PT_CS_Replacer::set_post_meta( $post_id, $post_meta );
+
+		// Go to the created post.
+		$this->go_to( 'http://mysite.me/?p=' . $post_id );
+
+		$defaults = PT_CS_Replacer::get_options();
+
+		$this->assertArraySubset( $post_meta, $instance->determine_replacements( $defaults ), 'Post meta replacement should be a subset of the returned array!' );
+	}
 
 
 /************************************************************/
