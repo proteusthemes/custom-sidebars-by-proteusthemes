@@ -55,7 +55,7 @@ class PT_Custom_Sidebars {
 		define( 'PT_CS_VERSION', '0.3' );
 
 		// Define some constants for easier use.
-		define( 'PT_CS_VIEWS_DIR', PT_CS_PATH . 'views/' );
+		define( 'PT_CS_VIEWS_DIR', PT_CS_PATH . 'inc/views/' );
 
 		// Load the actual core of this plugin.
 		require_once PT_CS_PATH . 'inc/class-pt-cs-main.php';
