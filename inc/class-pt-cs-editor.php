@@ -116,12 +116,12 @@ class PT_CS_Editor extends PT_CS_Main {
 
 				// Delete the specified sidebar.
 				case 'delete':
-					$response->sidebar = $sb_data;
 					$response = $this->delete_item( $response );
 					break;
 
 				// Toggle theme sidebar replaceable-flag.
 				case 'replaceable':
+					$response->state = isset( $_POST['state'] ) ? $_POST['state'] : '';
 					$response = $this->set_replaceable( $response );
 					break;
 			}
@@ -264,7 +264,7 @@ class PT_CS_Editor extends PT_CS_Main {
 				$found = true;
 				$req->message = sprintf(
 					esc_html__( 'Deleted sidebar %1$s', 'pt-cs' ),
-					'<strong>' . esc_html( $req->sidebar['name'] ) . '</strong>'
+					'<strong>' . esc_html( $sidebar['name'] ) . '</strong>'
 				);
 				unset( $sidebars[ $ind ] );
 				break;
@@ -292,15 +292,15 @@ class PT_CS_Editor extends PT_CS_Main {
 	 * @return object Updated response object.
 	 */
 	private function set_replaceable( $req ) {
-		$state = isset( $_POST['state'] ) ? $_POST['state'] : '' ;
-
 		$options = self::get_options();
-		if ( 'true' === $state ) {
+
+		if ( 'true' === $req->state ) {
 			$req->status = true;
 			if ( ! in_array( $req->id, $options['modifiable'] ) ) {
 				$options['modifiable'][] = $req->id;
 			}
-		} else {
+		}
+		else {
 			$req->status = false;
 			foreach ( $options['modifiable'] as $i => $sb_id ) {
 				if ( $sb_id == $req->id ) {
