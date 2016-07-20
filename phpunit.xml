@@ -8,7 +8,12 @@
 	>
 	<testsuites>
 		<testsuite>
-			<directory prefix="test-" suffix=".php">./tests/</directory>
+			<!-- Specific order, so we can use the dataProvider from main.php -->
+			<file>./tests/test-proteusthemes-custom-sidebars.php</file>
+			<file>./tests/inc/test-class-pt-cs-main.php</file>
+			<file>./tests/inc/test-class-pt-cs-widgets.php</file>
+			<file>./tests/inc/test-class-pt-cs-replacer.php</file>
+			<file>./tests/inc/test-class-pt-cs-editor.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>
