@@ -2,7 +2,7 @@
 # This file is distributed under the GPL 2.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: ProteusThemes Custom Sidebars 0.1\n"
+"Project-Id-Version: Custom Sidebars by ProteusThemes 0.3\n"
 "Report-Msgid-Bugs-To: http://support.proteusthemes.com/\n"
 "POT-Creation-Date: 2016-05-16 10:20:08+00:00\n"
 "MIME-Version: 1.0\n"
@@ -24,156 +24,99 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: inc/class-pt-cs-editor.php:92
+#: inc/class-pt-cs-editor.php:101
 msgid "You do not have permission for this"
 msgstr ""
 
-#: inc/class-pt-cs-editor.php:167
+#: inc/class-pt-cs-editor.php:156
 msgid "Sidebar-name cannot be empty"
 msgstr ""
 
-#: inc/class-pt-cs-editor.php:193 inc/class-pt-cs-editor.php:266
+#: inc/class-pt-cs-editor.php:182 inc/class-pt-cs-editor.php:257
 msgid "The sidebar does not exist"
 msgstr ""
 
-#: inc/class-pt-cs-editor.php:219
+#: inc/class-pt-cs-editor.php:209
 msgid "Created new sidebar %1$s"
 msgstr ""
 
-#: inc/class-pt-cs-editor.php:227
+#: inc/class-pt-cs-editor.php:218
 msgid "Updated sidebar %1$s"
 msgstr ""
 
-#: inc/class-pt-cs-editor.php:238 inc/class-pt-cs-editor.php:286
+#: inc/class-pt-cs-editor.php:229 inc/class-pt-cs-editor.php:277
 msgid "The sidebar was not found"
 msgstr ""
 
-#: inc/class-pt-cs-editor.php:275
-msgid "Deleted sidebar %1$s</strong>"
+#: inc/class-pt-cs-editor.php:266
+msgid "Deleted sidebar %1$s"
 msgstr ""
 
-#: inc/class-pt-cs-editor.php:342
-msgid "Front Page"
-msgstr ""
-
-#: inc/class-pt-cs-editor.php:343
-msgid "Search Results"
-msgstr ""
-
-#: inc/class-pt-cs-editor.php:344
-msgid "Not found (404)"
-msgstr ""
-
-#: inc/class-pt-cs-editor.php:345
-msgid "Any Author Archive"
-msgstr ""
-
-#: inc/class-pt-cs-editor.php:346
-msgid "Tag Archives"
-msgstr ""
-
-#: inc/class-pt-cs-editor.php:347
-msgid "Date Archives"
-msgstr ""
-
-#: inc/class-pt-cs-editor.php:379
-msgid "Post Index"
-msgstr ""
-
-#: inc/class-pt-cs-editor.php:383
-msgid "%1$s Archives"
-msgstr ""
-
-#: inc/class-pt-cs-editor.php:480
-msgid "Updated sidebar %1$s settings."
-msgstr ""
-
-#: inc/class-pt-cs-editor.php:509 views/widgets.php:23
+#: inc/class-pt-cs-editor.php:332 inc/views/widgets.php:23
 msgid "Sidebars"
 msgstr ""
 
-#: inc/class-pt-cs-main.php:113
+#: inc/class-pt-cs-main.php:99
 msgid ""
-"Accessibility mode is not supported by the ProteusThemes Custom Sidebars "
+"Accessibility mode is not supported in the Custom Sidebars by ProteusThemes "
 "plugin."
 msgstr ""
 
-#: inc/class-pt-cs-main.php:116
+#: inc/class-pt-cs-main.php:102
 msgid ""
-"%1$sClick here%2$s to disable accessibility mode and use the ProteusThemes "
-"Custom Sidebars plugin!"
+"%1$sClick here%2$s to disable accessibility mode and use the Custom "
+"Sidebars by ProteusThemes plugin!"
 msgstr ""
 
-#: views/metabox.php:22
-msgid "To change the sidebar for static Front-Page or Posts-Page:"
-msgstr ""
-
-#: views/metabox.php:24
-msgid "Go to the %1$sWidgets page%2$s"
-msgstr ""
-
-#: views/metabox.php:25
-msgid "Click on \"Sidebar Location\""
-msgstr ""
-
-#: views/metabox.php:26
-msgid "Open the \"Archive-Types\" tab"
-msgstr ""
-
-#: views/metabox.php:27
-msgid "Choose \"Front-Page\" or \"Post-Index\""
-msgstr ""
-
-#: views/metabox.php:40
+#: inc/views/metabox.php:18
 msgid ""
 "Here you can replace the default sidebars. Simply select what sidebar you "
 "want to show for this post!"
 msgstr ""
 
-#: views/metabox.php:66
+#: inc/views/metabox.php:44
 msgid ""
 "All sidebars have been locked, you cannot replace them. Go to %1$sthe "
 "widgets page%2$s to unlock a sidebar."
 msgstr ""
 
-#: views/widgets-delete.php:14
+#: inc/views/widgets-delete.php:14
 msgid "Please confirm that you want to delete the sidebar %1$s."
 msgstr ""
 
-#: views/widgets-delete.php:17 views/widgets-editor.php:60
-#: views/widgets-location.php:166
+#: inc/views/widgets-delete.php:17 inc/views/widgets-editor.php:60
 msgid "Cancel"
 msgstr ""
 
-#: views/widgets-delete.php:18
+#: inc/views/widgets-delete.php:18
 msgid "Yes, delete it"
 msgstr ""
 
-#: views/widgets-editor.php:18
+#: inc/views/widgets-editor.php:18
 msgid "Name"
 msgstr ""
 
-#: views/widgets-editor.php:19
+#: inc/views/widgets-editor.php:19
 msgid "Sidebar name here..."
 msgstr ""
 
-#: views/widgets-editor.php:20
+#: inc/views/widgets-editor.php:20
 msgid "The name must be unique."
 msgstr ""
 
-#: views/widgets-editor.php:23
+#: inc/views/widgets-editor.php:23
 msgid "Description"
 msgstr ""
 
-#: views/widgets-editor.php:24
+#: inc/views/widgets-editor.php:24
 msgid "Sidebar description here..."
 msgstr ""
 
-#: views/widgets-editor.php:30
+#: inc/views/widgets-editor.php:30
 msgid "Caution:"
 msgstr ""
 
-#: views/widgets-editor.php:31
+#: inc/views/widgets-editor.php:31
 msgid ""
 "Before-after title-widget properties define the html code that will wrap "
 "the widgets and their titles in the sidebars. Do not use these fields if "
@@ -181,170 +124,98 @@ msgid ""
 "Leave these fields blank to use the theme sidebars design."
 msgstr ""
 
-#: views/widgets-editor.php:36
+#: inc/views/widgets-editor.php:36
 msgid "Before Title"
 msgstr ""
 
-#: views/widgets-editor.php:40
+#: inc/views/widgets-editor.php:40
 msgid "After Title"
 msgstr ""
 
-#: views/widgets-editor.php:46
+#: inc/views/widgets-editor.php:46
 msgid "Before Widget"
 msgstr ""
 
-#: views/widgets-editor.php:50
+#: inc/views/widgets-editor.php:50
 msgid "After Widget"
 msgstr ""
 
-#: views/widgets-editor.php:57
+#: inc/views/widgets-editor.php:57
 msgid "Advanced - Edit custom wrapper code"
 msgstr ""
 
-#: views/widgets-editor.php:61 views/widgets.php:52
+#: inc/views/widgets-editor.php:61 inc/views/widgets.php:52
 msgid "Create Sidebar"
 msgstr ""
 
-#: views/widgets-location.php:31
-msgid "Replaced by another sidebar:"
-msgstr ""
-
-#: views/widgets-location.php:40
-msgid "As %1$s for selected %2$s"
-msgstr ""
-
-#: views/widgets-location.php:52
-msgid "Click here to pick available %1$s"
-msgstr ""
-
-#: views/widgets-location.php:75
-msgid ""
-"To attach this sidebar to a unique Post or Page please visit that Post or "
-"Page & set it up via the sidebars metabox."
-msgstr ""
-
-#: views/widgets-location.php:87 views/widgets-location.php:128
-msgid "Click to toggle"
-msgstr ""
-
-#: views/widgets-location.php:88
-msgid "For all Single Entries matching selected criteria"
-msgstr ""
-
-#: views/widgets-location.php:91
-msgid ""
-"These replacements will be applied to every single post that matches a "
-"certain post type or category."
-msgstr ""
-
-#: views/widgets-location.php:99
-msgid "categories"
-msgstr ""
-
-#: views/widgets-location.php:111
-msgid "Post Types"
-msgstr ""
-
-#: views/widgets-location.php:129
-msgid "For Archives"
-msgstr ""
-
-#: views/widgets-location.php:132
-msgid "These replacements will be applied to Archive Type posts and pages."
-msgstr ""
-
-#: views/widgets-location.php:135 views/widgets-location.php:145
-msgid "Archive Types"
-msgstr ""
-
-#: views/widgets-location.php:136 views/widgets-location.php:156
-msgid "Category Archives"
-msgstr ""
-
-#: views/widgets-location.php:167 views/widgets.php:51
-msgid "Save Changes"
-msgstr ""
-
-#: views/widgets.php:27
+#: inc/views/widgets.php:27
 msgid "Create a new sidebar"
 msgstr ""
 
-#: views/widgets.php:49
+#: inc/views/widgets.php:49
 msgid "Edit [Sidebar]"
 msgstr ""
 
-#: views/widgets.php:50
+#: inc/views/widgets.php:50
 msgid "New Custom Sidebar"
 msgstr ""
 
-#: views/widgets.php:53
+#: inc/views/widgets.php:51
+msgid "Save Changes"
+msgstr ""
+
+#: inc/views/widgets.php:53
 msgid "Delete Sidebar"
 msgstr ""
 
-#: views/widgets.php:54
-msgid "Define where you want this sidebar to appear."
-msgstr ""
-
-#: views/widgets.php:55
-msgid "Import / Export Sidebars"
-msgstr ""
-
-#: views/widgets.php:56
+#: inc/views/widgets.php:54
 msgid "Custom Sidebars"
 msgstr ""
 
-#: views/widgets.php:57
+#: inc/views/widgets.php:55
 msgid "Theme Sidebars"
 msgstr ""
 
-#: views/widgets.php:58
+#: inc/views/widgets.php:56
 msgid "Couldn't load data from WordPress..."
 msgstr ""
 
-#: views/widgets.php:59 views/widgets.php:116
+#: inc/views/widgets.php:57 inc/views/widgets.php:105
 msgid "This sidebar can be replaced on certain pages"
 msgstr ""
 
-#: views/widgets.php:60
+#: inc/views/widgets.php:58
 msgid ""
 "Activate this option to replace the sidebar with one of your custom "
 "sidebars."
 msgstr ""
 
-#: views/widgets.php:61
+#: inc/views/widgets.php:59
 msgid "Filter..."
 msgstr ""
 
-#: views/widgets.php:80
+#: inc/views/widgets.php:78
 msgid "Delete this sidebar."
 msgstr ""
 
-#: views/widgets.php:89
+#: inc/views/widgets.php:87
 msgid "Edit this sidebar."
 msgstr ""
 
-#: views/widgets.php:91
+#: inc/views/widgets.php:89
 msgid "Edit"
 msgstr ""
 
-#: views/widgets.php:98 views/widgets.php:135
-msgid "Where do you want to show the sidebar?"
-msgstr ""
-
-#: views/widgets.php:100 views/widgets.php:137
-msgid "Sidebar Location"
-msgstr ""
-
-#: views/widgets.php:117
+#: inc/views/widgets.php:106
 msgid "This sidebar will always be same on all pages"
 msgstr ""
 
-#: views/widgets.php:126
+#: inc/views/widgets.php:115
 msgid "Allow this sidebar to be replaced"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "ProteusThemes Custom Sidebars"
+msgid "Custom Sidebars by ProteusThemes"
 msgstr ""
 
 #. Author URI of the plugin/theme
@@ -353,8 +224,8 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"Allows you to create custom sidebars. Replace sidebars for specific posts, "
-"pages, archives,..."
+"Allows you to create custom sidebars. Replace sidebars for specific posts "
+"and pages."
 msgstr ""
 
 #. Author of the plugin/theme
