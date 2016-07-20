@@ -56,14 +56,25 @@ class PT_CS_Editor extends PT_CS_Main {
 	 * @param string $action String for the appropriate action.
 	 */
 	public function handle_ajax( $action ) {
-		$req = (object) array(
+
+		// Prepare the response.
+		$response = $this->prepare_ajax_response( $action );
+
+		// Make the ajax response as JSON.
+		self::json_response( $response );
+	}
+
+	/**
+	 * Handles the ajax request. Prepare the ajax response.
+	 *
+	 * @param string $action String for the appropriate action.
+	 */
+	public function prepare_ajax_response( $action ) {
+		$response = (object) array(
 			'status' => 'ERR',
 		);
-		$is_json   = true;
 		$handle_it = false;
-		$view_file = '';
-
-		$sb_id = isset( $_POST['sb'] ) ? $_POST['sb'] : null;
+		$sb_id     = isset( $_POST['sb'] ) ? $_POST['sb'] : null;
 
 		switch ( $action ) {
 			case 'get':
@@ -71,9 +82,9 @@ class PT_CS_Editor extends PT_CS_Main {
 			case 'delete':
 			case 'replaceable':
 				$handle_it = true;
-				$req->status = 'OK';
-				$req->action = $action;
-				$req->id = $sb_id;
+				$response->status = 'OK';
+				$response->action = $action;
+				$response->id = $sb_id;
 				break;
 		}
 
@@ -85,46 +96,38 @@ class PT_CS_Editor extends PT_CS_Main {
 		$sb_data = self::get_sidebar( $sb_id );
 
 		if ( ! current_user_can( self::$cap_required ) ) {
-			$req = self::req_err(
-				$req,
+			$response = self::req_err(
+				$response,
 				esc_html__( 'You do not have permission for this', 'pt-cs' )
 			);
-		} else {
+		}
+		else {
 			switch ( $action ) {
 
 				// Return details for the specified sidebar.
 				case 'get':
-					$req->sidebar = $sb_data;
+					$response->sidebar = $sb_data;
 					break;
 
 				// Save or insert the specified sidebar.
 				case 'save':
-					$req = $this->save_item( $req, $_POST );
+					$response = $this->save_item( $response, $_POST );
 					break;
 
 				// Delete the specified sidebar.
 				case 'delete':
-					$req->sidebar = $sb_data;
-					$req = $this->delete_item( $req );
+					$response->sidebar = $sb_data;
+					$response = $this->delete_item( $response );
 					break;
 
 				// Toggle theme sidebar replaceable-flag.
 				case 'replaceable':
-					$req = $this->set_replaceable( $req );
+					$response = $this->set_replaceable( $response );
 					break;
 			}
 		}
 
-		// Make the ajax response either as JSON or plain text.
-		if ( $is_json ) {
-			self::json_response( $req );
-		} else {
-			ob_start();
-			include PT_CS_VIEWS_DIR . $view_file;
-			$resp = ob_get_clean();
-
-			self::plain_response( $resp );
-		}
+		return $response;
 	}
 
 	/**
@@ -206,7 +209,8 @@ class PT_CS_Editor extends PT_CS_Main {
 				esc_html__( 'Created new sidebar %1$s', 'pt-cs' ),
 				'<strong>' . esc_html( $sidebar['name'] ) . '</strong>'
 			);
-		} else {
+		}
+		else {
 			$found = false;
 			foreach ( $sidebars as $ind => $item ) {
 				if ( $item['id'] === $sb_id ) {
