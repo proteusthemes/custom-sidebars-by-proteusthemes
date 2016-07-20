@@ -1,9 +1,9 @@
-# ProteusThemes Custom Sidebars #
+# Custom Sidebars by ProteusThemes #
 **Contributors:** capuderg, cyman  
 **Tags:** custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize  
 **Requires at least:** 4.0  
 **Tested up to:** 4.5  
-**Stable tag:** 0.1  
+**Stable tag:** 0.3  
 
 Create your own sidebars and choose on which pages they show up.
 
@@ -31,12 +31,12 @@ There are two ways of installing the plugin:
 **From this page.**
 
 1. Download the plugin, extract the zip file.
-2. Upload the `proteusthemes-custom-sidebars` folder to your `/wp-content/plugins/` directory.
+2. Upload the `custom-sidebars-by-proteusthemes` folder to your `/wp-content/plugins/` directory.
 3. Active the plugin in the plugin menu panel in your administration area.
 
 **From inside your WordPress installation, in the plugin section.**
 
-1. Search for *ProteusThemes Custom Sidebars* plugin.
+1. Search for *Custom Sidebars by ProteusThemes* plugin.
 2. Download it and then active it.
 
 Once you have the plugin activated you will find all new features inside your "Widgets" screen! There you will be able to create and manage your own sidebars.
@@ -74,13 +74,13 @@ Custom Sidebars has the same license as WordPress, so you can use it wherever yo
 ## Screenshots ##
 
 ### 1. screenshot-1.png The WordPress Widgets section is packed with features to create and manage your sidebars. ###
-![screenshot-1.png The WordPress Widgets section is packed with features to create and manage your sidebars.](http://ps.w.org/proteusthemes-custom-sidebars/assets/screenshot-1.png)
+![screenshot-1.png The WordPress Widgets section is packed with features to create and manage your sidebars.](http://ps.w.org/custom-sidebars-by-proteusthemes/assets/screenshot-1.png)
 
 ### 2. screenshot-2.png Create and edit sidebars directly inside the widgets page. Easy and fast! ###
-![screenshot-2.png Create and edit sidebars directly inside the widgets page. Easy and fast!](http://ps.w.org/proteusthemes-custom-sidebars/assets/screenshot-2.png)
+![screenshot-2.png Create and edit sidebars directly inside the widgets page. Easy and fast!](http://ps.w.org/custom-sidebars-by-proteusthemes/assets/screenshot-2.png)
 
 ### 3. screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page! ###
-![screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page!](http://ps.w.org/proteusthemes-custom-sidebars/assets/screenshot-3.png)
+![screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page!](http://ps.w.org/custom-sidebars-by-proteusthemes/assets/screenshot-3.png)
 
 
 ## Changelog ##

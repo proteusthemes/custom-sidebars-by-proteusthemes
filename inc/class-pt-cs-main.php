@@ -96,10 +96,10 @@ class PT_CS_Main {
 	public function accessibility_mode_notice() {
 	?>
 		<div class="notice notice-error is-dismissible"><p>
-		<strong><?php esc_html_e( 'Accessibility mode is not supported by the ProteusThemes Custom Sidebars plugin.' , 'pt-cs' ); ?></strong>
+		<strong><?php esc_html_e( 'Accessibility mode is not supported in the Custom Sidebars by ProteusThemes plugin.' , 'pt-cs' ); ?></strong>
 			<?php
 				printf(
-					esc_html__( '%1$sClick here%2$s to disable accessibility mode and use the ProteusThemes Custom Sidebars plugin!', 'pt-cs' ),
+					esc_html__( '%1$sClick here%2$s to disable accessibility mode and use the Custom Sidebars by ProteusThemes plugin!', 'pt-cs' ),
 					'<a href="' . esc_url( admin_url( 'widgets.php?widgets-access=off' ) ) . '">',
 					'</a>'
 				);

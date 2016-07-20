@@ -7,7 +7,7 @@ module.exports = function ( grunt ) {
 		tmpdir:                  '.tmp/',
 		phpFileRegex:            '[^/]+\.php$',
 		phpFileInSubfolderRegex: '.*?\.php$',
-		pluginSlug:              'proteusthemes-custom-sidebars',
+		pluginSlug:              'custom-sidebars-by-proteusthemes',
 	};
 
 	// configuration

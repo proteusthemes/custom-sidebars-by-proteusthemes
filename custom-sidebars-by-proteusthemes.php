@@ -1,9 +1,9 @@
 <?php
 
 /*
-Plugin Name: ProteusThemes Custom Sidebars
+Plugin Name: Custom Sidebars by ProteusThemes
 Plugin URI:  https://www.proteusthemes.com/
-Description: Allows you to create custom sidebars. Replace sidebars for specific posts, pages, archives,...
+Description: Allows you to create custom sidebars. Replace sidebars for specific posts and pages.
 Version:     0.3
 Author:      ProteusThemes
 Author URI:  https://www.proteusthemes.com/

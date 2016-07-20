@@ -1,4 +1,4 @@
-=== ProteusThemes Custom Sidebars ===
+=== Custom Sidebars by ProteusThemes ===
 Contributors: capuderg, cyman
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 4.0
@@ -31,12 +31,12 @@ There are two ways of installing the plugin:
 **From this page.**
 
 1. Download the plugin, extract the zip file.
-2. Upload the `proteusthemes-custom-sidebars` folder to your `/wp-content/plugins/` directory.
+2. Upload the `custom-sidebars-by-proteusthemes` folder to your `/wp-content/plugins/` directory.
 3. Active the plugin in the plugin menu panel in your administration area.
 
 **From inside your WordPress installation, in the plugin section.**
 
-1. Search for *ProteusThemes Custom Sidebars* plugin.
+1. Search for *Custom Sidebars by ProteusThemes* plugin.
 2. Download it and then active it.
 
 Once you have the plugin activated you will find all new features inside your "Widgets" screen! There you will be able to create and manage your own sidebars.
