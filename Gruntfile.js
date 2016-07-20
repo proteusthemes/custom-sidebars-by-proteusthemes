@@ -58,6 +58,7 @@ module.exports = function ( grunt ) {
 				src:    [
 					'*.php',
 					'readme.txt',
+					'LICENSE',
 					'assets/js/main.min.js',
 					'assets/css/main.min.css',
 					'bower_components/tinyscrollbar/lib/jquery.tinyscrollbar.min.js',
