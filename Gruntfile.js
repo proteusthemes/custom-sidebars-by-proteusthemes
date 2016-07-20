@@ -48,23 +48,25 @@ module.exports = function ( grunt ) {
 			}
 		},
 
-		// // https://github.com/gruntjs/grunt-contrib-copy
-		// copy: {
-		// 	// create new directory for deployment
-		// 	build: {
-		// 		expand: true,
-		// 		dot:    false,
-		// 		dest:   config.pluginSlug + '/',
-		// 		src:    [
-		// 			'*.php',
-		// 			'readme.txt',
-		// 			'assets/**',
-		// 			'inc/**',
-		// 			'languages/**',
-		// 		],
-		// 		flatten: false
-		// 	}
-		// },
+		// https://github.com/gruntjs/grunt-contrib-copy
+		copy: {
+			// create new directory for deployment
+			build: {
+				expand: true,
+				dot:    false,
+				dest:   config.pluginSlug + '/',
+				src:    [
+					'*.php',
+					'readme.txt',
+					'assets/js/main.min.js',
+					'assets/css/main.min.css',
+					'bower_components/tinyscrollbar/lib/jquery.tinyscrollbar.min.js',
+					'inc/**',
+					'languages/**',
+				],
+				flatten: false
+			}
+		},
 
 		// https://www.npmjs.com/package/grunt-wp-i18n
 		makepot: {
