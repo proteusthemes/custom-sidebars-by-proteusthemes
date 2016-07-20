@@ -3,9 +3,9 @@
 // config
 require.config( {
 	paths: {
-		jquery:        'assets/js/fix.jquery',
-		ptcs:          'assets/js/pt-custom-sidebars',
-		wpmuui:        'assets/js/wpmu-ui',
+		jquery:        'assets/js/src/fix.jquery',
+		ptcs:          'assets/js/src/pt-custom-sidebars',
+		wpmuui:        'assets/js/src/wpmu-ui',
 	},
 	shim: {
 		ptcs: {
