@@ -4,6 +4,7 @@
 **Requires at least:** 4.0  
 **Tested up to:** 4.5  
 **Stable tag:** 1.0.0  
+**License:** GPLv3 or later  
 
 Allows you to create custom sidebars. Replace sidebars for specific posts and pages.
 
