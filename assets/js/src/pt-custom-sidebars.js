@@ -175,6 +175,9 @@ window.csSidebars = null;
 				.detach()
 				.prependTo( csSidebars.right );
 
+			// Move meta buttons (Screen Options and Help buttons) to the right hand side.
+			jQuery('#screen-meta, #screen-meta-links, #icl_als_help_popup').detach().prependTo( csSidebars.right );
+
 			return csSidebars;
 		},
 
