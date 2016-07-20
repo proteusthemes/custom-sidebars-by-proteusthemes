@@ -28,25 +28,20 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 		// Set $_POST (AJAX request simulation).
 		$_POST = $ajax_req_and_resp_data[1]['post'];
 
-		$this->assertEquals( $ajax_req_and_resp_data[1]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[1]['action'] ), 'AJAX get action request with proper user role should return object with specific data!' );
-
-		$this->assertEquals( $ajax_req_and_resp_data[2]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[2]['action'] ), 'AJAX save action request without name should return and error object!' );
-
+		$this->assertArraySubset( $ajax_req_and_resp_data[1]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[1]['action'] ), $ajax_req_and_resp_data[1]['test_message'] );
 
 		// Set $_POST (AJAX request simulation).
-		$_POST = $ajax_req_and_resp_data[3]['post'];
+		$_POST = $ajax_req_and_resp_data[2]['post'];
 
-		$this->assertEquals( $ajax_req_and_resp_data[3]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[3]['action'] ), 'AJAX save action request without id should insert a new sidebar and return an object with data!' );
+		$this->assertArraySubset( $ajax_req_and_resp_data[2]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[2]['action'] ), $ajax_req_and_resp_data[2]['test_message'] );
 
-		// Set $_POST (AJAX request simulation).
-		$_POST = $ajax_req_and_resp_data[4]['post'];
+		for ( $i=3; $i < count( $ajax_req_and_resp_data ); $i++ ) {
 
-		$this->assertEquals( $ajax_req_and_resp_data[4]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[4]['action'] ), 'AJAX save action request with invalid id should return an error object!' );
+			// Set $_POST (AJAX request simulation).
+			$_POST = $ajax_req_and_resp_data[ $i ]['post'];
 
-		// Set $_POST (AJAX request simulation).
-		$_POST = $ajax_req_and_resp_data[5]['post'];
-
-		$this->assertEquals( $ajax_req_and_resp_data[5]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[5]['action'] ), 'AJAX save action request with invalid id should return an error object!' );
+			$this->assertEquals( $ajax_req_and_resp_data[ $i ]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[ $i ]['action'] ), $ajax_req_and_resp_data[ $i ]['test_message'] );
+		}
 
 		// Revert the $_POST variable.
 		$_POST = null;
@@ -70,6 +65,34 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 						),
 					),
 					array(
+						'action'   => 'replaceable',
+						'expected' => array(
+							'status' => false,
+							'action' => 'replaceable',
+							'id'     => 'sidebar-1',
+							'state'  => '',
+						),
+						'post' => array(
+							'sb'    => 'sidebar-1',
+							'state' => '',
+						),
+						'test_message' => 'AJAX replaceable action request with empty state should return object with false status!',
+					),
+					array(
+						'action'   => 'replaceable',
+						'expected' => array(
+							'status' => true,
+							'action' => 'replaceable',
+							'id'     => 'sidebar-2',
+							'state'  => 'true',
+						),
+						'post' => array(
+							'sb'    => 'sidebar-2',
+							'state' => 'true',
+						),
+						'test_message' => 'AJAX replaceable action request with state=true should return object with true status!',
+					),
+					array(
 						'action'   => 'get',
 						'expected' => array(
 							'status'  => 'OK',
@@ -89,6 +112,7 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 						'post' => array(
 							'sb' => 'pt-cs-1',
 						),
+						'test_message' => 'AJAX get action request with proper user role should return object with specific data!',
 					),
 					array(
 						'action'   => 'save',
@@ -98,6 +122,10 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 							'action'   => 'save',
 							'id'       => 'pt-cs-1',
 						),
+						'post' => array(
+							'sb' => 'pt-cs-1',
+						),
+						'test_message' => 'AJAX save action request without name should return and error object!',
 					),
 					array(
 						'action'   => 'save',
@@ -121,6 +149,7 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 							'name'        => 'New Sidebar',
 							'description' => 'Testing new sidebar',
 						),
+						'test_message' => 'AJAX save action request without id should insert a new sidebar and return an object with data!',
 					),
 					array(
 						'action'   => 'save',
@@ -134,6 +163,7 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 							'sb' => 'made_up_cs_id',
 							'name' => 'Made up cs name',
 						),
+						'test_message' => 'AJAX save action request with invalid id should return an error object!',
 					),
 					array(
 						'action'   => 'save',
@@ -160,6 +190,34 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 							'before_widget' => '<div>',
 							'after_widget'  => '</div>',
 						),
+						'test_message' => 'AJAX save action request with valid id should update the sidebar and return and object with data!',
+					),
+					array(
+						'action'   => 'delete',
+						'expected' => array(
+							'status'  => 'ERR',
+							'action'  => 'delete',
+							'message' => 'The sidebar does not exist',
+							'id'      => 'made_up_cs_id',
+						),
+						'post' => array(
+							'sb' => 'made_up_cs_id',
+							'name' => 'Made up cs name',
+						),
+						'test_message' => 'AJAX delete action request with invalid id should return an error object!',
+					),
+					array(
+						'action'   => 'delete',
+						'expected' => array(
+							'status'  => 'OK',
+							'action'  => 'delete',
+							'message' => 'Deleted sidebar <strong>Custom sidebar 2</strong>',
+							'id'      => 'pt-cs-2',
+						),
+						'post' => array(
+							'sb' => 'pt-cs-2',
+						),
+						'test_message' => 'AJAX delete action request with valid id should return object with data!',
 					),
 				),
 			),
