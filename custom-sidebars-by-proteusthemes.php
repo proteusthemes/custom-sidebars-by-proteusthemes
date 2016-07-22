@@ -92,4 +92,30 @@ class PT_Custom_Sidebars {
 	private function __wakeup() {}
 }
 
-$pt_custom_sidebars = PT_Custom_Sidebars::get_instance();
+
+/**
+ * Check if the original Custom Sidebars plugin is active.
+ * If it is, then display a notice, else instantiate our plugin.
+ *
+ * Have to make this check in plugins_loaded hook (to check if the plugin is active).
+ */
+function ptcs_plugin_loaded_hook() {
+	if ( class_exists( 'CustomSidebars' ) ) {
+		add_action( 'admin_notices', 'ptcs_old_original_cs_plugin_activated_notice' );
+	}
+	else {
+		$pt_custom_sidebars = PT_Custom_Sidebars::get_instance();
+	}
+}
+add_action( 'plugins_loaded', 'ptcs_plugin_loaded_hook' );
+
+
+/**
+ * Admin error notice, when the original Custom Sidebars plugin is active.
+ * Hook it to the 'admin_notices' action.
+ */
+function ptcs_old_original_cs_plugin_activated_notice() {
+	$message = sprintf( esc_html__( 'The %1$sCustom Sidebars by ProteusThemes%2$s plugin is not working, because the  %1$sCustom Sidebars%2$s plugin is active. These two plugins can not work together, because they have almost the same functionality.%3$sPlease deactivate the %1$sCustom Sidebars%2$s plugin in order to use the %1$sCustom Sidebars by ProteusThemes%2$s.', 'pt-cs' ), '<strong>', '</strong>', '<br>' );
+
+	printf( '<div class="notice notice-error"><p>%1$s</p></div>', wp_kses_post( $message ) );
+}
