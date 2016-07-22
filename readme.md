@@ -12,9 +12,20 @@ Allows you to create custom sidebars. Replace sidebars for specific posts and pa
 
 Replace the theme default sidebars with your newly created sidebars.
 
-This plugin is based of the [Custom Sidebars plugin](https://wordpress.org/plugins/custom-sidebars/), which we used for a few years, but their plugin development stalled, so we created this plugin. We really appreciate the work of developers of the original plugin!
+This plugin was forked from the [Custom Sidebars plugin](https://wordpress.org/plugins/custom-sidebars/), which we used for a few years, but their plugin development stalled, so we were forced to create this plugin. We really appreciate the work of developers of the original plugin!
 
 This plugin allows you to create your own custom sidebars, configure them by adding widgets, and replace the default sidebars on posts or pages you want in just few clicks.
+
+Here is the tl;dr list of the differences from original source:
+
+* Compatibility with the latest stable PHP version (namely PHP 7.0+).
+* Removed the "archive pages" functionality - replacing the custom sidebars on archive pages is not possible (e.g. on certain categories).
+* Open-sourced development on [GitHub](https://github.com/proteusthemes/custom-sidebars-by-proteusthemes). Issue reports and pull requests welcome!
+* Covered with PHP unit tests.
+* Fixed couple of JavaScript errors.
+* Removed WP admin pointer.
+* Modern workflow with Grunt and Bower.
+* Removed heavy advertising.
 
 ## Installation ##
 
@@ -47,4 +58,4 @@ This section will be added when questions arise.
 
 This plugin is being developed by [ProtuesThemes](https://www.proteusthemes.com/)
 
-The original plugin: Custom sidebars is maintained and developed by [WPMU DEV](http://premium.wpmudev.org). Original development completed by [Javier Marquez](http://marquex.es/)
+The original plugin: Custom sidebars is maintained and developed by [WPMU DEV](http://premium.wpmudev.org). Original development completed by [Javier Marquez](http://marquex.es/).
