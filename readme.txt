@@ -10,7 +10,7 @@ Allows you to create custom sidebars. Replace sidebars for specific posts and pa
 
 == Description ==
 
-[ ![Codeship Status for proteusthemes/custom-sidebars-by-proteusthemes](https://codeship.com/projects/11a1d140-3216-0134-6546-4aa210a44804/status?branch=master)](https://codeship.com/projects/164619)
+[ ![Codeship Status for proteusthemes/custom-sidebars-by-proteusthemes](https://codeship.com/projects/11a1d140-3216-0134-6546-4aa210a44804/status?branch=production)](https://codeship.com/projects/164619)
 
 Replace the theme default sidebars with your newly created sidebars.
 
