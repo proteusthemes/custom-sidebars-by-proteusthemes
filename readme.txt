@@ -40,8 +40,8 @@ There are two ways of installing the plugin:
 
 **From this page.**
 
-1. Download the plugin, extract the zip file.
-2. Upload the `custom-sidebars-by-proteusthemes` folder to your `/wp-content/plugins/` directory.
+1. Download the plugin, extract the zip file,
+2. Upload the `custom-sidebars-by-proteusthemes` folder to your `/wp-content/plugins/` directory,
 3. Active the plugin in the plugin menu panel in your administration area.
 
 The settings for custom sidebars are available in *Appearance -> Widgets*
