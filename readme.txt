@@ -10,6 +10,8 @@ Allows you to create custom sidebars. Replace sidebars for specific posts and pa
 
 == Description ==
 
+[ ![Codeship Status for proteusthemes/one-click-demo-import](https://codeship.com/projects/aadbb4d0-d49e-0133-befb-4e7d68edc8bb/status?branch=master)](https://codeship.com/projects/142450)
+
 Replace the theme default sidebars with your newly created sidebars.
 
 This plugin was forked from the [Custom Sidebars plugin](https://wordpress.org/plugins/custom-sidebars/), which we used for a few years, but their plugin development stalled, so we were forced to create this plugin. We really appreciate the work of developers of the original plugin!
