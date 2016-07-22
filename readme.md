@@ -56,6 +56,6 @@ This section will be added when questions arise.
 
 ## Contact and Credits ##
 
-This plugin is being developed by [ProtuesThemes](https://www.proteusthemes.com/)
+This plugin is being developed by [ProtuesThemes](https://www.proteusthemes.com/).
 
 The original plugin: Custom sidebars is maintained and developed by [WPMU DEV](http://premium.wpmudev.org). Original development completed by [Javier Marquez](http://marquex.es/).
