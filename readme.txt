@@ -52,6 +52,10 @@ This section will be added when questions arise.
 
 == Changelog ==
 
+= 1.0.1 =
+
+* Fixed PHP warning on unsupported post types (attachment pages by default).
+
 = 1.0.0 =
 
 * Initial plugin version.
