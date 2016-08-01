@@ -163,7 +163,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 			$post_type = get_post_type();
 
 			if ( ! self::supported_post_type( $post_type ) ) {
-				return $options;
+				return array();
 			}
 
 			// Check if replacements are defined in the post metadata.
