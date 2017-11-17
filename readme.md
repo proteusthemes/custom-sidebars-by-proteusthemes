@@ -2,7 +2,7 @@
 **Contributors:** capuderg, cyman  
 **Tags:** custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize  
 **Requires at least:** 4.0  
-**Tested up to:** 4.5  
+**Tested up to:** 4.9  
 **Stable tag:** 1.0.1  
 **License:** GPLv3 or later  
 
