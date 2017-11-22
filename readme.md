@@ -1,5 +1,5 @@
 # Custom Sidebars by ProteusThemes #
-**Contributors:** capuderg, cyman  
+**Contributors:** capuderg, cyman, proteusthemes  
 **Tags:** custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize  
 **Requires at least:** 4.0  
 **Tested up to:** 4.9  
