@@ -4,12 +4,13 @@
 Plugin Name: Custom Sidebars by ProteusThemes
 Plugin URI:  https://www.proteusthemes.com/
 Description: Allows you to create custom sidebars. Replace sidebars for specific posts and pages.
-Version:     1.0.1
+Version:     1.0.2
 Author:      ProteusThemes
 Author URI:  https://www.proteusthemes.com/
 Textdomain:  pt-cs
 License:     GPL3
 License URI: http://www.gnu.org/licenses/gpl.html
+Domain Path: /languages
 */
 
 // Block direct access to the main plugin file.

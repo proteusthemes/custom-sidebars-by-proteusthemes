@@ -2,8 +2,8 @@
 **Contributors:** capuderg, cyman, proteusthemes  
 **Tags:** custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize  
 **Requires at least:** 4.0  
-**Tested up to:** 4.9  
-**Stable tag:** 1.0.1  
+**Tested up to:** 5.4.1  
+**Stable tag:** 1.0.2  
 **License:** GPLv3 or later  
 
 Allows you to create custom sidebars. Replace sidebars for specific posts and pages.
@@ -51,6 +51,10 @@ The settings for custom sidebars are available in *Appearance -> Widgets*
 This section will be added when questions arise.
 
 ## Changelog ##
+
+### 1.0.2 ###
+
+* Tested with WP 5.4.1
 
 ### 1.0.1 ###
 
