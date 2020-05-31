@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 # Remote SVN repo on WordPress.org for this plugin
-SVNURL="http://plugins.svn.wordpress.org/$PLUGINSLUG"
+SVNURL="https://plugins.svn.wordpress.org/$PLUGINSLUG"
 MAINFILE="$PLUGINSLUG.php"
 
 # Let's begin...
