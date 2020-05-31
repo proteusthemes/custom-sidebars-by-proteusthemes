@@ -77,7 +77,7 @@ module.exports = function ( grunt ) {
 					include:         [config.phpFileRegex, '^inc/'+config.phpFileInSubfolderRegex, '^views/'+config.phpFileInSubfolderRegex],
 					mainFile:        config.pluginSlug + '.php',
 					potComments:     'Copyright (C) {year} ProteusThemes \n# This file is distributed under the GPL 2.0.',
-					potFilename:     'pt-cs.pot',
+					potFilename:     'custom-sidebars-by-proteusthemes.pot',
 					potHeaders:      {
 						poedit:                 true,
 						'report-msgid-bugs-to': 'http://support.proteusthemes.com/',

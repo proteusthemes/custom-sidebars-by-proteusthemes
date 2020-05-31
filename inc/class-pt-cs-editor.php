@@ -98,7 +98,7 @@ class PT_CS_Editor extends PT_CS_Main {
 		if ( ! current_user_can( self::$cap_required ) ) {
 			$response = self::req_err(
 				$response,
-				esc_html__( 'You do not have permission for this', 'pt-cs' )
+				esc_html__( 'You do not have permission for this', 'custom-sidebars-by-proteusthemes' )
 			);
 		}
 		else {
@@ -153,7 +153,7 @@ class PT_CS_Editor extends PT_CS_Main {
 		if ( empty( $sb_name ) ) {
 			return self::req_err(
 				$req,
-				esc_html__( 'Sidebar-name cannot be empty', 'pt-cs' )
+				esc_html__( 'Sidebar-name cannot be empty', 'custom-sidebars-by-proteusthemes' )
 			);
 		}
 
@@ -179,7 +179,7 @@ class PT_CS_Editor extends PT_CS_Main {
 			if ( ! $sidebar ) {
 				return self::req_err(
 					$req,
-					esc_html__( 'The sidebar does not exist', 'pt-cs' )
+					esc_html__( 'The sidebar does not exist', 'custom-sidebars-by-proteusthemes' )
 				);
 			}
 		}
@@ -206,7 +206,7 @@ class PT_CS_Editor extends PT_CS_Main {
 		if ( 'insert' === $action ) {
 			$sidebars[]   = $sidebar;
 			$req->message = sprintf(
-				esc_html__( 'Created new sidebar %1$s', 'pt-cs' ),
+				esc_html__( 'Created new sidebar %1$s', 'custom-sidebars-by-proteusthemes' ),
 				'<strong>' . esc_html( $sidebar['name'] ) . '</strong>'
 			);
 		}
@@ -215,7 +215,7 @@ class PT_CS_Editor extends PT_CS_Main {
 			foreach ( $sidebars as $ind => $item ) {
 				if ( $item['id'] === $sb_id ) {
 					$req->message = sprintf(
-						esc_html__( 'Updated sidebar %1$s', 'pt-cs' ),
+						esc_html__( 'Updated sidebar %1$s', 'custom-sidebars-by-proteusthemes' ),
 						'<strong>' . esc_html( $sidebar['name'] ) . '</strong>'
 					);
 					$sidebars[ $ind ] = $sidebar;
@@ -226,7 +226,7 @@ class PT_CS_Editor extends PT_CS_Main {
 			if ( ! $found ) {
 				return self::req_err(
 					$req,
-					esc_html__( 'The sidebar was not found', 'pt-cs' )
+					esc_html__( 'The sidebar was not found', 'custom-sidebars-by-proteusthemes' )
 				);
 			}
 		}
@@ -254,7 +254,7 @@ class PT_CS_Editor extends PT_CS_Main {
 		if ( ! $sidebar ) {
 			return self::req_err(
 				$req,
-				esc_html__( 'The sidebar does not exist', 'pt-cs' )
+				esc_html__( 'The sidebar does not exist', 'custom-sidebars-by-proteusthemes' )
 			);
 		}
 
@@ -263,7 +263,7 @@ class PT_CS_Editor extends PT_CS_Main {
 			if ( $item['id'] == $req->id ) {
 				$found = true;
 				$req->message = sprintf(
-					esc_html__( 'Deleted sidebar %1$s', 'pt-cs' ),
+					esc_html__( 'Deleted sidebar %1$s', 'custom-sidebars-by-proteusthemes' ),
 					'<strong>' . esc_html( $sidebar['name'] ) . '</strong>'
 				);
 				unset( $sidebars[ $ind ] );
@@ -274,7 +274,7 @@ class PT_CS_Editor extends PT_CS_Main {
 		if ( ! $found ) {
 			return self::req_err(
 				$req,
-				esc_html__( 'The sidebar was not found', 'pt-cs' )
+				esc_html__( 'The sidebar was not found', 'custom-sidebars-by-proteusthemes' )
 			);
 		}
 
@@ -329,7 +329,7 @@ class PT_CS_Editor extends PT_CS_Main {
 		if ( $pt_obj->publicly_queryable || $pt_obj->public ) {
 			add_meta_box(
 				'pt-customsidebars-mb',
-				esc_html__( 'Sidebars', 'pt-cs' ),
+				esc_html__( 'Sidebars', 'custom-sidebars-by-proteusthemes' ),
 				array( $this, 'print_metabox_editor' ),
 				$post_type,
 				'side'

@@ -1,7 +1,7 @@
 # Custom Sidebars by ProteusThemes #
 **Contributors:** capuderg, cyman, proteusthemes  
 **Tags:** custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize  
-**Requires at least:** 4.0  
+**Requires at least:** 4.6  
 **Tested up to:** 5.4.1  
 **Stable tag:** 1.0.2  
 **License:** GPLv3 or later  

@@ -7,7 +7,6 @@ Description: Allows you to create custom sidebars. Replace sidebars for specific
 Version:     1.0.2
 Author:      ProteusThemes
 Author URI:  https://www.proteusthemes.com/
-Textdomain:  pt-cs
 License:     GPL3
 License URI: http://www.gnu.org/licenses/gpl.html
 Domain Path: /languages
@@ -53,7 +52,7 @@ class PT_Custom_Sidebars {
 		// Path/URL to root of this plugin, with trailing slash.
 		define( 'PT_CS_PATH', plugin_dir_path( __FILE__ ) );
 		define( 'PT_CS_URL', plugin_dir_url( __FILE__ ) );
-		define( 'PT_CS_VERSION', '1.0.1' );
+		define( 'PT_CS_VERSION', '1.0.2' );
 
 		// Define some constants for easier use.
 		define( 'PT_CS_VIEWS_DIR', PT_CS_PATH . 'inc/views/' );
@@ -73,7 +72,7 @@ class PT_Custom_Sidebars {
 	 * Load the text domain for the plugin.
 	 */
 	public function load_plugin_textdomain() {
-		load_plugin_textdomain( 'pt-cs', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( 'custom-sidebars-by-proteusthemes', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 	}
 
 
@@ -116,7 +115,7 @@ add_action( 'plugins_loaded', 'ptcs_plugin_loaded_hook' );
  * Hook it to the 'admin_notices' action.
  */
 function ptcs_old_original_cs_plugin_activated_notice() {
-	$message = sprintf( esc_html__( 'The %1$sCustom Sidebars by ProteusThemes%2$s plugin is not working, because the  %1$sCustom Sidebars%2$s plugin is active. These two plugins can not work together, because they have almost the same functionality.%3$sPlease deactivate the %1$sCustom Sidebars%2$s plugin in order to use the %1$sCustom Sidebars by ProteusThemes%2$s.', 'pt-cs' ), '<strong>', '</strong>', '<br>' );
+	$message = sprintf( esc_html__( 'The %1$sCustom Sidebars by ProteusThemes%2$s plugin is not working, because the  %1$sCustom Sidebars%2$s plugin is active. These two plugins can not work together, because they have almost the same functionality.%3$sPlease deactivate the %1$sCustom Sidebars%2$s plugin in order to use the %1$sCustom Sidebars by ProteusThemes%2$s.', 'custom-sidebars-by-proteusthemes' ), '<strong>', '</strong>', '<br>' );
 
 	printf( '<div class="notice notice-error"><p>%1$s</p></div>', wp_kses_post( $message ) );
 }

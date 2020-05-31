@@ -15,7 +15,7 @@ $sidebars = PT_CS_Main::get_options( 'modifiable' );
 ?>
 
 <p>
-	<?php esc_html_e( 'Here you can replace the default sidebars. Simply select what sidebar you want to show for this post!', 'pt-cs' ); ?>
+	<?php esc_html_e( 'Here you can replace the default sidebars. Simply select what sidebar you want to show for this post!', 'custom-sidebars-by-proteusthemes' ); ?>
 </p>
 
 <?php if ( ! empty( $sidebars ) ) : ?>
@@ -41,7 +41,7 @@ $sidebars = PT_CS_Main::get_options( 'modifiable' );
 else :
 ?>
 	<p id="message" class="updated">
-		<?php printf( esc_html__( 'All sidebars have been locked, you cannot replace them. Go to %1$sthe widgets page%2$s to unlock a sidebar.', 'pt-cs' ), '<a href="' . esc_url( admin_url( 'widgets.php' ) ) . '">', '</a>' ); ?>
+		<?php printf( esc_html__( 'All sidebars have been locked, you cannot replace them. Go to %1$sthe widgets page%2$s to unlock a sidebar.', 'custom-sidebars-by-proteusthemes' ), '<a href="' . esc_url( admin_url( 'widgets.php' ) ) . '">', '</a>' ); ?>
 	</p>
 	<?php
 endif;
