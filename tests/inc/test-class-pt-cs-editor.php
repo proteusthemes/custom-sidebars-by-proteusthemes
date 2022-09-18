@@ -1,5 +1,7 @@
 <?php
 
+use DMS\PHPUnitExtensions\ArraySubset\Assert;
+
 class PT_CS_Editor_Test extends WP_UnitTestCase {
 
 	/**
@@ -14,7 +16,7 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 
 		$this->assertFalse( $instance->prepare_ajax_response( 'made_up_action' ), 'An invalid AJAX action request should return false!' );
 
-		$this->assertArraySubset( $ajax_req_and_resp_data[0]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[0]['action'] ), 'AJAX action request without proper user role should return object with a status=ERR!' );
+		Assert::assertArraySubset( $ajax_req_and_resp_data[0]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[0]['action'] ), 'AJAX action request without proper user role should return object with a status=ERR!' );
 
 		// Create and set an admin user, to pass the current_user_can check in test_prepare_ajax_response.
 		$this->create_and_set_admin_user();
@@ -28,12 +30,12 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 		// Set $_POST (AJAX request simulation).
 		$_POST = $ajax_req_and_resp_data[1]['post'];
 
-		$this->assertArraySubset( $ajax_req_and_resp_data[1]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[1]['action'] ), $ajax_req_and_resp_data[1]['test_message'] );
+		Assert::assertArraySubset( $ajax_req_and_resp_data[1]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[1]['action'] ), $ajax_req_and_resp_data[1]['test_message'] );
 
 		// Set $_POST (AJAX request simulation).
 		$_POST = $ajax_req_and_resp_data[2]['post'];
 
-		$this->assertArraySubset( $ajax_req_and_resp_data[2]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[2]['action'] ), $ajax_req_and_resp_data[2]['test_message'] );
+		Assert::assertArraySubset( $ajax_req_and_resp_data[2]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[2]['action'] ), $ajax_req_and_resp_data[2]['test_message'] );
 
 		for ( $i=3; $i < count( $ajax_req_and_resp_data ); $i++ ) {
 
