@@ -111,6 +111,7 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 								'after_widget'   => '</section>',
 								'before_sidebar' => '',
 								'after_sidebar'  => '',
+								'show_in_rest'   => false
 							),
 						),
 						'post' => array(
@@ -187,6 +188,7 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 								'after_widget'   => '</div>',
 								'before_sidebar' => '',
 								'after_sidebar'  => '',
+								'show_in_rest'   => false
 							),
 						),
 						'post' => array(
@@ -197,6 +199,7 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 							'after_widget'   => '</div>',
 							'before_sidebar' => '',
 							'after_sidebar'  => '',
+							'show_in_rest'   => false
 						),
 						'test_message' => 'AJAX save action request with valid id should update the sidebar and return and object with data!',
 					),
