@@ -577,11 +577,4 @@ class PT_CS_Main {
 	 * @return void
 	 */
 	private function __clone() {}
-
-	/**
-	 * Private unserialize method to prevent unserializing of the *Singleton* instance.
-	 *
-	 * @return void
-	 */
-	private function __wakeup() {}
 }

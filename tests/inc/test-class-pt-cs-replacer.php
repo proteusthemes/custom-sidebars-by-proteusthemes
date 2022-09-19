@@ -1,5 +1,7 @@
 <?php
 
+use DMS\PHPUnitExtensions\ArraySubset\Assert;
+
 class PT_CS_Replacer_Test extends WP_UnitTestCase {
 
 	/**
@@ -114,7 +116,7 @@ class PT_CS_Replacer_Test extends WP_UnitTestCase {
 
 		$defaults = PT_CS_Replacer::get_options();
 
-		$this->assertArraySubset( $post_meta, $instance->determine_replacements( $defaults ), 'Post meta replacement should be a subset of the returned array!' );
+		Assert::assertArraySubset( $post_meta, $instance->determine_replacements( $defaults ), 'Post meta replacement should be a subset of the returned array!' );
 	}
 
 

@@ -2,12 +2,13 @@
 	bootstrap="tests/bootstrap.php"
 	backupGlobals="false"
 	colors="true"
+	defaultTestSuite="unit"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
 	>
 	<testsuites>
-		<testsuite>
+		<testsuite name="unit">
 			<!-- Specific order, so we can use the dataProvider from main.php -->
 			<file>./tests/test-custom-sidebars-by-proteusthemes.php</file>
 			<file>./tests/inc/test-class-pt-cs-main.php</file>
