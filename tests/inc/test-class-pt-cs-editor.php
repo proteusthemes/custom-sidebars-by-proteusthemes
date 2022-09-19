@@ -1,5 +1,7 @@
 <?php
 
+use DMS\PHPUnitExtensions\ArraySubset\Assert;
+
 class PT_CS_Editor_Test extends WP_UnitTestCase {
 
 	/**
@@ -14,7 +16,7 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 
 		$this->assertFalse( $instance->prepare_ajax_response( 'made_up_action' ), 'An invalid AJAX action request should return false!' );
 
-		$this->assertArraySubset( $ajax_req_and_resp_data[0]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[0]['action'] ), 'AJAX action request without proper user role should return object with a status=ERR!' );
+		Assert::assertArraySubset( $ajax_req_and_resp_data[0]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[0]['action'] ), 'AJAX action request without proper user role should return object with a status=ERR!' );
 
 		// Create and set an admin user, to pass the current_user_can check in test_prepare_ajax_response.
 		$this->create_and_set_admin_user();
@@ -28,12 +30,12 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 		// Set $_POST (AJAX request simulation).
 		$_POST = $ajax_req_and_resp_data[1]['post'];
 
-		$this->assertArraySubset( $ajax_req_and_resp_data[1]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[1]['action'] ), $ajax_req_and_resp_data[1]['test_message'] );
+		Assert::assertArraySubset( $ajax_req_and_resp_data[1]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[1]['action'] ), $ajax_req_and_resp_data[1]['test_message'] );
 
 		// Set $_POST (AJAX request simulation).
 		$_POST = $ajax_req_and_resp_data[2]['post'];
 
-		$this->assertArraySubset( $ajax_req_and_resp_data[2]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[2]['action'] ), $ajax_req_and_resp_data[2]['test_message'] );
+		Assert::assertArraySubset( $ajax_req_and_resp_data[2]['expected'], (array) $instance->prepare_ajax_response( $ajax_req_and_resp_data[2]['action'] ), $ajax_req_and_resp_data[2]['test_message'] );
 
 		for ( $i=3; $i < count( $ajax_req_and_resp_data ); $i++ ) {
 
@@ -99,14 +101,16 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 							'action'  => 'get',
 							'id'      => 'pt-cs-1',
 							'sidebar' => array(
-								'id'            => 'pt-cs-1',
-								'name'          => 'Custom sidebar 1',
-								'description'   => 'Testing custom sidebar',
-								'class'         => '',
-								'before_title'  => '<h3 class="widget-title">',
-								'after_title'   => '</h3>',
-								'before_widget' => '<section id="%1$s" class="widget %2$s">',
-								'after_widget'  => '</section>',
+								'id'             => 'pt-cs-1',
+								'name'           => 'Custom sidebar 1',
+								'description'    => 'Testing custom sidebar',
+								'class'          => '',
+								'before_title'   => '<h3 class="widget-title">',
+								'after_title'    => '</h3>',
+								'before_widget'  => '<section id="%1$s" class="widget %2$s">',
+								'after_widget'   => '</section>',
+								'before_sidebar' => '',
+								'after_sidebar'  => '',
 							),
 						),
 						'post' => array(
@@ -135,14 +139,14 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 							'message' => 'Created new sidebar <strong>New Sidebar</strong>',
 							'id'      => null,
 							'data' => array(
-								'id'            => 'pt-cs-3',
-								'name'          => 'New Sidebar',
-								'description'   => 'Testing new sidebar',
-								'class'         => '',
-								'before_title'  => '',
-								'after_title'   => '',
-								'before_widget' => '',
-								'after_widget'  => '',
+								'id'             => 'pt-cs-3',
+								'name'           => 'New Sidebar',
+								'description'    => 'Testing new sidebar',
+								'class'          => '',
+								'before_title'   => '',
+								'after_title'    => '',
+								'before_widget'  => '',
+								'after_widget'   => '',
 							),
 						),
 						'post' => array(
@@ -173,22 +177,26 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 							'message' => 'Updated sidebar <strong>New Sidebar update</strong>',
 							'id'      => 'pt-cs-2',
 							'data' => array(
-								'id'            => 'pt-cs-2',
-								'name'          => 'New Sidebar update',
-								'description'   => '',
-								'class'         => '',
-								'before_title'  => '',
-								'after_title'   => '',
-								'before_widget' => '<div>',
-								'after_widget'  => '</div>',
+								'id'             => 'pt-cs-2',
+								'name'           => 'New Sidebar update',
+								'description'    => '',
+								'class'          => '',
+								'before_title'   => '',
+								'after_title'    => '',
+								'before_widget'  => '<div>',
+								'after_widget'   => '</div>',
+								'before_sidebar' => '',
+								'after_sidebar'  => '',
 							),
 						),
 						'post' => array(
-							'sb'            => 'pt-cs-2',
-							'name'          => 'New Sidebar update',
-							'description'   => '',
-							'before_widget' => '<div>',
-							'after_widget'  => '</div>',
+							'sb'             => 'pt-cs-2',
+							'name'           => 'New Sidebar update',
+							'description'    => '',
+							'before_widget'  => '<div>',
+							'after_widget'   => '</div>',
+							'before_sidebar' => '',
+							'after_sidebar'  => '',
 						),
 						'test_message' => 'AJAX save action request with valid id should update the sidebar and return and object with data!',
 					),
