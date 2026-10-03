@@ -207,8 +207,8 @@ class PT_CS_Replacer extends PT_CS_Main {
 
 	/**
 	 * Makes sure that the replacement sidebar exists.
-	 * If the custom sidebar does not exist then the WordPress/Post options are
-	 * updated to remove the invalid option.
+	 * If the custom sidebar does not exist then the sidebar is not replaced,
+	 * the post options are left unchanged.
 	 *
 	 * @param string     $sb_id The original sidebar (the one that is replaced).
 	 * @param string     $replacement ID of the custom sidebar that should be used.
@@ -222,18 +222,6 @@ class PT_CS_Replacer extends PT_CS_Main {
 
 			// Everything okay, we can use the replacement.
 			return true;
-		}
-
-		/*
-		 * The replacement sidebar was not registered. Something's wrong, so we
-		 * update the options and not try to replace this sidebar again.
-		 *
-		 * Invalid replacement was found in post-meta data.
-		 */
-		$sidebars = self::get_post_meta( $this->original_post_id );
-		if ( $sidebars && isset( $sidebars[ $sb_id ] ) ) {
-			unset( $sidebars[ $sb_id ] );
-			self::set_post_meta( $this->original_post_id, $sidebars );
 		}
 
 		return false;

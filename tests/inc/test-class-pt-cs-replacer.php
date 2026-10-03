@@ -98,6 +98,24 @@ class PT_CS_Replacer_Test extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test that PT_CS_Replacer::is_valid_replacement keeps the post meta of a replacement sidebar that is not registered.
+	 */
+	function test_is_valid_replacement_keeps_post_meta() {
+		$instance  = PT_CS_Replacer::get_instance();
+		$post_meta = array( 'sidebar-1' => 'pt-cs-99' );
+
+		// Create a post and set the post meta to a sidebar that is not registered.
+		$post_id = $this->factory->post->create();
+		PT_CS_Replacer::set_post_meta( $post_id, $post_meta );
+
+		// Go to the created post.
+		$this->go_to( get_permalink( $post_id ) );
+
+		$this->assertFalse( $instance->is_valid_replacement( 'sidebar-1', 'pt-cs-99' ), 'A sidebar that is not registered is not a valid replacement!' );
+		$this->assertEquals( $post_meta, PT_CS_Replacer::get_post_meta( $post_id ), 'The post meta should not be changed!' );
+	}
+
+	/**
 	 * Test PT_CS_Replacer::determine_replacements methods.
 	 *
 	 * @dataProvider PT_CS_Main_Test::postmeta_data_set

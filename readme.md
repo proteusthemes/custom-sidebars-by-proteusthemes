@@ -60,6 +60,7 @@ This section will be added when questions arise.
 * The Sidebars box is shown only to users who can change sidebars
 * Added a notice on the block-based Widgets screen: managing custom sidebars needs the Classic Widgets plugin
 * Custom sidebars keep working in widgets accessibility mode
+* Sidebar assignments are kept when their sidebar is not registered
 * Tested with WP 7.1.2
 
 ### 1.0.3 ###
