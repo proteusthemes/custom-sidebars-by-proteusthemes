@@ -561,7 +561,8 @@ window.csSidebars = null;
 				ajax.reset()
 					.data({
 						'do': 'get',
-						'sb': data.id
+						'sb': data.id,
+						'_ajax_nonce': csSidebarsData.nonce
 					})
 					.ondone( set_values )
 					.load_json();
@@ -714,7 +715,8 @@ window.csSidebars = null;
 				ajax.reset()
 					.data({
 						'do': 'delete',
-						'sb': id
+						'sb': id,
+						'_ajax_nonce': csSidebarsData.nonce
 					})
 					.ondone( handle_done )
 					.load_json();
@@ -821,7 +823,8 @@ window.csSidebars = null;
 					.data({
 						'do': 'replaceable',
 						'state': state,
-						'sb': sb.getID()
+						'sb': sb.getID(),
+						'_ajax_nonce': csSidebarsData.nonce
 					})
 					.ondone( handle_done_replaceable )
 					.load_json();

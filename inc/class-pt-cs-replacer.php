@@ -57,6 +57,11 @@ class PT_CS_Replacer extends PT_CS_Main {
 
 		foreach ( $sb as $sidebar ) {
 			$sidebar = apply_filters( 'pt-cs/sidebar_params', $sidebar );
+
+			if ( isset( $sidebar['before_widget'] ) ) {
+				$sidebar['before_widget'] = preg_replace( '/%%|%(?!(?:[12]\$)?s)/', '%%', $sidebar['before_widget'] );
+			}
+
 			register_sidebar( $sidebar );
 		}
 	}
@@ -116,7 +121,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 			$check = $this->is_valid_replacement( $sb_id, $replacement );
 
 			if ( $check ) {
-				$_wp_sidebars_widgets[ $sb_id ] = $original_widgets[ $replacement ];
+				$_wp_sidebars_widgets[ $sb_id ] = isset( $original_widgets[ $replacement ] ) ? $original_widgets[ $replacement ] : array();
 
 				/**
 				 * When custom sidebars use some wrapper code (before_title,
@@ -176,7 +181,7 @@ class PT_CS_Replacer extends PT_CS_Main {
 			}
 
 			// Try to use the parents metadata.
-			if ( 0 !== $post->post_parent && $replacements_todo > 0 ) {
+			if ( $post instanceof WP_Post && 0 !== $post->post_parent && $replacements_todo > 0 ) {
 				$reps = self::get_post_meta( $post->post_parent );
 				foreach ( $sidebars as $sb_id ) {
 					if ( $replacements[ $sb_id ] ) { continue; }

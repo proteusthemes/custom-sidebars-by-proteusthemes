@@ -49,6 +49,32 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 		$_POST = null;
 	}
 
+	/**
+	 * Test that PT_CS_Editor::prepare_ajax_response filters the wrapper code for users without unfiltered_html.
+	 */
+	function test_save_filters_wrapper_code_without_unfiltered_html() {
+		$instance = PT_CS_Editor::get_instance();
+
+		// Create and set an admin user, but without the unfiltered_html capability.
+		$this->create_and_set_admin_user();
+		add_filter( 'map_meta_cap', array( $this, 'disallow_unfiltered_html' ), 10, 2 );
+
+		// Set $_POST (AJAX request simulation).
+		$_POST = array(
+			'name'          => 'Filtered sidebar',
+			'before_widget' => '<li id="%1$s" class="widget %2$s" foo="bar">',
+			'after_widget'  => '</li>',
+		);
+
+		$response = (array) $instance->prepare_ajax_response( 'save' );
+
+		$this->assertEquals( '<li id="%1$s" class="widget %2$s">', $response['data']['before_widget'], 'The widget placeholders should be kept and the unknown attribute removed!' );
+		$this->assertEquals( '</li>', $response['data']['after_widget'] );
+
+		// Revert the $_POST variable.
+		$_POST = null;
+	}
+
 /************************************************************/
 /************* Helper functions and dataProviders ***********/
 /************************************************************/
@@ -239,6 +265,14 @@ class PT_CS_Editor_Test extends WP_UnitTestCase {
 	private function create_and_set_admin_user() {
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $user_id );
+	}
+
+	/**
+	 * Helper function!
+	 * Remove the unfiltered_html capability via the map_meta_cap filter.
+	 */
+	public function disallow_unfiltered_html( $caps, $cap ) {
+		return 'unfiltered_html' === $cap ? array( 'do_not_allow' ) : $caps;
 	}
 
 	/**

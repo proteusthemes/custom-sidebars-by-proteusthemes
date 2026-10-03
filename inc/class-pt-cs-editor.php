@@ -203,6 +203,12 @@ class PT_CS_Editor extends PT_CS_Main {
 		$sidebar['before_title']  = isset( $data['before_title'] ) ? stripslashes( trim( $data['before_title'] ) ) : '';
 		$sidebar['after_title']   = isset( $data['after_title'] ) ? stripslashes( trim( $data['after_title'] ) ) : '';
 
+		if ( ! current_user_can( 'unfiltered_html' ) ) {
+			foreach ( array( 'before_widget', 'after_widget', 'before_title', 'after_title' ) as $wrapper ) {
+				$sidebar[ $wrapper ] = wp_kses_post( $sidebar[ $wrapper ] );
+			}
+		}
+
 		if ( 'insert' === $action ) {
 			$sidebars[]   = $sidebar;
 			$req->message = sprintf(
@@ -320,6 +326,10 @@ class PT_CS_Editor extends PT_CS_Main {
 	 * Registers the "Sidebars" meta box in the post-editor.
 	 */
 	public function add_meta_box() {
+
+		if ( ! current_user_can( self::$cap_required ) ) {
+			return false;
+		}
 
 		$post_type = get_post_type();
 		if ( ! $post_type ) { return false; }

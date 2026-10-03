@@ -57,6 +57,7 @@
 		'lbl_replaceable': "<?php esc_html_e( 'This sidebar can be replaced on certain pages', 'custom-sidebars-by-proteusthemes' ); ?>",
 		'replace_tip':     "<?php esc_html_e( 'Activate this option to replace the sidebar with one of your custom sidebars.', 'custom-sidebars-by-proteusthemes' ); ?>",
 		'filter':          "<?php esc_html_e( 'Filter...', 'custom-sidebars-by-proteusthemes' ); ?>",
+		'nonce':           "<?php echo esc_js( wp_create_nonce( 'pt-cs-ajax' ) ); ?>",
 		'replaceable':     <?php echo json_encode( (object) PT_CS_Main::get_options( 'modifiable' ) ); ?>
 	};
 	</script>
