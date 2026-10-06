@@ -284,6 +284,26 @@ class PT_CS_Editor extends PT_CS_Main {
 			);
 		}
 
+		// Remove assignments only on explicit deletion, not when a sidebar is temporarily unregistered.
+		global $wpdb;
+		$post_ids = $wpdb->get_col( $wpdb->prepare(
+			"SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value LIKE %s",
+			'_pt_cs_replacements',
+			'%' . $wpdb->esc_like( serialize( $req->id ) ) . '%'
+		) );
+		foreach ( $post_ids as $post_id ) {
+			$replacements = self::get_post_meta( $post_id );
+			if ( ! is_array( $replacements ) ) {
+				continue;
+			}
+			$remaining = array_filter( $replacements, function ( $replacement ) use ( $req ) {
+				return $replacement !== $req->id;
+			} );
+			if ( $remaining !== $replacements ) {
+				self::set_post_meta( $post_id, $remaining );
+			}
+		}
+
 		// Save the changes.
 		self::set_custom_sidebars( $sidebars );
 		self::refresh_sidebar_widgets();
