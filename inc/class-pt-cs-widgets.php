@@ -42,6 +42,7 @@ class PT_CS_Widgets extends PT_CS_Main {
 			// Actions.
 			add_action( 'widgets_admin_page', array( $this, 'widget_sidebar_content' ) );
 			add_action( 'admin_head-widgets.php', array( $this, 'init_admin_head' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'block_editor_notice' ) );
 		}
 	}
 
@@ -49,7 +50,32 @@ class PT_CS_Widgets extends PT_CS_Main {
 	 * Adds the additional HTML code to the widgets section.
 	 */
 	public function widget_sidebar_content() {
-		include PT_CS_VIEWS_DIR . 'widgets.php';
+		if ( function_exists( 'wp_use_widgets_block_editor' ) && wp_use_widgets_block_editor() ) {
+			return;
+		} else if ( self::is_accessibility_mode() ) {
+			$this->accessibility_mode_notice();
+		} else {
+			include PT_CS_VIEWS_DIR . 'widgets.php';
+		}
+	}
+
+	/**
+	 * Admin notice if the block-based widgets screen is used.
+	 */
+	public function block_editor_notice( $hook ) {
+		if ( 'widgets.php' !== $hook || ! function_exists( 'wp_use_widgets_block_editor' ) || ! wp_use_widgets_block_editor() ) {
+			return;
+		}
+		$options = array( 'id' => 'pt-cs-classic-widgets', 'isDismissible' => false );
+		if ( current_user_can( 'install_plugins' ) ) {
+			$options['actions'] = array( array(
+				'url' => network_admin_url( 'plugin-install.php?s=classic-widgets&tab=search&type=term' ),
+				'label' => __( 'Install the Classic Widgets plugin', 'custom-sidebars-by-proteusthemes' ),
+			) );
+		}
+		wp_enqueue_script( 'wp-dom-ready' );
+		wp_enqueue_script( 'wp-notices' );
+		wp_add_inline_script( 'wp-notices', 'wp.domReady(function () { wp.data.dispatch("core/notices").createWarningNotice(' . wp_json_encode( __( 'Creating and editing custom sidebars needs the Classic Widgets plugin.', 'custom-sidebars-by-proteusthemes' ) ) . ', ' . wp_json_encode( $options ) . '); });' );
 	}
 
 	/**

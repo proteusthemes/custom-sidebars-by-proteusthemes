@@ -12,6 +12,7 @@
 <form class="wpmui-form">
 	<input type="hidden" name="do" value="save" />
 	<input type="hidden" name="sb" id="csb-id" value="" />
+	<input type="hidden" name="_ajax_nonce" value="<?php echo esc_attr( wp_create_nonce( 'pt-cs-ajax' ) ); ?>" />
 
 	<div class="wpmui-grid-8 no-pad-top">
 		<div class="col-3">

@@ -2,8 +2,8 @@
 **Contributors:** capuderg, cyman, proteusthemes  
 **Tags:** custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize  
 **Requires at least:** 5.2
-**Tested up to:** 6.0.2
-**Stable tag:** 1.0.3
+**Tested up to:** 7.1.2
+**Stable tag:** 1.0.4
 **License:** GPLv3 or later  
 
 Allows you to create custom sidebars. Replace sidebars for specific posts and pages.
@@ -51,6 +51,17 @@ The settings for custom sidebars are available in *Appearance -> Widgets*
 This section will be added when questions arise.
 
 ## Changelog ##
+
+### 1.0.4 ###
+
+* Security hardening
+* Fixed a fatal error when the custom wrapper code contains a percent sign
+* Fixed PHP warnings for custom sidebars without widgets and for blog pages without posts
+* The Sidebars box is shown only to users who can change sidebars
+* Added a notice on the block-based Widgets screen: managing custom sidebars needs the Classic Widgets plugin
+* Custom sidebars keep working in widgets accessibility mode
+* Sidebar assignments are kept when their sidebar is not registered
+* Tested with WP 7.1.2
 
 ### 1.0.3 ###
 

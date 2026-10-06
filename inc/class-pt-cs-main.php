@@ -58,19 +58,23 @@ class PT_CS_Main {
 	 */
 	protected function __construct() {
 
-		// We don't support accessibility mode. Display a note to the user (on|off|null).
-		if ( 'on' === ( isset( $_GET['widgets-access'] ) ? $_GET['widgets-access'] : get_user_setting( 'widgets_access' ) ) ) {
-			add_action( 'admin_notices', array( $this, 'accessibility_mode_notice' ) );
-		} else {
-			// Load javascripts/css files.
-			add_action( 'admin_enqueue_scripts', array( $this, 'load_plugin_admin_scripts' ) );
+		// Load javascripts/css files.
+		add_action( 'admin_enqueue_scripts', array( $this, 'load_plugin_admin_scripts' ) );
 
-			// AJAX actions.
-			add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
+		// AJAX actions.
+		add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
 
-			// Extensions use this hook to initialize themselves.
-			do_action( 'pt-cs/init' );
-		}
+		// Extensions use this hook to initialize themselves.
+		do_action( 'pt-cs/init' );
+	}
+
+	/**
+	 * Returns true when the widgets accessibility mode (on|off|null) is on. We don't support it on the widgets screen.
+	 *
+	 * @return bool
+	 */
+	protected static function is_accessibility_mode() {
+		return is_admin() && 'on' === ( isset( $_GET['widgets-access'] ) ? $_GET['widgets-access'] : get_user_setting( 'widgets_access' ) );
 	}
 
 	/**
@@ -79,7 +83,7 @@ class PT_CS_Main {
 	 * @param string $hook Current admin page.
 	 */
 	public function load_plugin_admin_scripts( $hook ) {
-		if ( 'widgets.php' === $hook ) {
+		if ( 'widgets.php' === $hook && ! self::is_accessibility_mode() ) {
 
 			// JS.
 			wp_enqueue_script( 'pt-cs-tiny-scrollbar-js', PT_CS_URL . 'bower_components/tinyscrollbar/lib/jquery.tinyscrollbar.min.js', array( 'jquery' ), PT_CS_VERSION, true );
@@ -100,7 +104,7 @@ class PT_CS_Main {
 			<?php
 				printf(
 					esc_html__( '%1$sClick here%2$s to disable accessibility mode and use the Custom Sidebars by ProteusThemes plugin!', 'custom-sidebars-by-proteusthemes' ),
-					'<a href="' . esc_url( admin_url( 'widgets.php?widgets-access=off' ) ) . '">',
+					'<a href="' . esc_url( wp_nonce_url( admin_url( 'widgets.php?widgets-access=off' ), 'widgets-access' ) ) . '">',
 					'</a>'
 				);
 			?>
@@ -552,6 +556,8 @@ class PT_CS_Main {
 		if ( ! current_user_can( self::$cap_required ) ) {
 			return;
 		}
+
+		check_ajax_referer( 'pt-cs-ajax' );
 
 		// Try to disable debug output for ajax handlers of this plugin.
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {

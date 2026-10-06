@@ -203,6 +203,12 @@ class PT_CS_Editor extends PT_CS_Main {
 		$sidebar['before_title']  = isset( $data['before_title'] ) ? stripslashes( trim( $data['before_title'] ) ) : '';
 		$sidebar['after_title']   = isset( $data['after_title'] ) ? stripslashes( trim( $data['after_title'] ) ) : '';
 
+		if ( ! current_user_can( 'unfiltered_html' ) ) {
+			foreach ( array( 'before_widget', 'after_widget', 'before_title', 'after_title' ) as $wrapper ) {
+				$sidebar[ $wrapper ] = wp_kses_post( $sidebar[ $wrapper ] );
+			}
+		}
+
 		if ( 'insert' === $action ) {
 			$sidebars[]   = $sidebar;
 			$req->message = sprintf(
@@ -278,6 +284,26 @@ class PT_CS_Editor extends PT_CS_Main {
 			);
 		}
 
+		// Remove assignments only on explicit deletion, not when a sidebar is temporarily unregistered.
+		global $wpdb;
+		$post_ids = $wpdb->get_col( $wpdb->prepare(
+			"SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value LIKE %s",
+			'_pt_cs_replacements',
+			'%' . $wpdb->esc_like( serialize( $req->id ) ) . '%'
+		) );
+		foreach ( $post_ids as $post_id ) {
+			$replacements = self::get_post_meta( $post_id );
+			if ( ! is_array( $replacements ) ) {
+				continue;
+			}
+			$remaining = array_filter( $replacements, function ( $replacement ) use ( $req ) {
+				return $replacement !== $req->id;
+			} );
+			if ( $remaining !== $replacements ) {
+				self::set_post_meta( $post_id, $remaining );
+			}
+		}
+
 		// Save the changes.
 		self::set_custom_sidebars( $sidebars );
 		self::refresh_sidebar_widgets();
@@ -320,6 +346,10 @@ class PT_CS_Editor extends PT_CS_Main {
 	 * Registers the "Sidebars" meta box in the post-editor.
 	 */
 	public function add_meta_box() {
+
+		if ( ! current_user_can( self::$cap_required ) ) {
+			return false;
+		}
 
 		$post_type = get_post_type();
 		if ( ! $post_type ) { return false; }
